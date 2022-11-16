@@ -9,7 +9,7 @@ export default function header(props) {
 			<Entypo name="menu" size={40} color={"white"}/>
 			<Text style={styles.text}>{props.productInfo}</Text>
 			<View style={styles.vectors}>
-				<AntDesign name="barcode" size={30} color={"white"}/>
+				<Entypo name="shopping-basket" size={30} color={"white"}/>
 				<FontAwesome5 name="search" size={30} color={"white"}/>
 			</View>
 		</View>

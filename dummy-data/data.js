@@ -45,3 +45,10 @@ export const PRODUCTS =[
         etiquetas: 'frituras'
     },
 ]
+
+export const CATEGORIAS =[
+    {
+        id: 1,
+        nombre:"Frituras",
+    },
+]

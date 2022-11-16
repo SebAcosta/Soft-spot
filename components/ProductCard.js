@@ -1,55 +1,75 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, View, Text, Image, Dimensions} from "react-native";
 import TouchableCmp from "./UI/TouchableCmp";
 import { Entypo } from '@expo/vector-icons';
+import Modal from "react-native-modal";
 
 const ProductCard = (props) => {
-		const redirect = () =>{
-			props.navigation.navigate("ProductDetails",{productInfo:props.productInfo});
-		}
-		return( 
-			<View style={styles.card}>
-				<View style={styles.card2}>
-					<Image source={{uri: props.productInfo.img}} style={styles.image}/>
-				</View>
-				<View style={styles.card3}>
-					<View style={styles.card4}>
-						<Text style={styles.text}>{props.productInfo.nombre}</Text>
-						<Text style={styles.text}>${props.productInfo.costo}</Text>
+	const [isModalVisible, setModalVisible] = useState(false);
+	const modal = () =>{
+		setModalVisible(true);
+	}
+	return( 
+		<View>
+			<View style={styles.card0}>
+				<TouchableCmp onClick={modal}>
+					<View style={styles.card}>
+						<View style={styles.card2}>
+							<Image source={{uri: props.productInfo.img}} style={styles.image}/>
+						</View>
+						<View style={styles.card3}>
+							<View style={styles.card4}>
+								<Text style={styles.text}>{props.productInfo.nombre}</Text>
+								<Text style={styles.text}>${props.productInfo.costo}</Text>
+							</View>
+							<Text style={styles.text2}>{props.productInfo.presen}</Text>
+							<Text style={styles.text3}>Cantidad: {props.productInfo.cantidad}</Text>
+							<Text style={styles.text2}>{props.productInfo.etiquetas}</Text>
+						</View>
+						<View style={styles.card5}>
+							<Entypo name="dots-three-vertical" size={30} color={"black"}/>
+						</View>
 					</View>
-					<Text style={styles.text2}>{props.productInfo.presen}</Text>
-					<Text style={styles.text3}>Cantidad: {props.productInfo.cantidad}</Text>
-					<Text style={styles.text2}>{props.productInfo.etiquetas}</Text>
-				</View>
-				<View style={styles.card5}>
-					<Entypo name="dots-three-vertical" size={30} color={"black"}/>
-				</View>
+				</TouchableCmp>
 			</View>
-		)
+			<Modal isVisible={isModalVisible}>
+				<View style={styles.modal}>
+				<Text>I am the modal content!</Text>
+				</View>
+			</Modal>
+		</View>
+	)
 }
 export default ProductCard;
 
 const styles= StyleSheet.create({
-    card: {
-        width: '80%',
-        marginHorizontal:'10%',
+    card0: {
+        width: '85%',
+        marginHorizontal:'7.5%',
         height:Dimensions.get('window').height * 0.18,
-        borderRadius:15,
+        borderRadius:10,
         overflow:'hidden',
         backgroundColor: '#D9D9D9',
         marginBottom:1,
 		  marginTop:20,
         
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-
-        elevation: 5,
-		  flexDirection:'row'
+		shadowColor: "#000",
+		shadowOffset: {
+			width: 0,
+			height: 1,
+		},
+		shadowOpacity: 0.18,
+		shadowRadius: 1.00,
+		
+		elevation: 1,
+    },
+    card: {
+        width: '100%',
+        height:Dimensions.get('window').height * 0.18,
+        borderRadius:10,
+        overflow:'hidden',
+        backgroundColor: '#D9D9D9',
+		flexDirection:'row'
     },
     image: {
         width:'100%',
@@ -93,4 +113,11 @@ const styles= StyleSheet.create({
 	 card5:{
 		marginTop:15
 	 },
+	 modal:{
+		height:Dimensions.get('window').height*0.2,
+		width:Dimensions.get('window').width,
+		backgroundColor:'red',
+		marginLeft:-20,
+		marginTop:Dimensions.get('window').height*0.68,
+	 }
 })
