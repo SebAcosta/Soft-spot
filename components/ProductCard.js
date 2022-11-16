@@ -3,6 +3,7 @@ import { StyleSheet, View, Text, Image, Dimensions} from "react-native";
 import TouchableCmp from "./UI/TouchableCmp";
 import { Entypo } from '@expo/vector-icons';
 import Modal from "react-native-modal";
+import modal from "./modal"
 
 const ProductCard = (props) => {
 	const [isModalVisible, setModalVisible] = useState(false);
@@ -32,7 +33,7 @@ const ProductCard = (props) => {
 					</View>
 				</TouchableCmp>
 			</View>
-			<Modal isVisible={isModalVisible}>
+			<Modal isVisible={isModalVisible} onRequestClose={()=>setModalVisible(false)}>
 				<View style={styles.modal}>
 				<Text>I am the modal content!</Text>
 				</View>
@@ -118,6 +119,7 @@ const styles= StyleSheet.create({
 		width:Dimensions.get('window').width,
 		backgroundColor:'red',
 		marginLeft:-20,
-		marginTop:Dimensions.get('window').height*0.68,
+		marginTop:Dimensions.get('window').height*0.8,
+		borderRadius:10
 	 }
 })

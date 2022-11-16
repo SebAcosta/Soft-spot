@@ -50,5 +50,31 @@ export const CATEGORIAS =[
     {
         id: 1,
         nombre:"Frituras",
+        color:'#BF56FF',
+    },
+    {
+        id: 2,
+        nombre:"Refrescos",
+        color:'#A2A4E4',
+    },
+    {
+        id: 3,
+        nombre:"Galletas",
+        color:'#77DD77',
+    },
+    {
+        id: 4,
+        nombre:"Pan",
+        color:'#FCED67',
+    },
+    {
+        id: 5,
+        nombre:"Leche",
+        color:'#FFA4A4',
+    },
+    {
+        id: 6,
+        nombre:"Jugos",
+        color:'#44E9F4',
     },
 ]
