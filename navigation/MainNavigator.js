@@ -43,8 +43,13 @@ export const StackNavigator = () =>{
 
 const TabNavigator = () =>{
 	return(
+		<>
+		<Header2 />	
 		<Tab.Navigator  initialRouteName="Artículos" screenOptions={{tabBarActiveTintColor: 'white',
         tabBarLabelStyle: { fontSize: 10 },
+		tabBarIndicatorStyle:{backgroundColor:'white'},
+		tabBarBounces:false,
+		swipeEnabled:false,
         tabBarStyle: { backgroundColor: '#F23232' },}}>
 			<Tab.Screen name="Artículos" component={Articulos} options={{
 				tabBarIcon:()=><FontAwesome5 name="clipboard-list" size={24} color={"white"} 
@@ -60,5 +65,6 @@ const TabNavigator = () =>{
 				tabBarIcon:({focused})=><Foundation name="graph-bar" size={24} color={"white"} />
 			}}/>
 		</Tab.Navigator>
+		</>
 	)
 }

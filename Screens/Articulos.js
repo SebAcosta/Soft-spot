@@ -38,7 +38,6 @@ const styles = StyleSheet.create({
 	listContainer:{
 		height:'100%',
 		width:'100%',
-		paddingBottom:100
   	},
 	plus:{
 		position:'absolute',
