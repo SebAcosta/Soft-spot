@@ -9,7 +9,6 @@ import { AntDesign,Entypo } from '@expo/vector-icons';
 const Articulos = (props) =>{
 	return (
 		<View style={styles.container}>
-			<Header productInfo={'Artículos'}/>
 			<View style={styles.listContainer}>
 				<FlatList
 					data={PRODUCTS}

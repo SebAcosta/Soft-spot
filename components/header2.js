@@ -1,7 +1,7 @@
 import { Dimensions, StyleSheet, Text, View, StatusBar } from 'react-native';
 import { Entypo,FontAwesome5,AntDesign } from '@expo/vector-icons';
 
-export default function header2(props) {
+export default function Header2(props) {
   return (
 		<View style={styles.container}>
 			<StatusBar 

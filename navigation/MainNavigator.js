@@ -1,4 +1,4 @@
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createMaterialTopTabNavigator  } from '@react-navigation/material-top-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
@@ -10,8 +10,10 @@ import Estadisticas from '../Screens/Estadisticas';
 import EditarArticulo from '../Screens/EditarArticulo';
 import AgregarArticulo from '../Screens/AgregarArticulo';
 import AgregarCategoria from '../Screens/AgregarCategoria';
+import Header2 from '../components/header2';
+import header from '../components/header';
 
-const Tab = createBottomTabNavigator();
+const Tab = createMaterialTopTabNavigator();
 const Stack = createStackNavigator();
 
 export const StackNavigator = () =>{
@@ -41,16 +43,18 @@ export const StackNavigator = () =>{
 
 const TabNavigator = () =>{
 	return(
-		<Tab.Navigator screenOptions={{tabBarShowLabel:false,tabBarActiveBackgroundColor:'#F23232',
-		tabBarInactiveBackgroundColor:'#262626',headerShown:false}}>
+		<Tab.Navigator  initialRouteName="Artículos" screenOptions={{tabBarActiveTintColor: 'white',
+        tabBarLabelStyle: { fontSize: 10 },
+        tabBarStyle: { backgroundColor: '#F23232' },}}>
 			<Tab.Screen name="Artículos" component={Articulos} options={{
-				tabBarIcon:({focused})=><FontAwesome5 name="clipboard-list" size={24} color={"white"} />
+				tabBarIcon:()=><FontAwesome5 name="clipboard-list" size={24} color={"white"} 
+				/>,
 			}}/>
 			<Tab.Screen name="Categorías" component={Categorias} options={{
-				tabBarIcon:({focused})=><MaterialIcons name="category" size={24} color={"white"} />
+				tabBarIcon:()=><MaterialIcons name="category" size={24} color={"white"} />
 			}}/>
 			<Tab.Screen name="Productos" component={Productos} options={{
-				tabBarIcon:({focused})=><AntDesign name="heart" size={24} color={"white"} />
+				tabBarIcon:()=><AntDesign name="heart" size={24} color={"white"} />
 			}}/>
 			<Tab.Screen name="Estadístcas" component={Estadisticas} options={{
 				tabBarIcon:({focused})=><Foundation name="graph-bar" size={24} color={"white"} />
