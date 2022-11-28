@@ -1,12 +1,14 @@
 export const PRODUCTS =[
     {
         id: 1,
-        nombre:"Sabritas",
-        costo:'15',
-        img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhWBBqd_8WCX8xecJ7A1Yb1d_4czm6xId7fA&usqp=CAU",
-        presen: '180gr',
+        nombre:"Mouse Inalámbrico",
+        costo:'1,500',
+        img: "https://cf.shopee.com.mx/file/a25c2fbf686add397611f84387f2481f",
+        presen: null,
         cantidad: 15,
-        etiquetas: 'frituras'
+        etiquetas: 'Electrónico',
+        fav:false,
+        min:5
     },
     {
         id: 2,
@@ -14,8 +16,10 @@ export const PRODUCTS =[
         costo:'12',
         img: "https://m.media-amazon.com/images/I/71WyAONGE0L._AC_SX569_.jpg",
         presen: '250gr',
-        cantidad: 15,
-        etiquetas: 'galletas'
+        cantidad: 9,
+        etiquetas: 'Galletas',
+        fav:true,
+        min:10
     },
     {
         id: 3,
@@ -24,7 +28,9 @@ export const PRODUCTS =[
         img: "https://cdn2.cocinadelirante.com/sites/default/files/styles/gallerie/public/images/2018/08/como-hacer-cuernitos.jpg",
         presen: '1 Pieza',
         cantidad: 10,
-        etiquetas: 'pan'
+        etiquetas: 'Pan',
+        fav:false,
+        min:3
     },
     {
         id: 4,
@@ -32,8 +38,10 @@ export const PRODUCTS =[
         costo:'11',
         img: "https://cdn.shopify.com/s/files/1/0080/9195/9362/products/2021---Takis-3_650x650.jpg?v=1646676660",
         presen: '220gr',
-        cantidad: 6,
-        etiquetas: 'frituras'
+        cantidad: 12,
+        etiquetas: 'Frituras',
+        fav:false,
+        min:10
     },
     {
         id: 5,
@@ -42,7 +50,9 @@ export const PRODUCTS =[
         img: "https://tiendix.mx/wp-content/uploads/2021/09/runners-fuego.jpg",
         presen: '220gr',
         cantidad: 6,
-        etiquetas: 'frituras'
+        etiquetas: 'Frituras',
+        fav:false,
+        min:7
     },
 ]
 

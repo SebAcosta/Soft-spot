@@ -19,9 +19,6 @@ const Articulos = (props) =>{
 					)}
 				/>
 			</View>
-			<View style={styles.plus}>
-					<AntDesign name="pluscircle" size={60} color={"#F23232"}/>
-			</View>
 		</View>
   );
 }
@@ -39,9 +36,4 @@ const styles = StyleSheet.create({
 		height:'100%',
 		width:'100%',
   	},
-	plus:{
-		position:'absolute',
-		marginTop:Dimensions.get('window').height*0.80,
-		marginLeft:Dimensions.get('window').width*0.80,
-	}
 });

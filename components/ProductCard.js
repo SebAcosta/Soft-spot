@@ -1,47 +1,82 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, Image, Dimensions, TouchableWithoutFeedback } from "react-native";
+import { StyleSheet, View, Text, Image, Dimensions, TouchableWithoutFeedback,FlatList,TouchableNativeFeedback } from "react-native";
 import TouchableCmp from "./UI/TouchableCmp";
 import { Entypo } from '@expo/vector-icons';
 import Modal from "react-native-modal";
 import modal from "./modal"
 
 const ProductCard = (props) => {
+	const img = props.productInfo.img
+	const nombre = props.productInfo.nombre
+	const presen = props.productInfo.presen
+	const cantidad = props.productInfo.cantidad
+	const costo = props.productInfo.costo
+	const fav = props.productInfo.fav
+	const etiquetas = props.productInfo.etiquetas
+	const min = props.productInfo.min
 	const [isModalVisible, setModalVisible] = useState(false);
 	const modal = () => {
 		setModalVisible(true);
 	}
 	return (
 		<View>
-			<View style={styles.card0}>
-				<TouchableCmp onClick={modal}>
-					<View style={styles.card}>
-						<View style={styles.card2}>
-							<Image source={{ uri: props.productInfo.img }} style={styles.image} />
+			<TouchableNativeFeedback onPress={()=>setModalVisible(true)} onLongPress={()=>props.navigation.navigate('EditarArticulo',{productInfo:props.productInfo})}>
+				<View style={styles.card0}>
+					<View style={styles.productos}>
+						<View style={styles.imagen}>
+							<Image source={{ uri: img }} style={styles.image} />
 						</View>
-						<View style={styles.card3}>
-							<View style={styles.card4}>
-								<Text style={styles.text}>{props.productInfo.nombre}</Text>
-								<Text style={styles.text}>${props.productInfo.costo}</Text>
-							</View>
-							<Text style={styles.text2}>{props.productInfo.presen}</Text>
-							<Text style={styles.text3}>Cantidad: {props.productInfo.cantidad}</Text>
-							<Text style={styles.text2}>{props.productInfo.etiquetas}</Text>
+						<View style={styles.detalles}>
+							<Text style={styles.nombre}>{nombre}</Text>
+							{props.productInfo.presen&&<Text style={styles.presen}>{presen}</Text>}
+							{cantidad<=min?
+								<Text style={styles.cant2}>Cantidad: {cantidad}</Text>:
+								<Text style={styles.cant}>Cantidad: {cantidad}</Text>
+							}
+							<Text style={styles.precio}>Precio: ${costo}</Text>
 						</View>
-						<View style={styles.card5}>
-							<Entypo name="dots-three-vertical" size={30} color={"black"} />
+						{fav?<Entypo name='star' size={30} />:<Entypo name='star-outlined' size={30} />}
+					</View>
+					<View>
+						<View style={styles.etiqueta}>
+							<Text style={styles.etText}>{etiquetas}</Text>
 						</View>
 					</View>
-				</TouchableCmp>
-			</View>
+				</View>
+			</TouchableNativeFeedback>
 			<Modal isVisible={isModalVisible} onRequestClose={() => setModalVisible(false)}>
 				<TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
 					<View style={styles.notModal}>
-
 					</View>
 				</TouchableWithoutFeedback>
 				<View style={styles.modal}>
-					<View>
-						<Text>I am the modal content!</Text>
+					<View style={styles.notBotones}>
+						<View style={styles.mPrimera}>
+							<View style={styles.mTitulo}>
+								<Text numberOfLines={2} style={styles.mTitle}>Mouse Inalámbrico</Text>
+							</View>
+							<Text style={styles.mTitle}>$10</Text>
+						</View>
+						<Text style={styles.mPres}>160 g</Text>
+						<Text style={styles.mCant}>Cantidad: 15</Text>
+					</View>
+					<View style={styles.mBotones}>
+						<View style={styles.comp}>
+							<View style={styles.comp1}>
+								<Text style={styles.Tcomp1}>-</Text>
+							</View>
+							<View style={styles.comp2}>
+								<Text style={styles.Tcomp2}>0</Text>
+							</View>
+							<View style={styles.comp1}>
+								<Text style={styles.Tcomp1}>+</Text>
+							</View>
+						</View>
+						<TouchableNativeFeedback>
+							<View style={styles.guardar}>
+								<Text style={styles.Tguardar}>Guardar</Text>
+							</View>
+						</TouchableNativeFeedback>
 					</View>
 				</View>
 			</Modal>
@@ -52,85 +87,149 @@ export default ProductCard;
 
 const styles = StyleSheet.create({
 	card0: {
-		width: '85%',
-		marginHorizontal: '7.5%',
-		height: Dimensions.get('window').height * 0.18,
-		borderRadius: 10,
+		width: '90%',
+		marginHorizontal: '5%',
+		height: 170,
 		overflow: 'hidden',
-		backgroundColor: '#D9D9D9',
-		marginBottom: 1,
-		marginTop: 20,
-
-		shadowColor: "#000",
-		shadowOffset: {
-			width: 0,
-			height: 1,
-		},
-		shadowOpacity: 0.18,
-		shadowRadius: 1.00,
-
-		elevation: 1,
-	},
-	card: {
-		width: '100%',
-		height: Dimensions.get('window').height * 0.18,
-		borderRadius: 10,
-		overflow: 'hidden',
-		backgroundColor: '#D9D9D9',
-		flexDirection: 'row'
-	},
-	image: {
-		width: '100%',
-		height: '100%',
-		resizeMode: 'cover',
-	},
-	text: {
-		color: 'black',
-		fontSize: 23,
-		textAlign: 'center',
-		fontWeight: 'bold',
-		paddingTop: 10
-	},
-	text2: {
-		color: 'black',
-		fontSize: 20,
-		textAlign: 'left',
-		paddingLeft: 15,
-		marginTop: 7
-	},
-	text3: {
-		color: '#F23232',
-		fontSize: 20,
-		textAlign: 'left',
-		paddingLeft: 15,
-		marginTop: 7
-	},
-	card2: {
-		width: '30%',
-		height: '100%',
-	},
-	card3: {
-		width: '60%',
-	},
-	card4: {
-		flexDirection: 'row',
-		justifyContent: 'space-between',
-		paddingHorizontal: 10,
-		width: '90%'
-	},
-	card5: {
-		marginTop: 15
+		borderBottomWidth:1,
+		borderBottomColor:'#DDDDDD',
+		paddingBottom:15,
+		paddingTop:20,
+		justifyContent:'space-between'
 	},
 	modal: {
-		height: Dimensions.get('window').height * 0.2,
+		height: 223,
 		width: Dimensions.get('window').width,
-		backgroundColor: 'red',
+		backgroundColor: '#393939',
 		marginLeft: -20,
-		borderRadius: 10
+		borderRadius: 10,
+		paddingVertical:25,
+		paddingHorizontal:40,
+		justifyContent:'space-between'
 	},
 	notModal: {
-		height: Dimensions.get('window').height * 0.8,
+		height: 600,
 		width: Dimensions.get('window').width,
 		marginLeft: -20,
+	},
+	image:{
+		height:100,
+		width:100,
+		resizeMode:'cover'
+	},
+	imagen:{
+		height:90,
+		width:90,
+		borderRadius:45,
+		overflow:'hidden',
+		justifyContent:'center',
+		alignItems:'center',
+		marginTop:5
+	},
+	etiqueta:{
+		backgroundColor:'#E83845',
+		borderRadius:10,
+		paddingHorizontal:10,
+		paddingVertical:3,
+		justifyContent:'center',
+		alignSelf:'flex-start',
+		marginLeft:10
+	},
+	etText:{
+		color:'white'
+	},
+	detalles:{
+		width:'60%',
+		paddingLeft:15,
+		justifyContent:'space-around'
+	},
+	productos:{
+		flexDirection:'row',
+		height:100,
+	},
+	nombre:{
+		fontWeight:'800',
+		fontSize:18
+	},
+	cant:{
+		fontSize:15,
+		fontWeight:'400',
+	},
+	cant2:{
+		fontSize:15,
+		fontWeight:'500',
+		color:'red'
+	},
+	presen:{
+		fontWeight:'600'
+	},
+	mTitle:{
+		color:'white',
+		fontSize:22,
+		fontWeight:'500'
+	},
+	mPres:{
+		color:'white',
+		fontSize:18,
+	},
+	mCant:{
+		color:'#F3D328',
+		fontSize:20
+	},
+	mPrimera:{
+		flexDirection:'row',
+		width:280,
+		justifyContent:'space-between'
+	},
+	mTitulo:{
+		width:180,
+	},
+	notBotones:{
+		justifyContent:'space-between',
+		height:108
+	},
+	mBotones:{
+		flexDirection:'row',
+		justifyContent:'space-between'
+	},
+	comp:{
+		flexDirection:'row',
+		width:150,
+		height:35,
+		borderRadius:10,
+		overflow:'hidden',
+	},
+	comp1:{
+		backgroundColor: '#F23232',
+		width:'30%',
+		justifyContent:'center',
+		alignItems:'center'
+	},
+	comp2:{
+		backgroundColor: '#908E8E',
+		width:'40%',
+		justifyContent:'center',
+		alignItems:'center'
+	},
+	Tcomp1:{
+		color:'white',
+		fontWeight:'600',
+		fontSize:25
+	},
+	Tcomp2:{
+		fontWeight:'600',
+		fontSize:20
+	},
+	guardar:{
+		backgroundColor:'#F23232',
+		width:120,
+		justifyContent:'center',
+		alignItems:'center',
+		borderRadius:10
+	},
+	Tguardar:{
+		color:'white',
+		fontSize:17,
+		fontWeight:'600'
 	}
 })
