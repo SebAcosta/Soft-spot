@@ -2,10 +2,10 @@ import { createMaterialTopTabNavigator  } from '@react-navigation/material-top-t
 import {createStackNavigator} from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
-import { AntDesign,Foundation,FontAwesome5,MaterialIcons } from '@expo/vector-icons';
+import { AntDesign,Foundation,FontAwesome5,Ionicons,EvilIcons,MaterialCommunityIcons } from '@expo/vector-icons';
 import Articulos from '../Screens/Articulos';
-import Categorias from '../Screens/Categorias';
-import Productos from '../Screens/Productos';
+import Etiquetas from '../Screens/Etiquetas';
+import Grupos from '../Screens/Grupos';
 import Estadisticas from '../Screens/Estadisticas';
 import EditarArticulo from '../Screens/EditarArticulo';
 import AgregarArticulo from '../Screens/AgregarArticulo';
@@ -26,7 +26,7 @@ export const StackNavigator = () =>{
 				/>
 				<Stack.Screen name={"EditarArticulo"}
 								component={EditarArticulo}
-								options={(props)=>({title:props.route.params.productInfo.name})}
+								options={(props)=>({headerShown:true,title:"Editar " + props.route.params.productInfo.nombre,headerTintColor:'white',headerStyle:{backgroundColor:'#F23232'}})}
 				/>
 				<Stack.Screen name={"AgregarArticulo"}
 								component={AgregarArticulo}
@@ -52,17 +52,17 @@ const TabNavigator = () =>{
 		swipeEnabled:false,
         tabBarStyle: { backgroundColor: '#F23232' },}}>
 			<Tab.Screen name="Artículos" component={Articulos} options={{
-				tabBarIcon:()=><FontAwesome5 name="clipboard-list" size={24} color={"white"} 
+				tabBarIcon:()=><Ionicons name="cube-outline" size={24} color={"white"} 
 				/>,
 			}}/>
-			<Tab.Screen name="Categorías" component={Categorias} options={{
-				tabBarIcon:()=><MaterialIcons name="category" size={24} color={"white"} />
+			<Tab.Screen name="Grupos" component={Grupos} options={{
+				tabBarIcon:()=><FontAwesome5 name="cubes" size={24} color={"white"} />
 			}}/>
-			<Tab.Screen name="Productos" component={Productos} options={{
-				tabBarIcon:()=><AntDesign name="heart" size={24} color={"white"} />
+			<Tab.Screen name="Etiquetas" component={Etiquetas} options={{
+				tabBarIcon:()=><EvilIcons name="tag" size={28} color={"white"} />
 			}}/>
 			<Tab.Screen name="Estadístcas" component={Estadisticas} options={{
-				tabBarIcon:({focused})=><Foundation name="graph-bar" size={24} color={"white"} />
+				tabBarIcon:({focused})=><AntDesign name="barschart" size={24} color={"white"} />
 			}}/>
 		</Tab.Navigator>
 		</>

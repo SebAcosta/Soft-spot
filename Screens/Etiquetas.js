@@ -4,10 +4,9 @@ import {CATEGORIAS} from "../dummy-data/data"
 import CategoryCard from '../components/CategoryCard';
 import { AntDesign,Entypo } from '@expo/vector-icons';
 
-const Categorias = (props) =>{
+const Etiquetas = (props) =>{
 	return (
 		<View style={styles.container}>
-			<Header productInfo={'Categorías'}/>
 			<View style={styles.listContainer}>
 				<FlatList
 					data={CATEGORIAS}
@@ -26,7 +25,7 @@ const Categorias = (props) =>{
   );
 }
 
-export default Categorias
+export default Etiquetas
 
 const styles = StyleSheet.create({
 	container: {

@@ -2,7 +2,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import Header from '../components/header2'
 
 
-export default function Productos() {
+export default function Grupos() {
 	return (
 		<View style={styles.container}>
 			<Header productInfo={'Productos más vendidos'}/>
