@@ -20,7 +20,7 @@ const ProductCard = (props) => {
 	}
 	return (
 		<View>
-			<TouchableNativeFeedback onPress={()=>setModalVisible(true)} onLongPress={()=>props.navigation.navigate('EditarArticulo',{productInfo:props.productInfo})}>
+			<TouchableNativeFeedback onPress={()=>setModalVisible(true)} onLongPress={()=>props.navigation.navigate('AgregarArticulo',{productInfo:props.productInfo})}>
 				<View style={styles.card0}>
 					<View style={styles.productos}>
 						<View style={styles.imagen}>

@@ -26,15 +26,15 @@ export const StackNavigator = () =>{
 				/>
 				<Stack.Screen name={"EditarArticulo"}
 								component={EditarArticulo}
-								options={(props)=>({headerShown:true,title:"Editar " + props.route.params.productInfo.nombre,headerTintColor:'white',headerStyle:{backgroundColor:'#F23232'}})}
+								options={(props)=>({headerShown:true,title:"Editar" + props.route.params.productInfo.nombre,headerTintColor:'white',headerStyle:{backgroundColor:'#F23232'}})}
 				/>
 				<Stack.Screen name={"AgregarArticulo"}
 								component={AgregarArticulo}
-								options={(props)=>({title:props.route.params.productInfo.name})}
+								options={(props)=>({headerShown:true,title:"Agregar ARTICULO" + props.route.params.productInfo.nombre,headerTintColor:'white',headerStyle:{backgroundColor:'#F23232'}})}
 				/>
 				<Stack.Screen name={"AgregarCategoria"}
 								component={AgregarCategoria}
-								options={(props)=>({title:props.route.params.productInfo.name})}
+								options={(props)=>({headerShown:true,title:"Agregar CATEGORIA" + props.route.params.productInfo.nombre,headerTintColor:'white',headerStyle:{backgroundColor:'#F23232'}})}
 				/>
 			</Stack.Navigator>
 		</NavigationContainer>
