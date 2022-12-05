@@ -15,6 +15,7 @@ const ProductCard = (props) => {
 	const etiquetas = props.productInfo.etiquetas
 	const min = props.productInfo.min
 	const [isModalVisible, setModalVisible] = useState(false);
+	const [name,setName] = useState('')
 	const modal = () => {
 		setModalVisible(true);
 	}
@@ -53,12 +54,12 @@ const ProductCard = (props) => {
 					<View style={styles.notBotones}>
 						<View style={styles.mPrimera}>
 							<View style={styles.mTitulo}>
-								<Text numberOfLines={2} style={styles.mTitle}>Mouse Inalámbrico</Text>
+								<Text numberOfLines={2} style={styles.mTitle}>{nombre}</Text>
 							</View>
-							<Text style={styles.mTitle}>$10</Text>
+							<Text style={styles.mTitle}>${costo}</Text>
 						</View>
-						<Text style={styles.mPres}>160 g</Text>
-						<Text style={styles.mCant}>Cantidad: 15</Text>
+						<Text style={styles.mPres}>{presen}</Text>
+						<Text style={styles.mCant}>Cantidad: {cantidad}</Text>
 					</View>
 					<View style={styles.mBotones}>
 						<View style={styles.comp}>
