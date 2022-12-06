@@ -9,7 +9,8 @@ import Grupos from '../Screens/Grupos';
 import Estadisticas from '../Screens/Estadisticas';
 import EditarArticulo from '../Screens/EditarArticulo';
 import AgregarArticulo from '../Screens/AgregarArticulo';
-import AgregarCategoria from '../Screens/AgregarCategoria';
+import AgregarGrupo from '../Screens/AgregarGrupo';
+import AgregarEtiqueta from '../Screens/AgregarEtiqueta';
 import Header2 from '../components/header2';
 import header from '../components/header';
 
@@ -30,11 +31,15 @@ export const StackNavigator = () =>{
 				/>
 				<Stack.Screen name={"AgregarArticulo"}
 								component={AgregarArticulo}
-								options={(props)=>({headerShown:true,title:"Agregar ARTICULO" + props.route.params.productInfo.nombre,headerTintColor:'white',headerStyle:{backgroundColor:'#F23232'}})}
+								options={()=>({headerShown:true,title:"Agregar ARTICULO",headerTintColor:'white',headerStyle:{backgroundColor:'#F23232'}})}
 				/>
-				<Stack.Screen name={"AgregarCategoria"}
-								component={AgregarCategoria}
-								options={(props)=>({headerShown:true,title:"Agregar CATEGORIA" + props.route.params.productInfo.nombre,headerTintColor:'white',headerStyle:{backgroundColor:'#F23232'}})}
+				<Stack.Screen name={"AgregarGrupo"}
+								component={AgregarGrupo}
+								options={()=>({headerShown:true,title:"Agregar GRUPO",headerTintColor:'white',headerStyle:{backgroundColor:'#F23232'}})}
+				/>
+				<Stack.Screen name={"AgregarEtiqueta"}
+								component={AgregarEtiqueta}
+								options={()=>({headerShown:true,title:"Agregar ETIQUETA",headerTintColor:'white',headerStyle:{backgroundColor:'#F23232'}})}
 				/>
 			</Stack.Navigator>
 		</NavigationContainer>

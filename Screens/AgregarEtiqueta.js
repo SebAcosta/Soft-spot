@@ -1,10 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 
-export default function AgregarCategoria() {
+export default function AgregarEtiqueta() {
   return (
     <View style={styles.container}>
-      <Text>Pantalla agregar categoría</Text>
+      <Text>Pantalla agregar Etiqueta</Text>
       <StatusBar style="auto" />
     </View>
   );
