@@ -18,7 +18,7 @@ export default function AgregarArticulo(){
       <Text style={styles.nota}>NOTA: Los campos con “*” son obligatorios</Text>
 
       <View style={styles.circulo}>
-        <Ionicons name="cube-outline" size={100} color={"black"}/>
+        <Ionicons name="cube-outline" size={100} color={"white"}/>
       </View>
 
       <TextInput style={styles.input} placeholder="Nombre*"/>
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     color:'#808080',
   },
   guardar:{
-		backgroundColor:'#00BB2D',
+		backgroundColor:'#77DD77',
 		width:110,
     height:36,
 		justifyContent:'center',
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
     marginBottom:7
   },
   circulo:{
-    backgroundColor:'#dcdcdc',
+    backgroundColor:'#d9d9d9',
 		width:150,
     height:150,
 		justifyContent:'center',
