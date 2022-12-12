@@ -13,7 +13,7 @@ const IniciarSesion = (props) => {
     height={178}
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
-    {...props}
+    
   >
     <Ellipse
       rx={116.981}
