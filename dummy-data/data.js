@@ -56,7 +56,7 @@ export const PRODUCTS =[
     },
 ]
 
-export const CATEGORIAS =[
+export const TAGS =[
     {
         id: 1,
         nombre:"Frituras",
@@ -87,4 +87,11 @@ export const CATEGORIAS =[
         nombre:"Jugos",
         color:'#44E9F4',
     },
+    {
+        id: 7,
+        nombre:"Dulces",
+        color:'#FA497B',
+    },
+    
+
 ]

@@ -14,7 +14,7 @@ export default function AgregarArticulo(){
   ];
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.container}>
       <Text style={styles.nota}>NOTA: Los campos con “*” son obligatorios</Text>
 
       <View style={styles.circulo}>
@@ -45,11 +45,14 @@ export default function AgregarArticulo(){
 			</TouchableNativeFeedback>
 
     </SafeAreaView>
-
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+		backgroundColor:'white',
+    height:'100%'
+	},
   input: {
     height: 40,
     marginLeft:'8%',
