@@ -95,3 +95,24 @@ export const TAGS =[
     
 
 ]
+
+export const GROUPS =[
+    {
+        id:1,
+        nombre:"Electrónicos",
+        descripcion:"Este grupo es de electrónicos",
+        color:"#77DD77"
+    },
+    {
+        id:2,
+        nombre:"Computadoras",
+        descripcion:"Este grupo es de computadoras",
+        color:"#288BBA"
+    },
+    {
+        id:3,
+        nombre:"Inalámbricos",
+        descripcion:"Este grupo es de inalámbricos",
+        color:"#E83845"
+    },
+]
