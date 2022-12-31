@@ -1,10 +1,7 @@
 import React from 'react';
 import {View, StyleSheet, FlatList, Dimensions, BackHandler } from "react-native";
-import Header from '../components/header'
 import {TAGS} from "../dummy-data/data"
 import TagCard from '../components/TagCard';
-import { AntDesign,Entypo } from '@expo/vector-icons';
-
 
 const Etiqueta = (props) =>{
 	return (
@@ -12,7 +9,7 @@ const Etiqueta = (props) =>{
 			<View style={styles.listContainer}>
 				<FlatList
 					data={TAGS}
-					numColumns={2}
+					numColumns={1}
 					showsVerticalScrollIndicator={false}
 					keyExtractor={item => item.id.toString()}
 					renderItem= {itemData => (

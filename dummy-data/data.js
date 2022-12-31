@@ -60,36 +60,43 @@ export const TAGS =[
     {
         id: 1,
         nombre:"Frituras",
+        descripcion:"Descripción: xxxxxxxxxxxxxxxxxxx",
         color:'#BF56FF',
     },
     {
         id: 2,
         nombre:"Refrescos",
+        descripcion:"Descripción: xxxxxxxxxxxxxxxxxxx",
         color:'#A2A4E4',
     },
     {
         id: 3,
         nombre:"Galletas",
+        descripcion:"Descripción: xxxxxxxxxxxxxxxxxxx",
         color:'#77DD77',
     },
     {
         id: 4,
         nombre:"Pan",
+        descripcion:"Descripción: xxxxxxxxxxxxxxxxxxx",
         color:'#FCED67',
     },
     {
         id: 5,
         nombre:"Leche",
+        descripcion:"Descripción: xxxxxxxxxxxxxxxxxxx",
         color:'#FFA4A4',
     },
     {
         id: 6,
         nombre:"Jugos",
+        descripcion:"Descripción: xxxxxxxxxxxxxxxxxxx",
         color:'#44E9F4',
     },
     {
         id: 7,
         nombre:"Dulces",
+        descripcion:"Descripción: xxxxxxxxxxxxxxxxxxx",
         color:'#FA497B',
     },
     
@@ -99,20 +106,22 @@ export const TAGS =[
 export const GROUPS =[
     {
         id:1,
-        nombre:"Electrónicos",
-        descripcion:"Este grupo es de electrónicos",
+        nombre:"Estante 1",
         color:"#77DD77"
     },
     {
         id:2,
-        nombre:"Computadoras",
-        descripcion:"Este grupo es de computadoras",
-        color:"#288BBA"
+        nombre:"Estante 2",
+        color:"#288ffA"
     },
     {
         id:3,
-        nombre:"Inalámbricos",
-        descripcion:"Este grupo es de inalámbricos",
+        nombre:"Mostrador",
         color:"#E83845"
+    },
+    {
+        id:4,
+        nombre:"Escritorio",
+        color:"#E5D000"
     },
 ]

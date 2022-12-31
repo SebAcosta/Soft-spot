@@ -7,15 +7,15 @@ import { Feather } from '@expo/vector-icons';
 const TagCard = (props) => {
     const nombre = props.productInfo.nombre
     const color = props.productInfo.color
+    const desc = props.productInfo.descripcion
 	return (
         <View style={styles.container}>
-            <View style={{backgroundColor:color, height:100, width:170,alignItems:'center',
-            borderRadius:13,}}>
-                <Text style={{color:color}}>{color}=color</Text>
+            <Text style={{color:color,fontSize:0}}>{color}=color</Text>
+            <View style={styles.cont}>
+                <View style={{backgroundColor:color, height:65, width:65, borderRadius:50, 
+                position:"absolute", marginTop:12}}></View>
                 <Text style={styles.text}>{nombre}</Text>
-                <View style={styles.more}>
-                    <Feather name="more-vertical" size={35} color="black" />
-                </View>
+                <Text style={styles.text2}>{desc}</Text>
             </View>
         </View>
   );
@@ -26,15 +26,24 @@ const styles = StyleSheet.create({
     container: {
         marginBottom:10,
         marginLeft:10,
-        height:100
+        height:100,
        
 	},
+    cont: {
+        height:100, 
+        width:'92%',
+        borderBottomWidth:1, 
+        borderBottomColor:'#DDDDDD',
+    },
 	text:{
-        marginTop:14,
-		fontSize:20
+        marginTop:5,
+        marginLeft:80,
+		fontSize:18,
+		fontWeight:'700',
+
 	},
-    more:{
-        marginLeft:'82%',
-        marginTop:-55,
+    text2:{
+        fontSize: 15,
+        marginLeft:80,
     }
 });
