@@ -8,7 +8,7 @@ export default function AgregarGrupo() {
   const [colorVisible, setColorVisible] = useState(false);
   const [capColor, setCapColor] = useState('#000');
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.container}>
         <Text style={styles.nota}>NOTA: Los campos con “*” son obligatorios</Text>
 
         <TouchableOpacity
@@ -51,6 +51,10 @@ export default function AgregarGrupo() {
 }
 
 const styles = StyleSheet.create({
+  container: {
+		backgroundColor:'white',
+    height:'100%'
+	},
   input: {
     height: 40,
     marginLeft:'8%',
@@ -115,7 +119,7 @@ const styles = StyleSheet.create({
     width: 153, 
     height: 153, 
     borderRadius:80,
-    backgroundColor:"#f2f2f2",
+    backgroundColor:'white',
     marginTop:-172,
     marginLeft:"10%"
   }
