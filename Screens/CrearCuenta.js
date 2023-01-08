@@ -1,11 +1,109 @@
-import React from 'react'
+import React,{useState,useContext} from 'react'
 import {Modal, Text, SafeAreaView,StyleSheet,TouchableOpacity,View,TextInput} from 'react-native'
 import {EvilIcons} from '@expo/vector-icons';
 import Svg, { Ellipse } from "react-native-svg";
+import { login, signin } from '../Service/Api';
+import { LoginContext } from '../Context/LoginContext';
 
+const oInitState = {
+	nombre:'',
+	email:'',
+	password:'',
+	confirm:'',
+	isValidNombre:true,
+	isValidEmail:true,
+	isValidPass:true,
+	isValidConfirm:true
+};
 
 const CrearCuenta = (props) => {
-    
+  const [data, setData] = useState(oInitState);
+  const { iniciarSesion } = useContext(LoginContext);
+	const  mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
+  const handleNombreChange = nombre =>{
+    setData({
+      ...data,
+      nombre,
+      isValidNombre:nombre.trim().length > 0
+    });
+  }
+  const handleEmailChange = email =>{
+    setData({
+      ...data,
+      email,
+      isValidUser:email.trim().length >= 0 && !!email.trim().match(mailformat)
+      });
+  }
+  const handlePasswordChange = password =>{
+		setData({
+			...data,
+			password,
+			isValidPassword:password.trim().length > 0
+		  })
+	}
+  const handleValidChange = confirm =>{
+		setData({
+			...data,
+			confirm,
+			isValidPassword:confirm.trim() == data.password.trim()
+		  })
+	}
+
+  const handleLogin = async (email,password)=>{
+    const response = await login(email, password)
+    .catch(error => {
+      console.log(error.response);
+    });
+
+    if (response?.data?.ok) {
+      iniciarSesion(response.data.token); //aquí debería ser .message
+    }
+  }
+
+  const handleSignin= async ()=>{
+		const { isValidNombre, isValidEmail, isValidPassword, isValidConfirm } = data;
+
+		if (isValidNombre && isValidPassword && isValidEmail && isValidConfirm) {
+			const { email, password, nombre, confirm } = data;
+
+			if (nombre !== '' && email !== '' && password !== '' && confirm !== '') {
+				const response = await signin(email, password, nombre)
+					.catch(error => {
+						console.log(error.response);
+					});
+
+				if (response?.data?.ok) {
+					handleLogin(email,password)
+				}else{
+          Alert.alert(
+            'Error',
+            'Hubo un problema, intenta otra vez',
+            [
+              {text:'Okay'},
+            ]
+          )
+        }
+			} else {
+				Alert.alert(
+				  'Datos Incorrectos', 
+				  'Los campos no pueden estar vacios',
+				  [
+					{text:'Okay'},
+				  ]
+				);
+			}
+		} else {
+			Alert.alert(
+			  'Datos Incorrectos', 
+			  'Revise los campos e intente de nuevo',
+			  [
+				{text:'Okay'},
+			  ]
+			);
+		};
+	}
+
     function SvgTop(){
         return(
      <Svg
@@ -53,35 +151,33 @@ const CrearCuenta = (props) => {
 
             <View style={styles.input}>
               <EvilIcons name="user" size={40} color={"white"} />
-              <TextInput placeholder="Nombre" placeholderTextColor={"#858585"} style={styles.inputtxt}/>
+              <TextInput placeholder="Nombre" placeholderTextColor={"#858585"} style={styles.inputtxt} onChangeText={handleNombreChange}/>
             </View>
 
             <View style={styles.input}>
               <EvilIcons name="envelope" size={40} color={"white"} />
-              <TextInput placeholder="e-mail" placeholderTextColor={"#858585"} style={styles.inputtxt}/>
+              <TextInput placeholder="e-mail" placeholderTextColor={"#858585"} style={styles.inputtxt} onChangeText={handleEmailChange}/>
             </View>
 
 
             <View style={styles.input}>
               <EvilIcons name="lock" size={40} color={"white"} />
-              <TextInput placeholder="Contraceña" placeholderTextColor={"#858585"} style={styles.inputtxt}/>
+              <TextInput placeholder="Contraseña" placeholderTextColor={"#858585"} style={styles.inputtxt} onChangeText={handlePasswordChange}/>
             </View>
 
             <View style={styles.input}>
               <EvilIcons name="lock" size={40} color={"white"} />
-              <TextInput placeholder="Confirmar contraceña" placeholderTextColor={"#858585"} style={styles.inputtxt}/>
+              <TextInput placeholder="Confirmar contraseña" placeholderTextColor={"#858585"} style={styles.inputtxt} onChangeText={handleValidChange}/>
             </View>
 
             <TouchableOpacity
-			
-			style={styles.btnCuenta}
-			>
-				<Text
-				style={styles.btnTxt}
-				>Siguiente</Text>
-			</TouchableOpacity>
-
-            
+              style={styles.btnCuenta}
+              onPress={()=>{handleSignin()}}
+              >
+                <Text
+                style={styles.btnTxt}
+                >Siguiente</Text>
+			      </TouchableOpacity>   
         </SafeAreaView>    
     
     </Modal>

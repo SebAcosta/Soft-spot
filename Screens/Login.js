@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{useState, useContext} from "react";
 import { ImageBackground ,StyleSheet, Text, View, TouchableOpacity,SafeAreaView  } from 'react-native';
 import pinventario from '../src/images/pinventario2.png';
 import IniciarSesion from "./IniciarSesion";
@@ -8,7 +8,7 @@ const image = { uri: "https://trex10.com/wp-content/uploads/2022/03/WhatsApp-Ima
 export default function Login() {
 
 	const [modalVisible, setModalVisible] = useState(false)
-
+	const [modalVisible2, setModalVisible2] = useState(false)
 	
 	const crearCuenta = () =>{
 		console.log('presionaste crear cuenta');
@@ -21,7 +21,7 @@ export default function Login() {
 				<Text style={styles.text}>Haz tu vida más simple</Text>
 				
 				<TouchableOpacity
-				onPressIn={()=>{setModalVisible(true)}}
+				onPressIn={()=>setModalVisible2(true)}
 				style={styles.btnInicio}
 				>
 				<Text
@@ -40,6 +40,9 @@ export default function Login() {
 				
 				<CrearCuenta
 				modalVisible={modalVisible}
+				/>		
+				<IniciarSesion
+				modalVisible={modalVisible2}
 				/>		
                 </View>
     		</ImageBackground>

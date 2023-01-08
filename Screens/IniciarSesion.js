@@ -1,10 +1,80 @@
-import React from 'react'
-import {Modal, Text, SafeAreaView,StyleSheet,TouchableOpacity,View,TextInput} from 'react-native'
+import axios from 'axios';
+import React,{useState,useContext} from 'react'
+import {Modal, Text, SafeAreaView,StyleSheet,TouchableOpacity,View,TextInput, Alert} from 'react-native'
 import {EvilIcons} from '@expo/vector-icons';
 import Svg, { Ellipse } from "react-native-svg";
+import { login } from '../Service/Api';
+import { LoginContext } from '../Context/LoginContext';
 
+const oInitState = {
+	email:'',
+	password:'',
+	isValidUser:true,
+	isValidPassword:true
+};
 
 const IniciarSesion = (props) => {
+  const [data, setData] = useState(oInitState);
+	const { iniciarSesion } = useContext(LoginContext);
+	const  mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
+  const handleEmailChange = email =>{
+      setData({
+        ...data,
+        email,
+        isValidUser:email.trim().length >= 0 && !!email.trim().match(mailformat)
+        });
+  }
+	const handlePasswordChange = password =>{
+		setData({
+			...data,
+			password,
+			isValidPassword:password.trim().length > 0
+		  })
+	}
+
+	const handleLogin = async ()=>{
+		const { isValidUser, isValidPassword } = data;
+
+		if (isValidUser && isValidPassword) {
+			const { email, password } = data;
+
+			if (email !== '' && password !== '') {
+				const response = await login(email, password)
+					.catch(error => {
+						console.log(error.response);
+					});
+
+				if (response?.data?.ok) {
+					iniciarSesion(response.data.token); //aquí debería ser .message
+				}else{
+          Alert.alert(
+            'Datos incorrectos',
+            'Revise los campos e intente de nuevo',
+            [
+              {text:'Okay'}
+            ]
+          )
+        }
+			} else {
+				Alert.alert(
+				  'Datos Incorrectos', 
+				  'Los campos no pueden estar vacios',
+				  [
+					{text:'Okay'},
+				  ]
+				);
+			}
+		} else {
+			Alert.alert(
+			  'Datos Incorrectos', 
+			  'Revise los campos e intente de nuevo',
+			  [
+				{text:'Okay'},
+			  ]
+			);
+		};
+	}
 
     function SvgTop(){
         return (
@@ -39,39 +109,35 @@ const IniciarSesion = (props) => {
     visible={modalVisible}
     >
         <SafeAreaView style={styles.contenido}>
-        <SvgTop/>
+          <SvgTop/>
             <Text
             style={styles.titulo}
             >
-             Iniciar Sesión    
+            Iniciar Sesión    
             </Text>
             <Text
             style={styles.subtitulo}>
-             Nos da gusto verte por aquí 
+            Nos da gusto verte por aquí 
             </Text>
             
             <View style={styles.input}>
               <EvilIcons name="envelope" size={40} color={"white"} />
-              <TextInput placeholder="e-mail" placeholderTextColor={"#858585"} style={styles.inputtxt}/>
+              <TextInput placeholder="e-mail" placeholderTextColor={"#858585"} style={styles.inputtxt} onChangeText={handleEmailChange}/>
             </View>
 
             <View style={styles.input}>
               <EvilIcons name="lock" size={40} color={"white"} />
-              <TextInput placeholder="Contraceña" placeholderTextColor={"#858585"} style={styles.inputtxt}/>
+              <TextInput placeholder="Contraseña" placeholderTextColor={"#858585"} style={styles.inputtxt} onChangeText={handlePasswordChange}/>
             </View>
-
             <TouchableOpacity
-			
-			style={styles.btnInicio}
-			>
-				<Text
-				style={styles.btnTxt}
-				>Iniciar sesión</Text>
-			</TouchableOpacity>
-
-            
-        </SafeAreaView>    
-    
+              style={styles.btnInicio}
+              onPress={()=>handleLogin()}
+            >
+              <Text
+                style={styles.btnTxt}
+              >Iniciar sesión</Text>
+            </TouchableOpacity>  
+      </SafeAreaView>    
     </Modal>
   )
 }
