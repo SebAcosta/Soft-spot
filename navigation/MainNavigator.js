@@ -18,12 +18,15 @@ import Header2 from '../components/header2';
 import header from '../components/header';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { LoginContext } from '../Context/LoginContext';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { CustomDrawer } from '../components/CustomDrawer';
 
 
 const Tab = createMaterialTopTabNavigator();
 const Stack = createStackNavigator();
+const Drawer = createDrawerNavigator();
 
-export const StackNavigator = () =>{
+export const StackNavigator = (props) =>{
 	const [isAuth,setIsAuth] = useState(false)
 
 	const loginContext = {
@@ -53,6 +56,27 @@ export const StackNavigator = () =>{
 		prepare()
 	},[])
 
+	const SideDrawer = () => {
+		return(
+			<>
+				<Drawer.Navigator
+					drawerContent={props => <CustomDrawer {...props}/>}
+					screenOptions={{ 
+					headerShown: false,
+					drawerLabelStyle: {marginLeft: -15, color: '#fff',}
+					}}
+				>
+					<Drawer.Screen name="Pantalla principal" component={TabNavigator} 
+						options={{
+						drawerIcon: () => <AntDesign name="barschart" size={24} color={"white"} />,
+						title: 'Regresar'
+						}}
+					/>
+				</Drawer.Navigator>
+			</>
+		);
+	  };
+
 
 	return(
 		<LoginContext.Provider value={loginContext}>
@@ -66,10 +90,11 @@ export const StackNavigator = () =>{
 						</>
 					:
 						<>
-							<Stack.Screen name={"TabNavigator"}
+							{/* <Stack.Screen name={"TabNavigator"}
 											component={TabNavigator}
 											options={{headerShown:false}}
-							/>
+							/> */}
+							<Stack.Screen name="drawer" component={SideDrawer}/>
 							<Stack.Screen name={"EditarArticulo"}
 											component={EditarArticulo}
 											options={(props)=>({headerShown:true,title:"Editar" + props.route.params.productInfo.nombre,headerTintColor:'white',headerStyle:{backgroundColor:'#F23232'}})}
@@ -94,10 +119,10 @@ export const StackNavigator = () =>{
 	)
 }
 
-const TabNavigator = () =>{
+const TabNavigator = (props) =>{
 	return(
 		<>
-		<Header2 />	
+		<Header2 navigation={props.navigation}/>	
 		<Tab.Navigator  initialRouteName="Artículos" screenOptions={{tabBarActiveTintColor: 'white',
         tabBarLabelStyle: { fontSize: 10 },
 		tabBarIndicatorStyle:{backgroundColor:'white'},

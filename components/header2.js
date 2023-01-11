@@ -6,15 +6,15 @@ import TouchableCmp from './UI/TouchableCmp';
 import { Entypo, Ionicons, FontAwesome5, EvilIcons } from '@expo/vector-icons';
 
 
-const Header2 = (props) => {
-	const navigation = useNavigation();
+const Header2 = (props,{navigation}) => {
+	//const navigation = useNavigation();
 	const [isModalVisible, setModalVisible] = useState(false);
 	return (
 		<View>
 			<View style={styles.container}>
 				<StatusBar
 					backgroundColor="#F23232" />
-				<Entypo name="menu" size={35} color={"white"} />
+				<Entypo name="menu" size={35} color={"white"} onPress={() => props.navigation === undefined ? console.log(props.navigation) : props.navigation.openDrawer()}/>
 				<FontAwesome5 name="search" size={22} color={"white"} />
 				<View style={styles.bar}>
 					<View style={styles.search}>
@@ -27,19 +27,19 @@ const Header2 = (props) => {
 				<View style={{alignItems:'flex-end',height:Dimensions.get('window').height,justifyContent:'flex-start',marginTop:5}}>
 					<Ionicons name="close" size={35} color={"white"} onPress={()=>setModalVisible(false)}/>
 					<View style={{marginTop:30}}>
-						<TouchableNativeFeedback onPress={()=>{setModalVisible(false),navigation.navigate('AgregarArticulo')}}>
+						<TouchableNativeFeedback onPress={()=>{setModalVisible(false),props.navigation.navigate('AgregarArticulo')}}>
 							<View style={styles.boton}>
 								<Text style={styles.mText}>Agregar ARTÍCULO</Text>
 								<Ionicons name="cube-outline" size={26} color={"white"}/>
 							</View>
 						</TouchableNativeFeedback>
-						<TouchableNativeFeedback onPress={()=>{setModalVisible(false),navigation.navigate('AgregarGrupo')}}>
+						<TouchableNativeFeedback onPress={()=>{setModalVisible(false),props.navigation.navigate('AgregarGrupo')}}>
 							<View style={styles.boton}>
 								<Text style={styles.mText}>Agregar GRUPO</Text>
 								<FontAwesome5 name="cubes" size={26} color={"white"} />
 							</View>
 						</TouchableNativeFeedback>
-						<TouchableNativeFeedback onPress={()=>{setModalVisible(false),navigation.navigate('AgregarEtiqueta')}}>
+						<TouchableNativeFeedback onPress={()=>{setModalVisible(false),props.navigation.navigate('AgregarEtiqueta')}}>
 							<View style={styles.boton}>
 								<Text style={styles.mText}>Agregar ETIQUETA</Text>
 								<EvilIcons name="tag" size={33} color={"white"} />
