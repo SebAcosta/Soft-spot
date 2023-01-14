@@ -170,14 +170,28 @@ const CrearCuenta = (props) => {
               <TextInput placeholder="Confirmar contraseña" placeholderTextColor={"#858585"} style={styles.inputtxt} onChangeText={handleValidChange}/>
             </View>
 
+            <View style={styles.botones}>
+
             <TouchableOpacity
-              style={styles.btnCuenta}
+            
+            style={styles.btnAtras}
+            >
+              <Text
+              style={styles.btnAtrasTxt}
+              >Ya tengo cuenta</Text>
+           </TouchableOpacity> 
+
+            <TouchableOpacity
+              style={styles.btnSiguiente}
               onPress={()=>{handleSignin()}}
               >
                 <Text
                 style={styles.btnTxt}
                 >Siguiente</Text>
-			      </TouchableOpacity>   
+			      </TouchableOpacity> 
+
+
+            </View>
         </SafeAreaView>    
     
     </Modal>
@@ -222,22 +236,49 @@ const styles = StyleSheet.create({
     inputtxt:{
         
         fontSize:18,
-        marginLeft:6,    
+        marginLeft:6,
+        color:'#FFFFFF'     
     },
-    btnCuenta: {
-        backgroundColor:'#F23232',
-        padding:10,
-        marginTop:100,
-        marginRight:10,
-        marginLeft:220,
-        borderRadius:30
-      },
-      btnTxt: {
-		textAlign: "center",
-		color:'#FFF',
-		fontSize:17,
-		fontWeight:'900',
-    }
+    btnSiguiente: {
+      backgroundColor:'#F23232',
+      padding:6,
+      marginTop:50,
+      marginRight:15,
+      marginLeft:115,
+      borderRadius:30
+    },
+  btnTxt: {
+      textAlign: "center",
+      color:'#FFF',
+      fontSize:17,
+      fontWeight:'900',
+  },
+  btnAtras:{
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor:'#262626',
+      marginTop:50,
+      marginLeft:15,
+      marginRight:9,
+      padding:5,
+      borderRadius:20
+
+  },
+  btnAtrasTxt:{
+      textAlign: "center",
+      color:'#FFF',
+      fontSize:17,
+      fontWeight:'900',
+      textDecorationLine: 'underline',
+      textDecorationStyle: 'solid'
+         
+  },
+  botones: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+  },
 })
 
 export default CrearCuenta

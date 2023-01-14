@@ -129,6 +129,18 @@ const IniciarSesion = (props) => {
               <EvilIcons name="lock" size={40} color={"white"} />
               <TextInput placeholder="Contraseña" placeholderTextColor={"#858585"} style={styles.inputtxt} onChangeText={handlePasswordChange}/>
             </View>
+
+            <View style={styles.botones}>
+
+            <TouchableOpacity
+            
+                style={styles.btnRegresar}
+                >
+                <Text
+                style={styles.btnRegresarTxt}
+                >Regresar</Text>
+            </TouchableOpacity>
+
             <TouchableOpacity
               style={styles.btnInicio}
               onPress={()=>handleLogin()}
@@ -136,7 +148,8 @@ const IniciarSesion = (props) => {
               <Text
                 style={styles.btnTxt}
               >Iniciar sesión</Text>
-            </TouchableOpacity>  
+            </TouchableOpacity>
+            </View>
       </SafeAreaView>    
     </Modal>
   )
@@ -180,22 +193,40 @@ const styles = StyleSheet.create({
     inputtxt:{
         
         fontSize:18,
-        marginLeft:6,    
+        marginLeft:6,
+        color:'#FFFFFF'    
     },
     btnInicio: {
-        backgroundColor:'#F23232',
-        padding:10,
-        marginTop:200,
-        marginRight:10,
-        marginLeft:220,
-        borderRadius:30
-      },
-      btnTxt: {
-		textAlign: "center",
-		color:'#FFF',
-		fontSize:17,
-		fontWeight:'900',
-    }
+      backgroundColor:'#F23232',
+      padding:10,
+      marginTop:140,
+      marginRight:20,
+      marginLeft:11,
+      borderRadius:30
+    },
+    btnTxt: {
+      textAlign: "center",
+      color:'#FFF',
+      fontSize:17,
+      fontWeight:'900',
+  },btnRegresar:{
+      marginTop: 140,
+      marginRight: 5,
+      marginLeft: 30,
+  },btnRegresarTxt:{
+
+      textAlign: "center",
+      color:'#FFF',
+      fontSize:17,
+      fontWeight:'900',
+      textDecorationLine: 'underline',
+      textDecorationStyle: 'solid'
+   
+  },botones: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+},
 })
 
 export default IniciarSesion
