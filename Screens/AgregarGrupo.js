@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
 		justifyContent:'center',
 		alignItems:'center',
 		borderRadius:10,
-    marginLeft:250,
+    marginLeft:"65%",
     marginTop:50
 	},
   Tguardar:{

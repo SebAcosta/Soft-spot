@@ -2,7 +2,7 @@ import { createMaterialTopTabNavigator  } from '@react-navigation/material-top-t
 import {createStackNavigator} from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import React, { useEffect, useState, useCallback } from 'react';
-import { AntDesign,Foundation,FontAwesome5,Ionicons,EvilIcons,MaterialCommunityIcons } from '@expo/vector-icons';
+import { AntDesign,Foundation,FontAwesome5,Ionicons,EvilIcons,MaterialCommunityIcons, FontAwesome } from '@expo/vector-icons';
 import Articulos from '../Screens/Articulos';
 import Etiquetas from '../Screens/Etiquetas';
 import Grupos from '../Screens/Grupos';
@@ -20,6 +20,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { LoginContext } from '../Context/LoginContext';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { CustomDrawer } from '../components/CustomDrawer';
+import Configuracion from '../Screens/Configuracion';
+import Softspot from '../Screens/Softspot';
+import Comentarios from '../Screens/Comentarios';
 
 
 const Tab = createMaterialTopTabNavigator();
@@ -60,16 +63,35 @@ export const StackNavigator = (props) =>{
 		return(
 			<>
 				<Drawer.Navigator
+					initialRouteName='Pantalla principal'
 					drawerContent={props => <CustomDrawer {...props}/>}
 					screenOptions={{ 
 					headerShown: false,
 					drawerLabelStyle: {marginLeft: -15, color: '#fff',}
 					}}
 				>
+					<Drawer.Screen name="Configuracion" component={Configuracion} 
+						options={{
+						drawerIcon: () => <Ionicons name="settings-outline" size={24} color="white"/>,
+						title: 'Configuracion',headerShown:true, headerTintColor:'white',headerStyle:{backgroundColor:'#F23232'}
+						}}
+					/>
+					<Drawer.Screen name="Calificanos" component={Comentarios} 
+						options={{
+						drawerIcon: () => <AntDesign name="like2" size={24} color="white" />,
+						title: 'Calificanos', headerShown:true, headerTintColor:'white',headerStyle:{backgroundColor:'#F23232'}
+						}}
+					/>
+					<Drawer.Screen name="Softspot" component={Softspot} 
+						options={{
+						drawerIcon: () => <Ionicons name="information-circle-outline" size={24} color="white"/>,
+						title: '¿Quienes somos?', headerShown:true, headerTintColor:'white',headerStyle:{backgroundColor:'#F23232'}
+						}}
+					/>
 					<Drawer.Screen name="Pantalla principal" component={TabNavigator} 
 						options={{
-						drawerIcon: () => <AntDesign name="barschart" size={24} color={"white"} />,
-						title: 'Regresar'
+						drawerIcon: () => <Ionicons name="home-outline" size={24} color="white" />,
+						title: 'Menu principal'
 						}}
 					/>
 				</Drawer.Navigator>
