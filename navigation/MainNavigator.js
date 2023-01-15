@@ -72,24 +72,28 @@ export const StackNavigator = (props) =>{
 				>
 					<Drawer.Screen name="Configuracion" component={Configuracion} 
 						options={{
+						drawerLabelStyle:{color: '#fff', marginLeft: -15,fontSize:15},
 						drawerIcon: () => <Ionicons name="settings-outline" size={24} color="white"/>,
 						title: 'Configuracion',headerShown:true, headerTintColor:'white',headerStyle:{backgroundColor:'#F23232'}
 						}}
 					/>
 					<Drawer.Screen name="Calificanos" component={Comentarios} 
 						options={{
+						drawerLabelStyle:{color: '#fff', marginLeft: -15,fontSize:15},
 						drawerIcon: () => <AntDesign name="like2" size={24} color="white" />,
 						title: 'Calificanos', headerShown:true, headerTintColor:'white',headerStyle:{backgroundColor:'#F23232'}
 						}}
 					/>
 					<Drawer.Screen name="Softspot" component={Softspot} 
 						options={{
+						drawerLabelStyle:{color: '#fff', marginLeft: -15,fontSize:15},
 						drawerIcon: () => <Ionicons name="information-circle-outline" size={24} color="white"/>,
 						title: '¿Quienes somos?', headerShown:true, headerTintColor:'white',headerStyle:{backgroundColor:'#F23232'}
 						}}
 					/>
 					<Drawer.Screen name="Pantalla principal" component={TabNavigator} 
 						options={{
+						drawerLabelStyle:{color: '#fff', marginLeft: -15,fontSize:15},
 						drawerIcon: () => <Ionicons name="home-outline" size={24} color="white" />,
 						title: 'Menu principal'
 						}}

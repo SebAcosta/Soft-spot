@@ -42,7 +42,7 @@ export default function AgregarEtiqueta() {
 
         <TouchableNativeFeedback>
           <View style={styles.guardar}>
-            <Text style={styles.Tguardar}>GUARDAR</Text>
+            <Text style={styles.Tguardar}>Guardar</Text>
           </View>
         </TouchableNativeFeedback>
 

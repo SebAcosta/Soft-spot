@@ -29,13 +29,13 @@ export const CustomDrawer = (props) => {
                     </View>
                     <View style={{justifyContent:"center", alignItems:"center", marginTop:10}}>
                         <Text style={{fontSize:17, color:"#f4f4f4", fontWeight:"700"}}>Soft spot</Text>
-                        <Text style={{fontSize:15, color:"#f4f4f4"}}>softspot@gmail.com</Text>
+                        <Text style={{fontSize:16, color:"#f4f4f4"}}>softspot@gmail.com</Text>
                     </View>
                 </View>
                 <DrawerItemList {...props}/>
             </DrawerContentScrollView>
             <DrawerItem 
-                label={ () => <Text style={{color: '#fff', marginLeft: -15, fontWeight: '600'}}>Cerrar sesión</Text>}
+                label={ () => <Text style={{color: '#fff', marginLeft: -15, fontSize:16}}>Cerrar sesión</Text>}
                 onPress={() => {
                     logoutHandle()}
                 }  

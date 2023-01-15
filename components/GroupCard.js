@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
 	},
 	text:{
         marginTop:35,
-		fontSize:20,
+		fontSize:18,
         fontWeight:'500',
 	}
 });

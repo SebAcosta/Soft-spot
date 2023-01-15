@@ -10,7 +10,7 @@ export default function Configuracion() {
 
             <MaterialCommunityIcons name="theme-light-dark" size={24} color="black" 
             style={{marginLeft:"8%"}}/>
-            <Text style={{fontSize:18,marginLeft:"3%"}}>Modo Oscuro</Text>
+            <Text style={{fontSize:17,marginLeft:"3%"}}>Modo Oscuro</Text>
 
             <Switch 
             trackColor={{true: '#F23232', false: 'grey'}}

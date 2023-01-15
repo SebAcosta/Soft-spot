@@ -9,14 +9,14 @@ export default function Comentarios() {
     return (
         <SafeAreaView style={styles.container}>
           <View style={{marginLeft:'8%', marginRight:'8%', marginTop:'10%'}}>
-            <Text style={{fontSize:18, marginBottom:10}}>¿Cómo funciona la aplicación?</Text>
+            <Text style={{fontSize:17, marginBottom:10}}>¿Cómo funciona la aplicación?</Text>
             <Starts/>
-            <Text style={{fontSize:18, marginBottom:10}}>Agrega un comentario para poder mejorar.</Text>
+            <Text style={{fontSize:17, marginBottom:10}}>Agrega un comentario para poder mejorar.</Text>
             <TextInput style={styles.input} multiline={true} numberOfLines={4}/>
     
           <TouchableNativeFeedback>
             <View style={styles.guardar}>
-              <Text style={styles.Tguardar}>ENVIAR</Text>
+              <Text style={styles.Tguardar}>Enviar</Text>
             </View>
           </TouchableNativeFeedback> 
           </View>
