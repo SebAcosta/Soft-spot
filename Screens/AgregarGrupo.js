@@ -1,12 +1,65 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, SafeAreaView, TextInput, TouchableNativeFeedback, View, TouchableOpacity} from 'react-native';
+import { StyleSheet, Text, SafeAreaView, TextInput, Alert, View, TouchableOpacity} from 'react-native';
 import React,{useState} from 'react';
 import {EvilIcons,MaterialIcons,FontAwesome5} from '@expo/vector-icons';
 import {ColorPicker} from 'react-native-color-picker';
+import { getDbConnection, insertGrupo } from '../src/utils/db';
 
 export default function AgregarGrupo() {
   const [colorVisible, setColorVisible] = useState(false);
   const [capColor, setCapColor] = useState('#000');
+
+  const initGrupo ={
+    nombreGrupo: '',
+    descGrupo:''
+  }
+
+  const [grupo, setGrupo] = useState(initGrupo);
+
+  const handleNombre = nombreGrupo => {
+    setGrupo({
+      ...grupo,
+      nombreGrupo
+    });
+  }
+  const handleDesc = descGrupo => {
+    setGrupo({
+      ...grupo,
+      descGrupo
+    });
+  }
+
+  //Crear en la BDD
+  async function createGrupo(){
+    if(grupo.nombreGrupo === ''){
+      Alert.alert(
+        'Error',
+        'Asignar un nombre de grupo es obligatorio.',
+        [{text:'OK'}]
+      )
+      return;
+    }
+    try{
+      const db = await getDbConnection();
+      await insertGrupo(db, grupo.nombreGrupo, grupo.descGrupo);
+      Alert.alert(
+        'Grupo creado',
+        `"${grupo.nombreGrupo}" agregado con éxito.`,
+        [{
+            text: 'Ok'
+            //onPress: AGREGAR FUNCION QUE REGRESE A LA PANTALLA DE INICIO
+          }]
+      );
+      db.closeAsync();
+    }catch (e){
+      Alert.alert(
+        'Error al crear grupo',
+        `${e.message}`,
+        [{text: 'ok'}]
+      );
+    }
+  }
+
   return (
     <SafeAreaView style={styles.container}>
         <Text style={styles.nota}>NOTA: Los campos con “*” son obligatorios</Text>
@@ -37,14 +90,12 @@ export default function AgregarGrupo() {
 
         </View> 
 
-        <TextInput style={styles.input} placeholder="Nombre*"/>
-        <TextInput style={styles.input} placeholder="Descripción"/>
+        <TextInput style={styles.input} placeholder="Nombre*" onChangeText={handleNombre} value={grupo.nombreGrupo} />
+        <TextInput style={styles.input} placeholder="Descripción" onChangeText={handleDesc} value={grupo.descGrupo}/>
 
-        <TouchableNativeFeedback>
-          <View style={styles.guardar}>
+        <TouchableOpacity style={styles.guardar} onPress={createGrupo}>
             <Text style={styles.Tguardar}>Guardar</Text>
-          </View>
-        </TouchableNativeFeedback>
+        </TouchableOpacity>
 
       </SafeAreaView>
   );

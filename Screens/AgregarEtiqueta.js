@@ -1,12 +1,65 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, SafeAreaView, TextInput, TouchableNativeFeedback, View, TouchableOpacity} from 'react-native';
+import { StyleSheet, Text, SafeAreaView, TextInput, View, Alert, TouchableOpacity} from 'react-native';
 import React,{useState} from 'react';
 import {EvilIcons,MaterialIcons} from '@expo/vector-icons';
 import {ColorPicker} from 'react-native-color-picker';
+import { getDbConnection, insertEtiqueta } from '../src/utils/db';
 
 export default function AgregarEtiqueta() {
   const [colorVisible, setColorVisible] = useState(false);
   const [capColor, setCapColor] = useState('#000');
+
+  const initEtiqueta ={
+    nombreEtiqueta:'',
+    descEtiqueta:''
+  }
+
+  const [etiqueta, setEtiqueta] = useState(initEtiqueta);
+
+  const handleNombre = nombreEtiqueta => {
+    setEtiqueta({
+      ...etiqueta,
+      nombreEtiqueta
+    });
+  }
+  const handleDesc = descEtiqueta => {
+    setEtiqueta({
+      ...etiqueta,
+      descEtiqueta
+    })
+  }
+
+  //Crear en la BDD
+  async function createEtiqueta(){
+    if(etiqueta.nombreEtiqueta === ''){
+      Alert.alert(
+        'Error',
+        'Asignar un nombre de etiqueta es obligatorio.',
+        [{text:'OK'}]
+      )
+      return;
+    }
+    try{
+      const db = await getDbConnection();
+      await insertEtiqueta(db, etiqueta.nombreEtiqueta, etiqueta.descEtiqueta);
+      Alert.alert(
+        'Etiqueta creado',
+        `"${etiqueta.nombreEtiqueta}" agregado con éxito.`,
+        [{
+            text: 'Ok'
+            //onPress: AGREGAR FUNCION QUE REGRESE A LA PANTALLA DE INICIO
+          }]
+      );
+      db.closeAsync();
+    }catch (e){
+      Alert.alert(
+        'Error al crear etiqueta',
+        `${e.message}`,
+        [{text: 'ok'}]
+      );
+    }
+  }
+
   return (
     <SafeAreaView style={styles.container}>
         <Text style={styles.nota}>NOTA: Los campos con “*” son obligatorios</Text>
@@ -37,14 +90,12 @@ export default function AgregarEtiqueta() {
 
         </View> 
 
-        <TextInput style={styles.input} placeholder="Nombre*"/>
-        <TextInput style={styles.input} placeholder="Descripción"/>
+        <TextInput style={styles.input} placeholder="Nombre*" onChangeText={handleNombre} value={etiqueta.nombreEtiqueta}/>
+        <TextInput style={styles.input} placeholder="Descripción" onChangeText={handleDesc} value={etiqueta.descEtiqueta} />
 
-        <TouchableNativeFeedback>
-          <View style={styles.guardar}>
-            <Text style={styles.Tguardar}>Guardar</Text>
-          </View>
-        </TouchableNativeFeedback>
+        <TouchableOpacity style={styles.guardar} onPress={createEtiqueta}>
+          <Text style={styles.Tguardar}>Guardar</Text>
+        </TouchableOpacity>
 
       </SafeAreaView>
   );
