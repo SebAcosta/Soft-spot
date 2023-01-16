@@ -1,9 +1,8 @@
 import React,{useState, useContext} from "react";
-import { ImageBackground ,StyleSheet, Text, View, TouchableOpacity,SafeAreaView  } from 'react-native';
-import pinventario from '../src/images/pinventario2.png';
+import { ImageBackground ,StyleSheet, Text, View, TouchableOpacity,SafeAreaView,Image  } from 'react-native';
 import IniciarSesion from "./IniciarSesion";
 import CrearCuenta from "./CrearCuenta";
-import Svg, { Ellipse, Image } from "react-native-svg";
+import Svg, { Ellipse} from "react-native-svg";
 export default function Login() {
 
 	const [modalVisible, setModalVisible] = useState(false)
@@ -40,17 +39,9 @@ export default function Login() {
 	return (
 		<SafeAreaView style={styles.container} >
 			<SvgTop/>
-
 			
-			
-			<View style={styles.container}>
-			<View style={styles.imagen}>
-				<Image 
-					source={require('../src/images/coiLogo.png')}
-					style={styles.logo}
-				/>
-			</View>
-				
+			<Image source={require('../assets/coiLogo.png')} style={styles.logo}/>
+		
 				<TouchableOpacity
 				onPressIn={()=>setModalVisible2(true)}
 				style={styles.btnInicio}
@@ -75,7 +66,6 @@ export default function Login() {
 				<IniciarSesion
 				modalVisible={modalVisible2}
 				/>		
-                </View>
     		
 		</SafeAreaView >
 	);
@@ -83,12 +73,8 @@ export default function Login() {
 
 const styles = StyleSheet.create({
 	container: {
-		//backgroundColor:'#ff000040',
+		backgroundColor:'white',
 		flex: 1,
-	  },
-	  pinventario: {
-		flex: 1,
-		justifyContent: "center"
 	  },
 	  text: {
 		marginTop:220,
@@ -104,7 +90,7 @@ const styles = StyleSheet.create({
 	  btnInicio: {
 		backgroundColor:'#F23232',
 		padding:10,
-		marginTop:400,
+		marginTop:430,
 		marginHorizontal:100,
 		borderRadius:20
 	  },
@@ -123,15 +109,12 @@ const styles = StyleSheet.create({
   
 	  },
 	  logo: {
-		  alignSelf: 'center',
-		  width: 150,
-		  height: 150,
+		  position:"absolute",
+		  width: 260,
+		  height: 258,
+		  alignSelf:"center",
+		  marginTop:"60%"
 	  },
-	  imagen: {
-		  alignItems: 'center',
-		  justifyContent: 'center',
-	  },
-	
   });
 
 
