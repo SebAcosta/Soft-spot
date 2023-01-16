@@ -1,19 +1,19 @@
-import React,{useState} from 'react';
+import React,{useState,useContext} from 'react';
 import { View, Text, StyleSheet,SafeAreaView, TextInput, TouchableNativeFeedback, Button} from 'react-native';
 import {Ionicons} from '@expo/vector-icons';
 import Starts from '../components/Starts';
-
+import themeContext from '../config/themeContext';
 
 export default function Comentarios() {
+    const theme = useContext(themeContext);
 
     return (
-        <SafeAreaView style={styles.container}>
-          <View style={{marginLeft:'8%', marginRight:'8%', marginTop:'10%'}}>
-            <Text style={{fontSize:17, marginBottom:10}}>¿Cómo funciona la aplicación?</Text>
+        <SafeAreaView style={[styles.container, {backgroundColor: theme.background}]}>
+          <View style={[styles.container2]}>
+            <Text style={[styles.text, {color: theme.color}]}>¿Cómo funciona la aplicación?</Text>
             <Starts/>
-            <Text style={{fontSize:17, marginBottom:10}}>Agrega un comentario para poder mejorar.</Text>
-            <TextInput style={styles.input} multiline={true} numberOfLines={4}/>
-    
+            <Text style={[styles.text, {color: theme.color}]}>Agrega un comentario para poder mejorar.</Text>
+            <TextInput style={[styles.input, {color: theme.color,borderColor: theme.linea}, ]} multiline={true} numberOfLines={4}  />
           <TouchableNativeFeedback>
             <View style={styles.guardar}>
               <Text style={styles.Tguardar}>Enviar</Text>
@@ -28,15 +28,19 @@ export default function Comentarios() {
     
 const styles = StyleSheet.create({
     container: {
-        backgroundColor:'white',
         height:'100%',
         alignItems:"center"
+    },
+    container2:{
+      marginLeft:'8%', 
+      marginRight:'8%', 
+      marginTop:'10%'
     },
     input: {
         borderRadius:15,
         height:100,
         borderWidth:1,
-        borderColor: "#B8BDC6",
+
         fontSize:18,
     },
     guardar:{
@@ -54,5 +58,9 @@ const styles = StyleSheet.create({
         fontSize:17,
         fontWeight:'600'
     },
+    text:{
+      fontSize:17, 
+      marginBottom:10
+    }
 });
 

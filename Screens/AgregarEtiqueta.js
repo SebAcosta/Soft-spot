@@ -1,11 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, SafeAreaView, TextInput, View, Alert, TouchableOpacity} from 'react-native';
-import React,{useState} from 'react';
+import React,{useState,useContext} from 'react';
 import {EvilIcons,MaterialIcons} from '@expo/vector-icons';
 import {ColorPicker} from 'react-native-color-picker';
 import { getDbConnection, insertEtiqueta } from '../src/utils/db';
+import themeContext from '../config/themeContext';
 
 export default function AgregarEtiqueta() {
+  const theme = useContext(themeContext);
   const [colorVisible, setColorVisible] = useState(false);
   const [capColor, setCapColor] = useState('#000');
 
@@ -61,8 +63,8 @@ export default function AgregarEtiqueta() {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
-        <Text style={styles.nota}>NOTA: Los campos con “*” son obligatorios</Text>
+    <SafeAreaView style={[styles.container, {backgroundColor: theme.background}]}>
+        <Text style={[styles.nota, {color: theme.color}]}>NOTA: Los campos con “*” son obligatorios</Text>
 
         <TouchableOpacity
           style={styles.color}
@@ -74,7 +76,7 @@ export default function AgregarEtiqueta() {
         </TouchableOpacity>
 
         <View style={styles.circulo}>
-          <EvilIcons name="tag" size={140} color={"white"} />
+          <EvilIcons name="tag" size={140} style={[{color: theme.icon}]}/>
         </View>
 
         <View>
@@ -84,14 +86,14 @@ export default function AgregarEtiqueta() {
               onColorSelected={color => {
                 setCapColor(color);
               }}
-              style={styles.picker}
+              style={[styles.picker, {backgroundColor:theme.background}]}
             />
           ) : null}
 
         </View> 
 
-        <TextInput style={styles.input} placeholder="Nombre*" onChangeText={handleNombre} value={etiqueta.nombreEtiqueta}/>
-        <TextInput style={styles.input} placeholder="Descripción" onChangeText={handleDesc} value={etiqueta.descEtiqueta} />
+        <TextInput style={[styles.input, {color:theme.color, borderColor:theme.color}]} placeholderTextColor={"#858585"} placeholder="Nombre*" onChangeText={handleNombre} value={etiqueta.nombreEtiqueta}/>
+        <TextInput style={[styles.input, {color:theme.color, borderColor:theme.color}]} placeholderTextColor={"#858585"} placeholder="Descripción" onChangeText={handleDesc} value={etiqueta.descEtiqueta} />
 
         <TouchableOpacity style={styles.guardar} onPress={createEtiqueta}>
           <Text style={styles.Tguardar}>Guardar</Text>
@@ -103,7 +105,6 @@ export default function AgregarEtiqueta() {
 
 const styles = StyleSheet.create({
   container: {
-		backgroundColor:'white',
     height:'100%'
 	},
   input: {
@@ -170,7 +171,6 @@ const styles = StyleSheet.create({
     width: 153, 
     height: 153, 
     borderRadius:80,
-    backgroundColor:"white",
     marginTop:-172,
     marginLeft:"10%"
   }

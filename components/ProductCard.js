@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useContext} from 'react';
 import { StyleSheet, View, Text, Image, Dimensions, TouchableWithoutFeedback,FlatList,TouchableNativeFeedback } from "react-native";
 import TouchableCmp from "./UI/TouchableCmp";
 import { Entypo } from '@expo/vector-icons';
 import Modal from "react-native-modal";
 import modal from "./modal"
+import themeContext from '../config/themeContext';
 
 const ProductCard = (props) => {
+	const theme = useContext(themeContext);
 	const img = props.productInfo.img
 	const nombre = props.productInfo.nombre
 	const presen = props.productInfo.presen
@@ -21,22 +23,23 @@ const ProductCard = (props) => {
 	}
 	return (
 		<View>
-			<TouchableNativeFeedback onPress={()=>setModalVisible(true)} onLongPress={()=>props.navigation.navigate('AgregarArticulo',{productInfo:props.productInfo})}>
-				<View style={styles.card0}>
+			<TouchableNativeFeedback onPress={()=>setModalVisible(true)} onLongPress={()=>props.navigation.navigate('EditarArticulo',{productInfo:props.productInfo})}>
+				<View style={[styles.card0, {borderColor: theme.linea}]}>
 					<View style={styles.productos}>
 						<View style={styles.imagen}>
 							<Image source={{ uri: img }} style={styles.image} />
 						</View>
 						<View style={styles.detalles}>
-							<Text style={styles.nombre}>{nombre}</Text>
-							{props.productInfo.presen&&<Text style={styles.presen}>{presen}</Text>}
+							<Text style={[styles.nombre,{color: theme.color}]}>{nombre}</Text>
+							{props.productInfo.presen&&<Text style={[styles.presen,{color: theme.color}]}>{presen}</Text>}
 							{cantidad<=min?
-								<Text style={styles.cant2}>Cantidad: {cantidad}</Text>:
-								<Text style={styles.cant}>Cantidad: {cantidad}</Text>
+								<Text style={[styles.cant2,{color: theme.color}]}>Cantidad: {cantidad}</Text>:
+								<Text style={[styles.cant,{color: theme.color}]}>Cantidad: {cantidad}</Text>
 							}
-							<Text style={styles.precio}>Precio: ${costo}</Text>
+							<Text style={[styles.precio, {color: theme.color}]}>Precio: ${costo}</Text>
 						</View>
-						{fav?<Entypo name='star' size={30} />:<Entypo name='star-outlined' size={30} />}
+						{fav?<Entypo name='star' size={30} style={[{color: theme.color}]} 
+						/>:<Entypo name='star-outlined' size={30} style={[{color: theme.color}]}/>}
 					</View>
 					<View>
 						<View style={styles.etiqueta}>
@@ -93,7 +96,6 @@ const styles = StyleSheet.create({
 		height: 170,
 		overflow: 'hidden',
 		borderBottomWidth:1,
-		borderBottomColor:'#DDDDDD',
 		paddingBottom:15,
 		paddingTop:20,
 		justifyContent:'space-between'

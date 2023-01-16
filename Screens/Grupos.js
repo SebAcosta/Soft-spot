@@ -2,11 +2,14 @@ import {View, StyleSheet, FlatList, Dimensions, BackHandler } from "react-native
 import Header from '../components/header2'
 import GroupCard from '../components/GroupCard';
 import {GROUPS} from "../dummy-data/data"
+import themeContext from '../config/themeContext';
+import React,{useState,useContext} from 'react';
 
 
 const Grupos=(props)=>{
+    const theme = useContext(themeContext);
 	return (
-		<View style={styles.container}>
+		<View style={[{backgroundColor: theme.background}]}>
 			<View style={styles.listContainer}>
 				<FlatList
 					data={GROUPS}
@@ -25,9 +28,6 @@ const Grupos=(props)=>{
 export default Grupos;
 
 const styles = StyleSheet.create({
-	container: {
-		backgroundColor:'white',
-	},
 	text:{
 		fontSize:20
 	},

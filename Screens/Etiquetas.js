@@ -1,11 +1,13 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {View, StyleSheet, FlatList, Dimensions, BackHandler } from "react-native";
 import {TAGS} from "../dummy-data/data"
 import TagCard from '../components/TagCard';
+import themeContext from '../config/themeContext';
 
 const Etiqueta = (props) =>{
+	const theme = useContext(themeContext);
 	return (
-		<View style={styles.container}>
+		<View style={[{backgroundColor: theme.background}]}>
 			<View style={styles.listContainer}>
 				<FlatList
 					data={TAGS}
@@ -24,9 +26,6 @@ const Etiqueta = (props) =>{
 export default Etiqueta;
 
 const styles = StyleSheet.create({
-	container: {
-		backgroundColor:'white',
-	},
 	text:{
 		fontSize:20
 	},

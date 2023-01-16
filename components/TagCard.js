@@ -1,21 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { StyleSheet, View, Text, Image, Dimensions, TouchableWithoutFeedback,FlatList,TouchableNativeFeedback } from "react-native";
 import TouchableCmp from "./UI/TouchableCmp";
 import { Feather } from '@expo/vector-icons'; 
+import themeContext from '../config/themeContext';
 
 
 const TagCard = (props) => {
+    const theme = useContext(themeContext);
     const nombre = props.productInfo.nombre
     const color = props.productInfo.color
     const desc = props.productInfo.descripcion
 	return (
         <View style={styles.container}>
             <Text style={{color:color,fontSize:0}}>{color}=color</Text>
-            <View style={styles.cont}>
+            <View style={[styles.cont,{borderColor: theme.linea}]}>
                 <View style={{backgroundColor:color, height:65, width:65, borderRadius:50, 
                 position:"absolute", marginTop:12}}></View>
-                <Text style={styles.text}>{nombre}</Text>
-                <Text style={styles.text2}>{desc}</Text>
+                <Text style={[styles.text, {color: theme.color}]}>{nombre}</Text>
+                <Text style={[styles.text2, {color: theme.color}]}>{desc}</Text>
             </View>
         </View>
   );
@@ -33,7 +35,6 @@ const styles = StyleSheet.create({
         height:100, 
         width:'92%',
         borderBottomWidth:1, 
-        borderBottomColor:'#DDDDDD',
     },
 	text:{
         marginTop:5,

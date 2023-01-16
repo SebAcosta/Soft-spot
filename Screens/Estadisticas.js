@@ -1,6 +1,8 @@
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import { Dimensions } from "react-native";
 import Header from '../components/header2'
+import themeContext from '../config/themeContext';
+import React,{useState,useContext} from 'react';
 import {
 	LineChart,
 	BarChart,
@@ -97,8 +99,9 @@ const screenWidth = Dimensions.get("window").width*.95;
 const screenWidth2 = Dimensions.get("window").width*.90;
 
 export default function Estadisticas() {
+	const theme = useContext(themeContext);
 	return (
-		<ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+		<ScrollView style={[styles.container, {backgroundcolor: theme.background}]} contentContainerStyle={[styles.contentContainer]}>
 			<View style={styles.ingresos}>
 				<Text style={styles.ing}>Ingresos actuales</Text>
 				<Text style={styles.dinero}>$500,000.00</Text>
@@ -174,7 +177,6 @@ export default function Estadisticas() {
 
 const styles = StyleSheet.create({
 	container: {
-		backgroundColor:'white',
 		flex:1,
 	},
 	ingresos:{
