@@ -12,8 +12,8 @@ export default function App() {
 	const [mode, setMode] = useState(false);
 
 	useEffect(function (){
-		async function init(){
-			await initDatabase();
+		function init(){
+			initDatabase();
 		}
 		init();
 	}, []);

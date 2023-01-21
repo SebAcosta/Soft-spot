@@ -5,14 +5,14 @@ const MY_DATABASE = 'soft-spot.db';
 
 
 //Creamos conexión
-export async function getDbConnection(){
-    const db = await SQLite.openDatabase({name: MY_DATABASE});
+export function getDbConnection(){
+    const db = SQLite.openDatabase({name: MY_DATABASE});
     console.log("Conectando a la BDD...")
     return db;
 }
 
 //Creamos las tablas
-export async function createTables(db){
+export function createTables(db){
     const query = `CREATE TABLE IF NOT EXISTS articulo (idArticulo INTEGER PRIMARY KEY AUTOINCREMENT, nombreArticulo VARCHAR(50), descArt VARCHAR(200), cantidad INTEGER(3), cantidadCrit INTEGER(3), precio DOUBLE(6,2))`;
     console.log("Tabla ARTICULO creada");
     return db.transaction(tx => {tx.executeSql(query)});
@@ -31,17 +31,17 @@ export async function createEtiquetas(db){
 }
 
 //Inicializamos la BD
-export async function initDatabase(){
-    const db = await getDbConnection();
-    await createTables(db);
-    await createGrupos(db);
-    await createEtiquetas(db);
+export function initDatabase(){
+    const db = getDbConnection();
+    createTables(db);
+    // createGrupos(db);
+    // createEtiquetas(db);
     console.log("Base de datos lista")
-    db.closeAsync();
+    // db.closeAsync();
 }
 
 //Inserts
-export async function insertArticulo(db, nombreArticulo, descArt, cantidad, cantidadCrit, precio){
+export function insertArticulo(db, nombreArticulo, descArt, cantidad, cantidadCrit, precio){
     const insertQuery = `INSERT INTO articulo (nombreArticulo,descArt,cantidad,cantidadCrit,precio) VALUES ('${nombreArticulo}','${descArt}','${cantidad}','${cantidadCrit}','${precio}');`
     console.log(`Insertando en ARTICULO: '${nombreArticulo}','${descArt}','${cantidad}','${cantidadCrit}','${precio}'`);
     return db.transaction(tx=> {tx.executeSql(insertQuery)});

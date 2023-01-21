@@ -57,7 +57,7 @@ export default function AgregarArticulo(){
   }
 
   //Crear en la BD
-  async function createArticulo(){
+  function createArticulo(){
     if(articulo.nombreArticulo === ''){
       Alert.alert(
         'Error',
@@ -67,8 +67,8 @@ export default function AgregarArticulo(){
       return;
     }
     try{
-      const db = await getDbConnection();
-      await insertArticulo(db, articulo.nombreArticulo, articulo.descArt, articulo.cantidad, articulo.cantidadCrit, articulo.precio);
+      const db = getDbConnection();
+      insertArticulo(db, articulo.nombreArticulo, articulo.descArt, articulo.cantidad, articulo.cantidadCrit, articulo.precio);
       Alert.alert(
         'Artículo creado',
         `"${articulo.nombreArticulo}" agregado con éxito.`,
@@ -77,7 +77,7 @@ export default function AgregarArticulo(){
             //onPress: AGREGAR FUNCION QUE REGRESE A LA PANTALLA DE INICIO
           }]
       );
-      db.closeAsync();
+      // db.closeAsync();
     }catch (e){
       Alert.alert(
         'Error al crear artículo',
