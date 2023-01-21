@@ -16,7 +16,7 @@ const chartConfig = {
 	backgroundGradientFrom: "#FFFFFF",
 	backgroundGradientFromOpacity: 0,
 	backgroundGradientTo: "#FFFFFF",
-	backgroundGradientToOpacity: 0.5,
+	backgroundGradientToOpacity: 0,
 	color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
 	strokeWidth: 3, // optional, default 3
 	barPercentage: 0.5,
@@ -101,13 +101,13 @@ const screenWidth2 = Dimensions.get("window").width*.90;
 export default function Estadisticas() {
 	const theme = useContext(themeContext);
 	return (
-		<ScrollView style={[styles.container, {backgroundcolor: theme.background}]} contentContainerStyle={[styles.contentContainer]}>
+		<ScrollView style={[styles.container, {backgroundColor: theme.background}]} contentContainerStyle={[styles.contentContainer]}>
 			<View style={styles.ingresos}>
 				<Text style={styles.ing}>Ingresos actuales</Text>
 				<Text style={styles.dinero}>$500,000.00</Text>
 			</View>
-			<View style={styles.line}>
-				<LineChart
+			<View style={[styles.line, {backgroundColor: theme.grafico, width:screenWidth, marginLeft:10}]}>
+				<LineChart 
 					data={data}
 					width={screenWidth}
 					height={220}
@@ -128,7 +128,7 @@ export default function Estadisticas() {
 			<View style={styles.sub}>
 				<Text style={styles.subTxt}>Categoría</Text>
 			</View>
-			<View style={styles.pie}>
+			<View style={[styles.pie,]}>
 				<PieChart
 					data={data2}
 					width={screenWidth}
@@ -152,7 +152,7 @@ export default function Estadisticas() {
 			<View style={styles.sub}>
 				<Text style={styles.subTxt}>Productos</Text>
 			</View>
-			<View style={styles.bar}>
+			<View style={[styles.bar, {backgroundColor: theme.grafico, width:screenWidth, marginLeft:9}]}>
 				<BarChart
 					style={graphStyle}
 					data={data3}

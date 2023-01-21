@@ -5,6 +5,7 @@ import {EvilIcons} from '@expo/vector-icons';
 import Svg, { Ellipse } from "react-native-svg";
 import { login } from '../Service/Api';
 import { LoginContext } from '../Context/LoginContext';
+import themeContext from '../config/themeContext';
 
 const oInitState = {
 	email:'',
@@ -14,6 +15,7 @@ const oInitState = {
 };
 
 const IniciarSesion = (props) => {
+  const theme = useContext(themeContext);
   const [data, setData] = useState(oInitState);
 	const { iniciarSesion } = useContext(LoginContext);
 	const  mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -46,7 +48,7 @@ const IniciarSesion = (props) => {
 					});
 
 				if (response?.data?.ok) {
-					iniciarSesion(response.data.token); //aquí debería ser .message
+					iniciarSesion(response.data.message); //aquí debería ser .message
 				}else{
           Alert.alert(
             'Datos incorrectos',
@@ -108,10 +110,10 @@ const IniciarSesion = (props) => {
     animationType='slide'
     visible={modalVisible}
     >
-        <SafeAreaView style={styles.contenido}>
+        <SafeAreaView style={[styles.contenido, {backgroundColor: theme.backgroun}]}>
           <SvgTop/>
             <Text
-            style={styles.titulo}
+            style={[styles.titulo, {color: theme.color}]}
             >
             Iniciar Sesión    
             </Text>
@@ -121,13 +123,13 @@ const IniciarSesion = (props) => {
             </Text>
             
             <View style={styles.input}>
-              <EvilIcons name="envelope" size={40} color={"white"} />
-              <TextInput placeholder="e-mail" placeholderTextColor={"#858585"} style={styles.inputtxt} onChangeText={handleEmailChange}/>
+              <EvilIcons name="envelope" size={40} style={[{color:theme.icono}]}/>
+              <TextInput placeholder="e-mail" placeholderTextColor={"#858585"} style={[styles.inputtxt, {color: theme.color}]} onChangeText={handleEmailChange}/>
             </View>
 
             <View style={styles.input}>
-              <EvilIcons name="lock" size={40} color={"white"} />
-              <TextInput placeholder="Contraseña" placeholderTextColor={"#858585"} style={styles.inputtxt} onChangeText={handlePasswordChange}/>
+              <EvilIcons name="lock" size={40} style={[{color:theme.icono}]}/>
+              <TextInput placeholder="Contraseña" placeholderTextColor={"#858585"} style={[styles.inputtxt, {color: theme.color}]} onChangeText={handlePasswordChange}/>
             </View>
 
             <View style={styles.botones}>
@@ -137,7 +139,7 @@ const IniciarSesion = (props) => {
                 style={styles.btnRegresar}
                 >
                 <Text
-                style={styles.btnRegresarTxt}
+                style={[styles.btnRegresarTxt, {color: theme.icono}]}
                 >Regresar</Text>
             </TouchableOpacity>
 
@@ -157,7 +159,6 @@ const IniciarSesion = (props) => {
 
 const styles = StyleSheet.create({
     contenido: {
-        backgroundColor:'#262626',
         flex: 1,
     },
     titulo: {
@@ -166,7 +167,6 @@ const styles = StyleSheet.create({
         textAlign:'left',
         marginTop:70,
         marginHorizontal:25,
-        color:'#FFFFFF',
     },
     subtitulo: {
         fontSize:20,
@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
         textAlign:'left',
         marginHorizontal:25,
         marginTop:3,
-        color: 'red',
+        color: '#f23232',
         marginBottom:50
 
     },
@@ -191,10 +191,8 @@ const styles = StyleSheet.create({
         
     },
     inputtxt:{
-        
         fontSize:18,
         marginLeft:6,
-        color:'#FFFFFF'    
     },
     btnInicio: {
       backgroundColor:'#F23232',
@@ -216,7 +214,6 @@ const styles = StyleSheet.create({
   },btnRegresarTxt:{
 
       textAlign: "center",
-      color:'#FFF',
       fontSize:17,
       fontWeight:'900',
       textDecorationLine: 'underline',
