@@ -4,6 +4,8 @@ import {EvilIcons} from '@expo/vector-icons';
 import Svg, { Ellipse } from "react-native-svg";
 import { login, signin } from '../Service/Api';
 import { LoginContext } from '../Context/LoginContext';
+import themeContext from '../config/themeContext';
+import { color } from 'react-native-reanimated';
 
 const oInitState = {
 	nombre:'',
@@ -17,6 +19,7 @@ const oInitState = {
 };
 
 const CrearCuenta = (props) => {
+  const theme = useContext(themeContext);
   const [data, setData] = useState(oInitState);
   const { iniciarSesion } = useContext(LoginContext);
 	const  mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -137,10 +140,10 @@ const CrearCuenta = (props) => {
     visible={modalVisible}
     >
        
-        <SafeAreaView style={styles.contenido}>
+        <SafeAreaView style={[styles.contenido, {backgroundColor:theme.background}]}>
         <SvgTop/>
             <Text
-            style={styles.titulo}
+            style={[styles.titulo, {color:theme.color}]}
             >
              Crea tu cuenta!    
             </Text>
@@ -150,24 +153,24 @@ const CrearCuenta = (props) => {
             </Text>
 
             <View style={styles.input}>
-              <EvilIcons name="user" size={40} color={"white"} />
-              <TextInput placeholder="Nombre" placeholderTextColor={"#858585"} style={styles.inputtxt} onChangeText={handleNombreChange}/>
+              <EvilIcons name="user" size={40} style={[{color:theme.icono}]}/>
+              <TextInput placeholder="Nombre" placeholderTextColor={"#858585"} style={[styles.inputtxt,{color: theme.color}]} onChangeText={handleNombreChange}/>
             </View>
 
             <View style={styles.input}>
-              <EvilIcons name="envelope" size={40} color={"white"} />
-              <TextInput placeholder="e-mail" placeholderTextColor={"#858585"} style={styles.inputtxt} onChangeText={handleEmailChange}/>
+              <EvilIcons name="envelope" size={40} style={[{color:theme.icono}]}/>
+              <TextInput placeholder="e-mail" placeholderTextColor={"#858585"} style={[styles.inputtxt, {color: theme.color}]} onChangeText={handleEmailChange}/>
             </View>
 
 
             <View style={styles.input}>
-              <EvilIcons name="lock" size={40} color={"white"} />
-              <TextInput placeholder="Contraseña" placeholderTextColor={"#858585"} style={styles.inputtxt} onChangeText={handlePasswordChange}/>
+              <EvilIcons name="lock" size={40} style={[{color:theme.icono}]} />
+              <TextInput placeholder="Contraseña" placeholderTextColor={"#858585"} style={[styles.inputtxt, {color: theme.color}]} onChangeText={handlePasswordChange}/>
             </View>
 
             <View style={styles.input}>
-              <EvilIcons name="lock" size={40} color={"white"} />
-              <TextInput placeholder="Confirmar contraseña" placeholderTextColor={"#858585"} style={styles.inputtxt} onChangeText={handleValidChange}/>
+              <EvilIcons name="lock" size={40} style={[{color:theme.icono}]}/>
+              <TextInput placeholder="Confirmar contraseña" placeholderTextColor={"#858585"} style={[styles.inputtxt, {color: theme.color}]} onChangeText={handleValidChange}/>
             </View>
 
             <View style={styles.botones}>
@@ -177,7 +180,7 @@ const CrearCuenta = (props) => {
             style={styles.btnAtras}
             >
               <Text
-              style={styles.btnAtrasTxt}
+              style={[styles.btnAtrasTxt, {color: theme.color}]}
               >Ya tengo cuenta</Text>
            </TouchableOpacity> 
 
@@ -209,7 +212,6 @@ const styles = StyleSheet.create({
         textAlign:'left',
         marginTop:50,
         marginHorizontal:25,
-        color:'#FFFFFF',
     },
     subtitulo: {
         fontSize:20,
@@ -217,7 +219,7 @@ const styles = StyleSheet.create({
         textAlign:'left',
         marginHorizontal:25,
         marginTop:3,
-        color: 'red',
+        color: '#f23232',
         marginBottom:50
 
     },
@@ -233,11 +235,9 @@ const styles = StyleSheet.create({
         zIndex:-1,
         
     },
-    inputtxt:{
-        
+    inputtxt:{  
         fontSize:18,
-        marginLeft:6,
-        color:'#FFFFFF'     
+        marginLeft:6,    
     },
     btnSiguiente: {
       backgroundColor:'#F23232',
@@ -257,7 +257,6 @@ const styles = StyleSheet.create({
       flex: 1,
       alignItems: 'center',
       justifyContent: 'center',
-      backgroundColor:'#262626',
       marginTop:50,
       marginLeft:15,
       marginRight:9,
@@ -267,7 +266,6 @@ const styles = StyleSheet.create({
   },
   btnAtrasTxt:{
       textAlign: "center",
-      color:'#FFF',
       fontSize:17,
       fontWeight:'900',
       textDecorationLine: 'underline',

@@ -10,7 +10,9 @@ export default function Softspot() {
     return (
         <SafeAreaView style={[styles.container, {backgroundColor: theme.background}]}>
           <View style={[styles.container2, ]}>
+            <View style={[styles.containerImg, {backgroundColor:theme.img}]}>
             <Image source={require('../assets/softspot-logo.png')} style={styles.img}/>
+            </View>
             <Text style={[styles.text, {color: theme.color}]}>Soft Spot es una empresa desarrolladora 
             de software que ayuda a que tu vida sea mas simple al sistematizar una 
             solucion para tu problema.</Text>
@@ -30,9 +32,17 @@ const styles = StyleSheet.create({
       marginTop:'10%', 
       alignItems:"center"
     },
+    containerImg:{
+      width: 310,
+      height: 170,
+      alignItems:"center",
+      justifyContent:"center",
+      marginBottom:12,
+      borderRadius:20
+    },
     img:{
         height:170,
-        marginBottom:10
+        marginBottom:10,
     },
     text:{
       fontSize:17, 

@@ -3,8 +3,10 @@ import { ImageBackground ,StyleSheet, Text, View, TouchableOpacity,SafeAreaView,
 import IniciarSesion from "./IniciarSesion";
 import CrearCuenta from "./CrearCuenta";
 import Svg, { Ellipse} from "react-native-svg";
-export default function Login() {
+import themeContext from '../config/themeContext';
 
+export default function Login() {
+	const theme = useContext(themeContext);
 	const [modalVisible, setModalVisible] = useState(false)
 	const [modalVisible2, setModalVisible2] = useState(false)
 	
@@ -37,7 +39,7 @@ export default function Login() {
     }
 
 	return (
-		<SafeAreaView style={styles.container} >
+		<SafeAreaView style={[styles.container, {backgroundColor: theme.background}]} >
 			<SvgTop/>
 			
 			<Image source={require('../assets/coiLogo.png')} style={styles.logo}/>
@@ -73,7 +75,6 @@ export default function Login() {
 
 const styles = StyleSheet.create({
 	container: {
-		backgroundColor:'white',
 		flex: 1,
 	  },
 	  text: {

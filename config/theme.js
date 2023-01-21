@@ -5,7 +5,10 @@ const theme = {
         background: "white",
         linea: "#DDDDDD",
         icon: "white",
-        text2:"#858585"
+        text2:"#858585",
+        grafico: "white",
+        img:"white",
+        icono: "#262626"
         
     },
     dark:{
@@ -14,7 +17,10 @@ const theme = {
         background: "#262626",
         linea: "#3F3D3D",
         icon: "black",
-        text2:"white"
+        text2:"white",
+        grafico:"#393838",
+        img:"#949191",
+        icono: "white"
     }
 
 };
