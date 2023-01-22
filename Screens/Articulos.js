@@ -45,7 +45,7 @@ const Articulos = (props) =>{
 			<View style={styles.listContainer}>
 				<FlatList
 					// para ver como se debería ver, poner data={PRODUCTS}
-					data={PRODUCTS} 
+					data={articulos} 
 					showsVerticalScrollIndicator={false}
 					keyExtractor={item => item.idArticulo}
 					renderItem= {itemData => (
