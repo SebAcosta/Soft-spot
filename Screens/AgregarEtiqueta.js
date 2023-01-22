@@ -5,8 +5,9 @@ import {EvilIcons,MaterialIcons} from '@expo/vector-icons';
 import {ColorPicker} from 'react-native-color-picker';
 import { getDbConnection, insertEtiqueta } from '../src/utils/db';
 import themeContext from '../config/themeContext';
+import * as SQLite from 'expo-sqlite';
 
-export default function AgregarEtiqueta() {
+export default function AgregarEtiqueta(props) {
   const theme = useContext(themeContext);
   const [colorVisible, setColorVisible] = useState(false);
   const [capColor, setCapColor] = useState('#000');
@@ -42,17 +43,24 @@ export default function AgregarEtiqueta() {
       return;
     }
     try{
-      const db = await getDbConnection();
-      await insertEtiqueta(db, etiqueta.nombreEtiqueta, etiqueta.descEtiqueta);
+      const db = SQLite.openDatabase('soft-spot.db');
+      db.transaction(tx=>{
+        tx.executeSql('INSERT INTO etiqueta (nombreEtiqueta,descEtiqueta) VALUES (?,?)', [etiqueta.nombreEtiqueta,etiqueta.descEtiqueta],);
+      },(error)=>{
+        console.log(error);
+      },()=>{
+        console.log(`Etiqueta ${etiqueta.nombreEtiqueta} agregado a la BDD`)
+      }
+      )
       Alert.alert(
         'Etiqueta creado',
         `"${etiqueta.nombreEtiqueta}" agregado con éxito.`,
         [{
-            text: 'Ok'
-            //onPress: AGREGAR FUNCION QUE REGRESE A LA PANTALLA DE INICIO
+            text: 'Ok',
+            onPress: () => props.navigation.navigate("drawer")
           }]
       );
-      db.closeAsync();
+      // db.closeAsync();
     }catch (e){
       Alert.alert(
         'Error al crear etiqueta',

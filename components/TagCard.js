@@ -7,9 +7,9 @@ import themeContext from '../config/themeContext';
 
 const TagCard = (props) => {
     const theme = useContext(themeContext);
-    const nombre = props.productInfo.nombre
-    const color = props.productInfo.color
-    const desc = props.productInfo.descripcion
+    const nombre = props.productInfo.nombreEtiqueta
+    const color = "#77DD77"
+    const desc = props.productInfo.descEtiqueta
 	return (
         <View style={styles.container}>
             <Text style={{color:color,fontSize:0}}>{color}=color</Text>
