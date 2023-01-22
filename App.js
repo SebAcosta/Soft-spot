@@ -6,6 +6,8 @@ import { initDatabase } from './src/utils/db';
 import { EventRegister } from 'react-native-event-listeners';
 import themeContext from './config/themeContext';
 import theme from './config/theme';
+import * as SQLite from 'expo-sqlite';
+
 
 
 export default function App() {
@@ -13,7 +15,15 @@ export default function App() {
 
 	useEffect(function (){
 		function init(){
-			initDatabase();
+			// initDatabase();
+			const db = SQLite.openDatabase('soft-spot.db');
+			db.transaction(tx=>{
+				tx.executeSql('CREATE TABLE IF NOT EXISTS articulo (idArticulo INTEGER PRIMARY KEY AUTOINCREMENT, nombreArticulo VARCHAR(50), descArt VARCHAR(200), cantidad INTEGER(3), cantidadCrit INTEGER(3), precio DOUBLE(6,2))');
+			},(error)=>{
+				console.log(error);
+			},()=>{
+				console.log('Tabla articulo creada correctamente');
+			})
 		}
 		init();
 	}, []);

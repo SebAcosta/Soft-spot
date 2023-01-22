@@ -9,13 +9,13 @@ import themeContext from '../config/themeContext';
 const ProductCard = (props) => {
 	const theme = useContext(themeContext);
 	const img = props.productInfo.img
-	const nombre = props.productInfo.nombre
-	const presen = props.productInfo.presen
+	const nombre = props.productInfo.nombreArticulo
+	const presen = props.productInfo.descArt
 	const cantidad = props.productInfo.cantidad
-	const costo = props.productInfo.costo
+	const costo = props.productInfo.precio
 	const fav = props.productInfo.fav
 	const etiquetas = props.productInfo.etiquetas
-	const min = props.productInfo.min
+	const min = props.productInfo.cantidadCrit
 	const [isModalVisible, setModalVisible] = useState(false);
 	const [name,setName] = useState('')
 	const modal = () => {
@@ -42,9 +42,13 @@ const ProductCard = (props) => {
 						/>:<Entypo name='star-outlined' size={30} style={[{color: theme.color}]}/>}
 					</View>
 					<View>
+						{etiquetas?
 						<View style={styles.etiqueta}>
 							<Text style={styles.etText}>{etiquetas}</Text>
 						</View>
+						:
+						null
+						}
 					</View>
 				</View>
 			</TouchableNativeFeedback>

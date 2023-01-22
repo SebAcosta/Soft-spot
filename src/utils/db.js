@@ -15,7 +15,7 @@ export function getDbConnection(){
 export function createTables(db){
     const query = `CREATE TABLE IF NOT EXISTS articulo (idArticulo INTEGER PRIMARY KEY AUTOINCREMENT, nombreArticulo VARCHAR(50), descArt VARCHAR(200), cantidad INTEGER(3), cantidadCrit INTEGER(3), precio DOUBLE(6,2))`;
     console.log("Tabla ARTICULO creada");
-    return db.transaction(tx => {tx.executeSql(query)});
+    return db.transaction(tx => {tx.executeSql(query)},(error)=>{console.log(error)},()=>{console.log("SE CREO CORRECTAMENTE ARTICULO")});
 }
 
 export async function createGrupos(db){
@@ -36,21 +36,30 @@ export function initDatabase(){
     createTables(db);
     // createGrupos(db);
     // createEtiquetas(db);
-    console.log("Base de datos lista")
+    console.log("Base de datos lista");
     // db.closeAsync();
 }
 
 //Inserts
 export function insertArticulo(db, nombreArticulo, descArt, cantidad, cantidadCrit, precio){
-    const insertQuery = `INSERT INTO articulo (nombreArticulo,descArt,cantidad,cantidadCrit,precio) VALUES ('${nombreArticulo}','${descArt}','${cantidad}','${cantidadCrit}','${precio}');`
-    console.log(`Insertando en ARTICULO: '${nombreArticulo}','${descArt}','${cantidad}','${cantidadCrit}','${precio}'`);
-    return db.transaction(tx=> {tx.executeSql(insertQuery)});
+    // const insertQuery = `INSERT INTO articulo (nombreArticulo,descArt,cantidad,cantidadCrit,precio) VALUES ('${nombreArticulo}','${descArt}',${cantidad},${cantidadCrit},${precio});`
+    // // console.log(`Insertando en ARTICULO: '${nombreArticulo}','${descArt}','${cantidad}','${cantidadCrit}','${precio}'`);
+    // console.log(insertQuery);
+    // return db.transaction(tx=> {tx.executeSql(insertQuery)},(error)=>{console.log(error)},()=>{console.log('Data inserted succesfully')});
+
+    db.transaction(tx=>{
+        tx.executeSql('INSERT INTO articulo (nombreArticulo,descArt,cantidad,cantidadCrit,precio) VALUES (?,?,?,?,?)',[nombreArticulo,descArt,cantidad,cantidadCrit,precio],);
+    },(error)=>{
+        console.log(error);
+    },()=>{
+        console.log('Darta inserted successfully');
+    })
 }
 
 export async function insertGrupo(db, nombreGrupo, descGrupo){
     const insertQuery = `INSERT INTO grupo (nombreGrupo,descGrupo) VALUES ('${nombreGrupo}','${descGrupo}');`
     console.log(`Insertando en GRUPO: '${nombreGrupo}','${descGrupo}'`);
-    return db.transaction(tx=> {tx.executeSql(insertQuery)});
+    return db.transaction(tx=> {tx.executeSql(insertQuery)},(error)=>{console.log(error)},()=>{console.log('Data inserted succesfully')});
 }
 
 export async function insertEtiqueta(db, nombreEtiqueta, descEtiqueta){

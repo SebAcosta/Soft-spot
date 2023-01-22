@@ -4,8 +4,9 @@ import React, { useState, useContext } from 'react';
 import {Ionicons} from '@expo/vector-icons';
 import { getDbConnection, insertArticulo } from '../src/utils/db';
 import themeContext from '../config/themeContext';
+import * as SQLite from 'expo-sqlite';
 
-export default function AgregarArticulo(){
+export default function AgregarArticulo(props){
   const theme = useContext(themeContext);
   const [selected, setSelected] = React.useState("Ninguna");
   const data=[
@@ -67,14 +68,20 @@ export default function AgregarArticulo(){
       return;
     }
     try{
-      const db = getDbConnection();
-      insertArticulo(db, articulo.nombreArticulo, articulo.descArt, articulo.cantidad, articulo.cantidadCrit, articulo.precio);
+      const db = SQLite.openDatabase('soft-spot.db');
+      db.transaction(tx=>{
+          tx.executeSql('INSERT INTO ARTICULO (nombreArticulo,descArt,cantidad,cantidadCrit,precio) VALUES (?,?,?,?,?)',[articulo.nombreArticulo,articulo.descArt,articulo.cantidad,articulo.cantidadCrit,articulo.precio],);
+      },(error)=>{
+          console.log(error);
+      },()=>{
+          console.log('Darta inserted successfully');
+      })
       Alert.alert(
         'Artículo creado',
         `"${articulo.nombreArticulo}" agregado con éxito.`,
         [{
-            text: 'Ok'
-            //onPress: AGREGAR FUNCION QUE REGRESE A LA PANTALLA DE INICIO
+            text: 'Ok',
+            onPress: () => props.navigation.navigate("drawer")
           }]
       );
       // db.closeAsync();

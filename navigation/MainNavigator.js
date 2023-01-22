@@ -13,7 +13,7 @@ import AgregarGrupo from '../Screens/AgregarGrupo';
 import AgregarEtiqueta from '../Screens/AgregarEtiqueta';
 import Login from '../Screens/Login';
 import IniciarSesion from '../Screens/IniciarSesion';
-import Registrar from '../Screens/Registrar';
+import CrearCuenta from '../Screens/CrearCuenta';
 import Header2 from '../components/header2';
 import header from '../components/header';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -111,7 +111,7 @@ export const StackNavigator = (props) =>{
 					{ !isAuth ?
 						<>
 							<Stack.Screen name="Login" component={Login}/>
-							<Stack.Screen name="Registrar" component={Registrar}/>
+							<Stack.Screen name="CrearCuenta" component={CrearCuenta}/>
 							<Stack.Screen name="IniciarSesion" component={IniciarSesion}/>
 						</>
 					:

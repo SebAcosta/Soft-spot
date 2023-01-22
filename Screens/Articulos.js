@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {View, StyleSheet, FlatList, Dimensions, BackHandler } from "react-native";
+import {View, StyleSheet, FlatList, Dimensions, BackHandler,Text } from "react-native";
 import Header from '../components/header'
 import {PRODUCTS} from "../dummy-data/data"
 import ProductCard from '../components/ProductCard';
@@ -13,42 +13,48 @@ import { useFocusEffect } from '@react-navigation/native';
 const Articulos = (props) =>{
 	const theme = useContext(themeContext);
 	// const db = SQLite.openDatabase('soft-spot.db');
-	const db = getDbConnection();
+	//const db = getDbConnection();
 
 	const [articulos, setArticulos] = useState([]);
 
 	useEffect(()=>{
+		const db = SQLite.openDatabase('soft-spot.db');
 		db.transaction(tx => {
 			tx.executeSql('SELECT * FROM articulo', null,
 			(txObj, resultSet) => setArticulos(resultSet.rows._array),
 			(txObj, error) => console.log(error)
 			);
 		});
-	}, []);
+	}, [articulos]);
 
 	const showArticulos = ()=>{
 		return articulos.map((articulo, index) => {
 			return(
 				<View key={index}>
 					<Text>{articulo.nombreArticulo}</Text>
+					<Text>{articulo.descArt}</Text>
+					<Text>{articulo.cantidad}</Text>
+					<Text>{articulo.cantidadCrit}</Text>
+					<Text>{articulo.precio}</Text>
 				</View>
 			)
 		})
 	}
 	return (
 		<View style={[{backgroundColor: theme.background}]}>
-			{/* <View style={styles.listContainer}> */}
-				{/* <FlatList
-					data={PRODUCTS}
+			<View style={styles.listContainer}>
+				<FlatList
+					// para ver como se debería ver, poner data={PRODUCTS}
+					data={PRODUCTS} 
 					showsVerticalScrollIndicator={false}
-					keyExtractor={item => item.id.toString()}
+					keyExtractor={item => item.idArticulo}
 					renderItem= {itemData => (
 						<ProductCard {...props} productInfo={itemData.item}/>
 					)}
-				/> */}
+				/>
 
-			{/* </View> */}
-			{showArticulos()}
+			</View>
+			{/* {showArticulos()} */}
 		</View>
   );
 }
