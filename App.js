@@ -19,10 +19,13 @@ export default function App() {
 			const db = SQLite.openDatabase('soft-spot.db');
 			db.transaction(tx=>{
 				tx.executeSql('CREATE TABLE IF NOT EXISTS articulo (idArticulo INTEGER PRIMARY KEY AUTOINCREMENT, nombreArticulo VARCHAR(50), descArt VARCHAR(200), cantidad INTEGER(3), cantidadCrit INTEGER(3), precio DOUBLE(6,2))');
+				tx.executeSql('CREATE TABLE IF NOT EXISTS grupo (idGrupo INTEGER PRIMARY KEY AUTOINCREMENT, nombreGrupo VARCHAR(50), descGrupo VARCHAR(200))');
 			},(error)=>{
 				console.log(error);
 			},()=>{
-				console.log('Tabla articulo creada correctamente');
+				console.log('Tabla articulo creada');
+				console.log('Tabla grupo creada');
+				// db.closeAsync();
 			})
 		}
 		init();

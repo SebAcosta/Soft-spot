@@ -1,12 +1,11 @@
-import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, SafeAreaView, TextInput, Alert, View, TouchableOpacity} from 'react-native';
 import React,{useState, useContext} from 'react';
 import {EvilIcons,MaterialIcons,FontAwesome5} from '@expo/vector-icons';
 import {ColorPicker} from 'react-native-color-picker';
-import { getDbConnection, insertGrupo } from '../src/utils/db';
 import themeContext from '../config/themeContext';
+import * as SQLite from 'expo-sqlite';
 
-export default function AgregarGrupo() {
+export default function AgregarGrupo(props) {
   const theme = useContext(themeContext);
   const [colorVisible, setColorVisible] = useState(false);
   const [capColor, setCapColor] = useState('#000');
@@ -32,7 +31,7 @@ export default function AgregarGrupo() {
   }
 
   //Crear en la BDD
-  async function createGrupo(){
+  function createGrupo(){
     if(grupo.nombreGrupo === ''){
       Alert.alert(
         'Error',
@@ -42,17 +41,23 @@ export default function AgregarGrupo() {
       return;
     }
     try{
-      const db = await getDbConnection();
-      await insertGrupo(db, grupo.nombreGrupo, grupo.descGrupo);
+      const db = SQLite.openDatabase('soft-spot.db');
+      db.transaction(tx=>{
+        tx.executeSql('INSERT INTO grupo (nombreGrupo,descGrupo) VALUES (?,?)',[grupo.nombreGrupo,grupo.descGrupo],);
+    },(error)=>{
+        console.log(error);
+    },()=>{
+      console.log(`Grupo ${grupo.nombreGrupo} agregado a la BDD`);
+    })
       Alert.alert(
         'Grupo creado',
         `"${grupo.nombreGrupo}" agregado con éxito.`,
         [{
-            text: 'Ok'
-            //onPress: AGREGAR FUNCION QUE REGRESE A LA PANTALLA DE INICIO
+            text: 'Ok',
+            onPress: () => props.navigation.navigate("drawer")
           }]
       );
-      db.closeAsync();
+      // db.closeAsync();
     }catch (e){
       Alert.alert(
         'Error al crear grupo',

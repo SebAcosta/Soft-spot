@@ -74,7 +74,7 @@ export default function AgregarArticulo(props){
       },(error)=>{
           console.log(error);
       },()=>{
-          console.log('Darta inserted successfully');
+          console.log(`Articulo ${articulo.nombreArticulo} agregado a la BDD`);
       })
       Alert.alert(
         'Artículo creado',
