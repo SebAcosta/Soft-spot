@@ -5,8 +5,8 @@ import { Feather } from '@expo/vector-icons';
 
 
 const GroupCard = (props) => {
-    const nombre = props.productInfo.nombre
-    const color = props.productInfo.color
+    const nombre = props.productInfo.nombreGrupo
+    const color = "#77DD77"
 	return (
         <View style={styles.container}>
             <Text style={{color:color, position:"absolute"}}>{color}=color</Text>
