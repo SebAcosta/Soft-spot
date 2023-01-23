@@ -5,6 +5,7 @@ import {GROUPS} from "../dummy-data/data"
 import themeContext from '../config/themeContext';
 import React,{useState,useContext, useEffect} from 'react';
 import * as SQLite from 'expo-sqlite';
+import DefaultView from "../components/DefaultView";
 
 
 const Grupos=(props)=>{
@@ -24,7 +25,8 @@ const Grupos=(props)=>{
 	return (
 		<View style={[{backgroundColor: theme.background}]}>
 			<View style={styles.listContainer}>
-				<FlatList
+				{grupos!=''?
+					<FlatList
 					data={grupos}
 					numColumns={2}
 					showsVerticalScrollIndicator={false}
@@ -32,7 +34,10 @@ const Grupos=(props)=>{
 					renderItem= {itemData => (
 						<GroupCard {...props} productInfo={itemData.item}/>
 					)}
-				/>
+				/>:
+				<DefaultView/>
+				}
+				
 			</View>
 		</View>
 	);

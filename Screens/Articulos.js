@@ -4,6 +4,7 @@ import {PRODUCTS} from "../dummy-data/data"
 import ProductCard from '../components/ProductCard';
 import themeContext from '../config/themeContext';
 import * as SQLite from 'expo-sqlite';
+import DefaultView from '../components/DefaultView';
 
 
 const Articulos = (props) =>{
@@ -23,7 +24,8 @@ const Articulos = (props) =>{
 	return (
 		<View style={[{backgroundColor: theme.background}]}>
 			<View style={styles.listContainer}>
-				<FlatList
+				{articulos!=''?
+					<FlatList
 					// para ver como se debería ver, poner data={PRODUCTS}
 					data={articulos} 
 					showsVerticalScrollIndicator={false}
@@ -31,7 +33,9 @@ const Articulos = (props) =>{
 					renderItem= {itemData => (
 						<ProductCard {...props} productInfo={itemData.item}/>
 					)}
-				/>
+					/>:
+						<DefaultView/>
+				}
 			</View>
 		</View>
 	);

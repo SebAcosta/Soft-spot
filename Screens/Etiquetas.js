@@ -4,6 +4,7 @@ import {TAGS} from "../dummy-data/data"
 import TagCard from '../components/TagCard';
 import themeContext from '../config/themeContext';
 import * as SQLite from 'expo-sqlite';
+import DefaultView from '../components/DefaultView';
 
 const Etiqueta = (props) =>{
 	const theme = useContext(themeContext);
@@ -23,7 +24,8 @@ const Etiqueta = (props) =>{
 	return (
 		<View style={[{backgroundColor: theme.background}]}>
 			<View style={styles.listContainer}>
-				<FlatList
+				{etiquetas!=''?
+					<FlatList
 					data={etiquetas}
 					numColumns={1}
 					showsVerticalScrollIndicator={false}
@@ -31,7 +33,9 @@ const Etiqueta = (props) =>{
 					renderItem= {itemData => (
 						<TagCard {...props} productInfo={itemData.item}/>
 					)}
-				/>
+				/>:
+				<DefaultView/>
+				}
 			</View>
 		</View>
   );
