@@ -26,7 +26,7 @@ export default function App() {
 					(_,{rows:{_array}})=>{
 						if(_array.length === 0){
 							tx.executeSql(
-								'CREATE TABLE articulo (idArticulo INTEGER PRIMARY KEY AUTOINCREMENT, nombreArticulo VARCHAR(50), descArt VARCHAR(200), cantidad INTEGER(3), cantidadCrit INTEGER(3), precio DOUBLE(6,2), etiqueta VARCHAR(100), grupo VARCHAR(100), favorito TINYINT(1));',
+								'CREATE TABLE articulo (idArticulo INTEGER PRIMARY KEY AUTOINCREMENT, nombreArticulo VARCHAR(50), descArt VARCHAR(200), cantidad INTEGER(3), cantidadCrit INTEGER(3), precio DOUBLE(6,2), etiqueta VARCHAR(100), grupo VARCHAR(100), favorito TINYINT(1), img VARCHAR(600));',
 								[],
 								(_results)=>{
 									console.log('articulo creada')

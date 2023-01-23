@@ -2,6 +2,7 @@ import { StyleSheet, Text, SafeAreaView, TextInput, View, Alert, TouchableOpacit
 import { SelectList } from 'react-native-dropdown-select-list'
 import React, { useState, useContext, useEffect } from 'react';
 import {Ionicons} from '@expo/vector-icons';
+import {EvilIcons,MaterialIcons} from '@expo/vector-icons';
 import { getDbConnection, insertArticulo } from '../src/utils/db';
 import themeContext from '../config/themeContext';
 import * as SQLite from 'expo-sqlite';
@@ -142,6 +143,12 @@ export default function AgregarArticulo(props){
     <ScrollView style={[styles.container, {backgroundColor: theme.background}]} contentContainerStyle={[styles.contentContainer]}>
       <Text style={[styles.nota, {color: theme.color}]}>NOTA: Los campos con “*” son obligatorios</Text>
 
+      {/* Touchable para agregar imagen */}
+      <TouchableOpacity style={styles.camara} >
+        <Text style={styles.botonCamara} ></Text>
+        <MaterialIcons name="add-a-photo" size={35} color="grey" />
+      </TouchableOpacity>
+
       <View style={styles.circulo}>
         <Ionicons name="cube-outline" size={100} style={[{color: theme.icon}]}/>
       </View>
@@ -200,6 +207,24 @@ const styles = StyleSheet.create({
     marginRight:'8%',
     fontSize:11,
     marginBottom:20,
+  },
+  camara:{
+    position:'absolute',
+    zIndex:1,
+    justifyContent:'center',
+		alignItems:'center',
+    marginTop: "34.5%",
+    marginLeft: "45%",
+  },
+  botonCamara:{
+    position:'absolute',
+    zIndex:-1,
+    backgroundColor:"#dcdcdc",
+    borderColor:"#bebebe",
+    borderWidth:1,
+    width:50,
+    height:50,
+    borderRadius:100,
   },
   guardar:{
 		backgroundColor:'#77DD77',
