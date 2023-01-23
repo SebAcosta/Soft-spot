@@ -71,10 +71,9 @@ export default function AgregarArticulo(props){
       const db = SQLite.openDatabase('soft-spot.db');
       db.transaction(tx=>{
           tx.executeSql('INSERT INTO ARTICULO (nombreArticulo,descArt,cantidad,cantidadCrit,precio) VALUES (?,?,?,?,?)',[articulo.nombreArticulo,articulo.descArt,articulo.cantidad,articulo.cantidadCrit,articulo.precio],);
+          console.log(`Articulo: ${articulo.nombreArticulo} agregado a la BDD`);
       },(error)=>{
           console.log(error);
-      },()=>{
-          console.log(`Articulo ${articulo.nombreArticulo} agregado a la BDD`);
       })
       Alert.alert(
         'Artículo creado',
@@ -84,7 +83,6 @@ export default function AgregarArticulo(props){
             onPress: () => props.navigation.navigate("drawer")
           }]
       );
-      // db.closeAsync();
     }catch (e){
       Alert.alert(
         'Error al crear artículo',

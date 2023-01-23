@@ -17,17 +17,17 @@ export default function App() {
 		function init(){
 			// initDatabase();
 			const db = SQLite.openDatabase('soft-spot.db');
+			// db.closeAsync();
+			// db.deleteAsync();
 			db.transaction(tx=>{
 				tx.executeSql('CREATE TABLE IF NOT EXISTS articulo (idArticulo INTEGER PRIMARY KEY AUTOINCREMENT, nombreArticulo VARCHAR(50), descArt VARCHAR(200), cantidad INTEGER(3), cantidadCrit INTEGER(3), precio DOUBLE(6,2))');
-				tx.executeSql('CREATE TABLE IF NOT EXISTS grupo (idGrupo INTEGER PRIMARY KEY AUTOINCREMENT, nombreGrupo VARCHAR(50), descGrupo VARCHAR(200))');
-				tx.executeSql('CREATE TABLE IF NOT EXISTS etiqueta (idEtiqueta INTEGER PRIMARY KEY AUTOINCREMENT, nombreEtiqueta VARCHAR(50), descEtiqueta VARCHAR(200))');
+				console.log('Tabla articulo creada');
+				tx.executeSql('CREATE TABLE IF NOT EXISTS grupo (idGrupo INTEGER PRIMARY KEY AUTOINCREMENT, nombreGrupo VARCHAR(50), descGrupo VARCHAR(200), colorGrupo VARCHAR(15))');
+				console.log('Tabla grupo creada');
+				tx.executeSql('CREATE TABLE IF NOT EXISTS etiqueta (idEtiqueta INTEGER PRIMARY KEY AUTOINCREMENT, nombreEtiqueta VARCHAR(50), colorEtiqueta VARCHAR(15), descEtiqueta VARCHAR(200))');
+				console.log('Tabla etiqueta creada');
 			},(error)=>{
 				console.log(error);
-			},()=>{
-				console.log('Tabla articulo creada');
-				console.log('Tabla grupo creada');
-				console.log('Tabla etiqueta creada');
-				// db.closeAsync();
 			})
 		}
 		init();

@@ -10,11 +10,11 @@ import * as SQLite from 'expo-sqlite';
 export default function AgregarEtiqueta(props) {
   const theme = useContext(themeContext);
   const [colorVisible, setColorVisible] = useState(false);
-  const [capColor, setCapColor] = useState('#000');
 
   const initEtiqueta ={
     nombreEtiqueta:'',
-    descEtiqueta:''
+    descEtiqueta:'',
+    colorEtiqueta:''
   }
 
   const [etiqueta, setEtiqueta] = useState(initEtiqueta);
@@ -31,6 +31,12 @@ export default function AgregarEtiqueta(props) {
       descEtiqueta
     })
   }
+  const handleColor = colorEtiqueta =>{
+    setEtiqueta({
+      ...etiqueta,
+      colorEtiqueta
+    })
+  }
 
   //Crear en la BDD
   async function createEtiqueta(){
@@ -45,22 +51,19 @@ export default function AgregarEtiqueta(props) {
     try{
       const db = SQLite.openDatabase('soft-spot.db');
       db.transaction(tx=>{
-        tx.executeSql('INSERT INTO etiqueta (nombreEtiqueta,descEtiqueta) VALUES (?,?)', [etiqueta.nombreEtiqueta,etiqueta.descEtiqueta],);
+        tx.executeSql('INSERT INTO etiqueta (nombreEtiqueta,colorEtiqueta,descEtiqueta) VALUES (?,?,?)', [etiqueta.nombreEtiqueta,etiqueta.colorEtiqueta,etiqueta.descEtiqueta],);
+        console.log(`Etiqueta: ${etiqueta.nombreEtiqueta} agregada`);
       },(error)=>{
         console.log(error);
-      },()=>{
-        console.log(`Etiqueta ${etiqueta.nombreEtiqueta} agregado a la BDD`)
-      }
-      )
+      })
       Alert.alert(
-        'Etiqueta creado',
-        `"${etiqueta.nombreEtiqueta}" agregado con éxito.`,
+        'Etiqueta creada',
+        `"${etiqueta.nombreEtiqueta}" agregada con éxito.`,
         [{
             text: 'Ok',
             onPress: () => props.navigation.navigate("drawer")
           }]
       );
-      // db.closeAsync();
     }catch (e){
       Alert.alert(
         'Error al crear etiqueta',
@@ -91,10 +94,9 @@ export default function AgregarEtiqueta(props) {
           {colorVisible ? (
             <ColorPicker
               hideSliders
-              onColorSelected={color => {
-                setCapColor(color);
-              }}
+              onColorSelected={handleColor}
               style={[styles.picker, {backgroundColor:theme.background}]}
+              value={etiqueta.colorEtiqueta}
             />
           ) : null}
 

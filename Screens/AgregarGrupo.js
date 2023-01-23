@@ -12,7 +12,8 @@ export default function AgregarGrupo(props) {
 
   const initGrupo ={
     nombreGrupo: '',
-    descGrupo:''
+    descGrupo:'',
+    colorGrupo:''
   }
 
   const [grupo, setGrupo] = useState(initGrupo);
@@ -29,6 +30,12 @@ export default function AgregarGrupo(props) {
       descGrupo
     });
   }
+  const handleColor = colorGrupo => {
+    setGrupo({
+      ...grupo,
+      colorGrupo
+    })
+  }
 
   //Crear en la BDD
   function createGrupo(){
@@ -43,11 +50,10 @@ export default function AgregarGrupo(props) {
     try{
       const db = SQLite.openDatabase('soft-spot.db');
       db.transaction(tx=>{
-        tx.executeSql('INSERT INTO grupo (nombreGrupo,descGrupo) VALUES (?,?)',[grupo.nombreGrupo,grupo.descGrupo],);
+        tx.executeSql('INSERT INTO grupo (nombreGrupo,descGrupo,colorGrupo) VALUES (?,?,?)',[grupo.nombreGrupo,grupo.descGrupo,grupo.colorGrupo],);
+        console.log(`Grupo: ${grupo.nombreGrupo} agregado`);
     },(error)=>{
         console.log(error);
-    },()=>{
-      console.log(`Grupo ${grupo.nombreGrupo} agregado a la BDD`);
     })
       Alert.alert(
         'Grupo creado',
@@ -57,7 +63,6 @@ export default function AgregarGrupo(props) {
             onPress: () => props.navigation.navigate("drawer")
           }]
       );
-      // db.closeAsync();
     }catch (e){
       Alert.alert(
         'Error al crear grupo',
@@ -88,10 +93,9 @@ export default function AgregarGrupo(props) {
           {colorVisible ? (
             <ColorPicker
               hideSliders
-              onColorSelected={color => {
-                setCapColor(color);
-              }}
+              onColorSelected={handleColor}
               style={[styles.picker, {backgroundColor:theme.background}]}
+              value={grupo.colorGrupo}
             />
           ) : null}
 

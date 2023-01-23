@@ -8,11 +8,15 @@ import themeContext from '../config/themeContext';
 const TagCard = (props) => {
     const theme = useContext(themeContext);
     const nombre = props.productInfo.nombreEtiqueta
-    const color = "#77DD77"
+    let color = props.productInfo.colorEtiqueta
+    if(props.productInfo.colorEtiqueta != ''){
+        color = props.productInfo.colorEtiqueta
+    }else{
+        color = '#F23232';
+    }
     const desc = props.productInfo.descEtiqueta
 	return (
         <View style={styles.container}>
-            <Text style={{color:color,fontSize:0}}>{color}=color</Text>
             <View style={[styles.cont,{borderColor: theme.linea}]}>
                 <View style={{backgroundColor:color, height:65, width:65, borderRadius:50, 
                 position:"absolute", marginTop:12}}></View>
