@@ -1,6 +1,6 @@
-import { StyleSheet, Text, SafeAreaView, TextInput, View, Alert, TouchableOpacity} from 'react-native';
+import { StyleSheet, Text, SafeAreaView, TextInput, View, Alert, TouchableOpacity, ScrollView} from 'react-native';
 import { SelectList } from 'react-native-dropdown-select-list'
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import {Ionicons} from '@expo/vector-icons';
 import { getDbConnection, insertArticulo } from '../src/utils/db';
 import themeContext from '../config/themeContext';
@@ -9,19 +9,48 @@ import * as SQLite from 'expo-sqlite';
 export default function AgregarArticulo(props){
   const theme = useContext(themeContext);
   const [selected, setSelected] = React.useState("Ninguna");
-  const data=[
-    {Key:'1', value:'1'},
-    {Key:'2', value:'2'},
-    {Key:'3', value:'3'},
-    {Key:'4', value:'4'},
-  ];
+  const [selected2, setSelected2] = React.useState("Ninguna");
+  const [etiquetas, setEtiquetas] = useState([]);
+  const [grupos, setGrupos] = useState([]);
+  const db = SQLite.openDatabase('soft-spot.db');
+
+  useEffect(() => {
+    db.transaction(tx => {
+      tx.executeSql(
+        'SELECT * FROM etiqueta',
+        [],
+        (_, { rows: { _array } }) => {
+          const data = _array.map((item, index) => ({ Key: index.toString(), value: item.nombreEtiqueta }));
+          setEtiquetas(data);
+        },
+        (_, error) => console.log(error),
+      );
+      tx.executeSql(
+        'SELECT * FROM grupo',
+        [],
+        (_, { rows: { _array } }) => {
+          const data = _array.map((item, index) => ({ Key: index.toString(), value: item.nombreGrupo }));
+          setGrupos(data);
+        },
+        (_, error) => console.log(error),
+      );
+    });
+
+  }, []);
+
+  // const data=[
+  //   {Key:'1', value:'1'},
+  //   {Key:'2', value:'2'},
+  //   {Key:'3', value:'3'},
+  //   {Key:'4', value:'4'},
+  // ];
 
   const initArticulo = {
     nombreArticulo: '',
     descArt: '',
     cantidad:'',
     cantidadCrit:'',
-    precio:''
+    precio:'',
   }
 
   const [articulo, setArticulo] = useState(initArticulo);
@@ -70,19 +99,36 @@ export default function AgregarArticulo(props){
     try{
       const db = SQLite.openDatabase('soft-spot.db');
       db.transaction(tx=>{
-          tx.executeSql('INSERT INTO ARTICULO (nombreArticulo,descArt,cantidad,cantidadCrit,precio) VALUES (?,?,?,?,?)',[articulo.nombreArticulo,articulo.descArt,articulo.cantidad,articulo.cantidadCrit,articulo.precio],);
-          console.log(`Articulo: ${articulo.nombreArticulo} agregado a la BDD`);
+          tx.executeSql('INSERT INTO ARTICULO (nombreArticulo,descArt,cantidad,cantidadCrit,precio,etiqueta,grupo,favorito) VALUES (?,?,?,?,?,?,?,?)',[articulo.nombreArticulo,articulo.descArt,articulo.cantidad,articulo.cantidadCrit,articulo.precio,selected,selected2,0],
+          (_results)=>{
+            console.log('articulo creada')
+            Alert.alert(
+              'Artículo creado',
+              `"${articulo.nombreArticulo}" agregado con éxito.`,
+              [{
+                  text: 'Ok',
+                  onPress: () => props.navigation.navigate("drawer")
+                }]
+            );
+          },
+          (_,error)=>{
+            console.log(error)
+          }
+          );
+          //POSIBLE SOLUCION
+          // tx.executeSql(
+          //   'COMMIT',
+          //   [],
+          //   (_, results) => {
+          //     console.log('Changes are committed');
+          //   },
+          //   (_, error) => {
+          //     console.log('Error:', error);
+          //   }
+          // );
       },(error)=>{
           console.log(error);
       })
-      Alert.alert(
-        'Artículo creado',
-        `"${articulo.nombreArticulo}" agregado con éxito.`,
-        [{
-            text: 'Ok',
-            onPress: () => props.navigation.navigate("drawer")
-          }]
-      );
     }catch (e){
       Alert.alert(
         'Error al crear artículo',
@@ -93,7 +139,7 @@ export default function AgregarArticulo(props){
   }
 
   return (
-    <SafeAreaView style={[styles.container, {backgroundColor: theme.background}]}>
+    <ScrollView style={[styles.container, {backgroundColor: theme.background}]} contentContainerStyle={[styles.contentContainer]}>
       <Text style={[styles.nota, {color: theme.color}]}>NOTA: Los campos con “*” son obligatorios</Text>
 
       <View style={styles.circulo}>
@@ -109,8 +155,19 @@ export default function AgregarArticulo(props){
 
       <Text style={[styles.eti, {color: theme.text2} ]}>Etiqueta (opcional)</Text>
       <SelectList 
-        data={data}
+        data={etiquetas}
         setSelected={setSelected}
+        dropdownTextStyles={[styles.opc, {color:theme.color}]}
+        boxStyles={{width:333,marginLeft:30}}
+        dropdownStyles={{width:333,marginLeft:30}}
+        inputStyles={[styles.select, {color:theme.color}]}
+        placeholder="Ninguna"
+      />
+
+      <Text style={[styles.eti, {color: theme.text2} ]}>Grupo (opcional)</Text>
+      <SelectList 
+        data={grupos}
+        setSelected={setSelected2}
         dropdownTextStyles={[styles.opc, {color:theme.color}]}
         boxStyles={{width:333,marginLeft:30}}
         dropdownStyles={{width:333,marginLeft:30}}
@@ -122,7 +179,7 @@ export default function AgregarArticulo(props){
         <Text style={styles.Tguardar}>Guardar</Text>
       </TouchableOpacity>
 
-    </SafeAreaView>
+    </ScrollView>
   );
 }
 
@@ -190,5 +247,8 @@ const styles = StyleSheet.create({
     fontSize:17, 
     marginLeft:-10
 
+  },
+  contentContainer: {
+		paddingBottom: 30
   }
 });

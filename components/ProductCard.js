@@ -1,26 +1,72 @@
-import React, { useState, useContext} from 'react';
+import React, { useState, useContext,  useEffect} from 'react';
 import { StyleSheet, View, Text, Image, Dimensions, TouchableWithoutFeedback,FlatList,TouchableNativeFeedback } from "react-native";
 import TouchableCmp from "./UI/TouchableCmp";
 import { Entypo } from '@expo/vector-icons';
 import Modal from "react-native-modal";
 import modal from "./modal"
 import themeContext from '../config/themeContext';
+import * as SQLite from 'expo-sqlite';
 
 const ProductCard = (props) => {
 	const theme = useContext(themeContext);
+	const id = props.productInfo.idArticulo
 	const img = props.productInfo.img
 	const nombre = props.productInfo.nombreArticulo
 	const presen = props.productInfo.descArt
 	const cantidad = props.productInfo.cantidad
 	const costo = props.productInfo.precio
-	const fav = props.productInfo.fav
-	const etiquetas = props.productInfo.etiquetas
+	const fav = props.productInfo.favorito
+	const etiquetas = props.productInfo.etiqueta
 	const min = props.productInfo.cantidadCrit
 	const [isModalVisible, setModalVisible] = useState(false);
 	const [name,setName] = useState('')
+	const [color,setColor] = useState('#E83845')
+	const db = SQLite.openDatabase('soft-spot.db');
+
+	useEffect(() => {
+		if(etiquetas!=='Ninguna'){
+			db.transaction(tx => {
+				tx.executeSql(
+					'SELECT colorEtiqueta FROM etiqueta WHERE nombreEtiqueta = ?',
+					[etiquetas],
+					(_, { rows: { _array } }) => {
+						setColor(_array[0].colorEtiqueta);
+					},
+					(_, error) => console.log(error)
+				);
+			});
+		}
+	}, [props]);
+
+	const makeFav = () =>{
+		db.transaction(tx => {
+			tx.executeSql(
+				`UPDATE articulo SET favorito = ? WHERE nombreArticulo = ?`,
+    			[1, nombre],
+				(_, results) => {
+					console.log("Se hizo favorito")
+				},
+				(_, error) => console.log(error)
+			);
+		});
+	}
+	const unFav = () =>{
+		db.transaction(tx => {
+			tx.executeSql(
+				`UPDATE articulo SET favorito = ? WHERE nombreArticulo = ?`,
+    			[0, nombre],
+				(_, results) => {
+					console.log("Se quitó favorito")
+				},
+				(_, error) => console.log(error)
+			);
+		});
+	}
+	
 	const modal = () => {
 		setModalVisible(true);
 	}
+
 	return (
 		<View>
 			<TouchableNativeFeedback onPress={()=>setModalVisible(true)} onLongPress={()=>props.navigation.navigate('EditarArticulo',{productInfo:props.productInfo})}>
@@ -31,19 +77,19 @@ const ProductCard = (props) => {
 						</View>
 						<View style={styles.detalles}>
 							<Text style={[styles.nombre,{color: theme.color}]}>{nombre}</Text>
-							{props.productInfo.presen&&<Text style={[styles.presen,{color: theme.color}]}>{presen}</Text>}
+							{presen&&<Text style={[styles.presen,{color: theme.color}]}>{presen}</Text>}
 							{cantidad<=min?
 								<Text style={[styles.cant2,{color: theme.color}]}>Cantidad: {cantidad}</Text>:
 								<Text style={[styles.cant,{color: theme.color}]}>Cantidad: {cantidad}</Text>
 							}
 							<Text style={[styles.precio, {color: theme.color}]}>Precio: ${costo}</Text>
 						</View>
-						{fav?<Entypo name='star' size={30} style={[{color: theme.color}]} 
-						/>:<Entypo name='star-outlined' size={30} style={[{color: theme.color}]}/>}
+						{fav==1?<Entypo name='star' size={30} style={[{color: theme.color}]} onPress={()=>unFav()}/>
+						:<Entypo name='star-outlined' size={30} style={[{color: theme.color}]} onPress={()=>makeFav()}/>}
 					</View>
 					<View>
-						{etiquetas?
-						<View style={styles.etiqueta}>
+						{etiquetas!=='Ninguna'?
+						<View style={[styles.etiqueta,{backgroundColor:color}]}>
 							<Text style={styles.etText}>{etiquetas}</Text>
 						</View>
 						:

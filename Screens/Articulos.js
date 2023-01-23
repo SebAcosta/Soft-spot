@@ -14,7 +14,7 @@ const Articulos = (props) =>{
 	useEffect(()=>{
 		const db = SQLite.openDatabase('soft-spot.db');
 		db.transaction(tx => {
-			tx.executeSql('SELECT * FROM articulo', null,
+			tx.executeSql('SELECT * FROM articulo ORDER BY favorito DESC', null,
 			(txObj, resultSet) => setArticulos(resultSet.rows._array),
 			(txObj, error) => console.log(error)
 			);
@@ -34,7 +34,7 @@ const Articulos = (props) =>{
 						<ProductCard {...props} productInfo={itemData.item}/>
 					)}
 					/>:
-						<DefaultView/>
+					<DefaultView/>
 				}
 			</View>
 		</View>

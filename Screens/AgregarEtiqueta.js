@@ -55,15 +55,16 @@ export default function AgregarEtiqueta(props) {
         console.log(`Etiqueta: ${etiqueta.nombreEtiqueta} agregada`);
       },(error)=>{
         console.log(error);
+      },(results)=>{
+        Alert.alert(
+          'Etiqueta creada',
+          `"${etiqueta.nombreEtiqueta}" agregada con éxito.`,
+          [{
+              text: 'Ok',
+              onPress: () => props.navigation.navigate("drawer")
+            }]
+        );
       })
-      Alert.alert(
-        'Etiqueta creada',
-        `"${etiqueta.nombreEtiqueta}" agregada con éxito.`,
-        [{
-            text: 'Ok',
-            onPress: () => props.navigation.navigate("drawer")
-          }]
-      );
     }catch (e){
       Alert.alert(
         'Error al crear etiqueta',

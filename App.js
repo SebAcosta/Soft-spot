@@ -20,12 +20,75 @@ export default function App() {
 			// db.closeAsync();
 			// db.deleteAsync();
 			db.transaction(tx=>{
-				tx.executeSql('CREATE TABLE IF NOT EXISTS articulo (idArticulo INTEGER PRIMARY KEY AUTOINCREMENT, nombreArticulo VARCHAR(50), descArt VARCHAR(200), cantidad INTEGER(3), cantidadCrit INTEGER(3), precio DOUBLE(6,2))');
-				console.log('Tabla articulo creada');
-				tx.executeSql('CREATE TABLE IF NOT EXISTS grupo (idGrupo INTEGER PRIMARY KEY AUTOINCREMENT, nombreGrupo VARCHAR(50), descGrupo VARCHAR(200), colorGrupo VARCHAR(15))');
-				console.log('Tabla grupo creada');
-				tx.executeSql('CREATE TABLE IF NOT EXISTS etiqueta (idEtiqueta INTEGER PRIMARY KEY AUTOINCREMENT, nombreEtiqueta VARCHAR(50), colorEtiqueta VARCHAR(15), descEtiqueta VARCHAR(200))');
-				console.log('Tabla etiqueta creada');
+				tx.executeSql(
+					'SELECT name FROM sqlite_master WHERE type="table" AND name="articulo"',
+					[],
+					(_,{rows:{_array}})=>{
+						if(_array.length === 0){
+							tx.executeSql(
+								'CREATE TABLE articulo (idArticulo INTEGER PRIMARY KEY AUTOINCREMENT, nombreArticulo VARCHAR(50), descArt VARCHAR(200), cantidad INTEGER(3), cantidadCrit INTEGER(3), precio DOUBLE(6,2), etiqueta VARCHAR(100), grupo VARCHAR(100), favorito TINYINT(1));',
+								[],
+								(_results)=>{
+									console.log('articulo creada')
+								},
+								(_,error)=>{
+									console.log(error)
+								}
+							);
+						}else{
+							console.log("Ya existe articulo")
+						}
+					},
+					(_,error)=>{
+						console.log(error)
+					}
+				);
+				tx.executeSql(
+					'SELECT name FROM sqlite_master WHERE type="table" AND name="grupo"',
+					[],
+					(_,{rows:{_array}})=>{
+						if(_array.length === 0){
+							tx.executeSql(
+								'CREATE TABLE grupo (idGrupo INTEGER PRIMARY KEY AUTOINCREMENT, nombreGrupo VARCHAR(50), descGrupo VARCHAR(200), colorGrupo VARCHAR(15));',
+								[],
+								(_results)=>{
+									console.log('grupo creada')
+								},
+								(_,error)=>{
+									console.log(error)
+								}
+							);
+						}else{
+							console.log("Ya existe grupo")
+						}
+					},
+					(_,error)=>{
+						console.log(error)
+					}
+				);
+				tx.executeSql(
+					'SELECT name FROM sqlite_master WHERE type="table" AND name="etiqueta"',
+					[],
+					(_,{rows:{_array}})=>{
+						if(_array.length === 0){
+							tx.executeSql(
+								'CREATE TABLE etiqueta (idEtiqueta INTEGER PRIMARY KEY AUTOINCREMENT, nombreEtiqueta VARCHAR(50), colorEtiqueta VARCHAR(15), descEtiqueta VARCHAR(200));',
+								[],
+								(_results)=>{
+									console.log('etiqueta creada')
+								},
+								(_,error)=>{
+									console.log(error)
+								}
+							);
+						}else{
+							console.log("Ya existe etiqueta")
+						}
+					},
+					(_,error)=>{
+						console.log(error)
+					}
+				);
 			},(error)=>{
 				console.log(error);
 			})

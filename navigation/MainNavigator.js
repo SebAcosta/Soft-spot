@@ -123,7 +123,7 @@ export const StackNavigator = (props) =>{
 							<Stack.Screen name="drawer" component={SideDrawer}/>
 							<Stack.Screen name={"EditarArticulo"}
 											component={EditarArticulo}
-											options={(props)=>({headerShown:true,title:"Editar" + props.route.params.productInfo.nombre,headerTintColor:'white',headerStyle:{backgroundColor:'#F23232'}})}
+											options={(props)=>({headerShown:true,title:"Editar " + props.route.params.productInfo.nombreArticulo,headerTintColor:'white',headerStyle:{backgroundColor:'#F23232'}})}
 							/>
 							<Stack.Screen name={"AgregarArticulo"}
 											component={AgregarArticulo}
