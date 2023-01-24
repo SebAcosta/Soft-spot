@@ -1,16 +1,10 @@
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, ScrollView,TouchableOpacity } from 'react-native';
 import { Dimensions } from "react-native";
 import Header from '../components/header2'
 import themeContext from '../config/themeContext';
-import React,{useState,useContext} from 'react';
-import {
-	LineChart,
-	BarChart,
-	PieChart,
-	ProgressChart,
-	ContributionGraph,
-	StackedBarChart
-} from "react-native-chart-kit";
+import React,{useState,useContext,useEffect} from 'react';
+import {BarChart} from "react-native-chart-kit";
+import * as SQLite from 'expo-sqlite';
 
 const chartConfig = {
 	backgroundGradientFrom: "#FFFFFF",
@@ -34,142 +28,153 @@ const graphStyle={
 	useShadowColorFromDataset: false // optional
 }
 
-const data = {
-	labels: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio"],
-	datasets: [
-	  {
-		data: [20, 45, 28, 80, 99, 43],
-		color: (opacity = 1) => `rgba(242,50,50, ${opacity})`, // optional
-		strokeWidth: 2 // optional
-	  }
-	],
-	//legend: ["Rainy Days"] // optional
-};
-const data3 = {
-	labels: ["Sabritas", "Peñafiel", "Emperador", "Takis", "Coca-Cola", "Pepsi"],
-	datasets: [
-	  {
-		data: [20, 45, 28, 80, 99, 43],
-		color: (opacity = 1) => `rgba(242,50,50, ${opacity})`, // optional
-		strokeWidth: 2 // optional
-	  }
-	],
-	//legend: ["Rainy Days"] // optional
-};
-
-const data2 = [
-	{
-	  name: "Estante 1",
-	  population: 215,
-	  color: "rgba(131, 167, 234, 1)",
-	  legendFontColor: "#7F7F7F",
-	  legendFontSize: 15
-	},
-	{
-	  name: "Estante 2",
-	  population: 28,
-	  color: "#F00",
-	  legendFontColor: "#7F7F7F",
-	  legendFontSize: 15
-	},
-	{
-	  name: "Estante 3",
-	  population: 5,
-	  color: "red",
-	  legendFontColor: "#7F7F7F",
-	  legendFontSize: 15
-	},
-	{
-	  name: "Estante 4",
-	  population: 85,
-	  color: "green",
-	  legendFontColor: "#7F7F7F",
-	  legendFontSize: 15
-	},
-	{
-	  name: "Estante 5",
-	  population: 119,
-	  color: "rgb(0, 0, 255)",
-	  legendFontColor: "#7F7F7F",
-	  legendFontSize: 15
-	}
-  ];
 
 const screenWidth = Dimensions.get("window").width*.95;
 const screenWidth2 = Dimensions.get("window").width*.90;
 
 export default function Estadisticas() {
+	let data3;
 	const theme = useContext(themeContext);
+	const [selected,setSelected] = useState(1);
+	const [totales,setTotales] = useState(0);
+	const [nombre1,setNombre1] = useState('');
+	const [nombre2,setNombre2] = useState('');
+	const [nombre3,setNombre3] = useState('');
+	const [nombre4,setNombre4] = useState('');
+	const [nombre5,setNombre5] = useState('');
+	const [venta1,setVenta1] = useState('');
+	const [venta2,setVenta2] = useState('');
+	const [venta3,setVenta3] = useState('');
+	const [venta4,setVenta4] = useState('');
+	const [venta5,setVenta5] = useState('');
+	var nombreArray = [], ventasArray = [];
+	const db = SQLite.openDatabase('soft-spot.db');
+	useEffect(()=>{
+		db.transaction(tx => {
+			if(selected==1){
+				tx.executeSql(
+				  'SELECT nombreArticulo, ventas FROM articulo ORDER BY ventas DESC LIMIT 5',
+				  [],
+				  (_, { rows: { _array } }) => {
+					for (var i = 0; i < _array.length; i++) {
+					  	nombreArray.push(_array[i].nombreArticulo);
+					  	ventasArray.push(_array[i].ventas);
+						setNombre1(_array[0].nombreArticulo)
+						setNombre2(_array[1].nombreArticulo)
+						setNombre3(_array[2].nombreArticulo)
+						setNombre4(_array[3].nombreArticulo)
+						setNombre5(_array[4].nombreArticulo)
+						setVenta1(_array[0].ventas)
+						setVenta2(_array[1].ventas)
+						setVenta3(_array[2].ventas)
+						setVenta4(_array[3].ventas)
+						setVenta5(_array[4].ventas)
+					}
+				  },
+				  (_, error) => {
+					console.log('SQLite Error:', error);
+				  }
+				);
+			}else{
+				tx.executeSql(
+				  'SELECT nombreArticulo, ventas FROM articulo ORDER BY ventas ASC LIMIT 5',
+				  [],
+				  (_, { rows: { _array } }) => {
+					for (var i = 0; i < _array.length; i++) {
+						nombreArray.push(_array[i].nombreArticulo);
+						ventasArray.push(_array[i].ventas);
+						setNombre1(_array[0].nombreArticulo)
+						setNombre2(_array[1].nombreArticulo)
+						setNombre3(_array[2].nombreArticulo)
+						setNombre4(_array[3].nombreArticulo)
+						setNombre5(_array[4].nombreArticulo)
+						setVenta1(_array[0].ventas)
+						setVenta2(_array[1].ventas)
+						setVenta3(_array[2].ventas)
+						setVenta4(_array[3].ventas)
+						setVenta5(_array[4].ventas)
+					}
+				  },
+				  (_, error) => {
+					console.log('SQLite Error:', error);
+				  }
+				);
+			}
+			tx.executeSql(
+				'COMMIT',
+				[],
+				(_, results) => {
+				  console.log('Changes are committed');
+				},
+				(_, error) => {
+				  console.log('Error:', error);
+				}
+			);
+		});
+	},[selected]);
+
+	data3={
+		labels:[nombre1, nombre2, nombre3, nombre4, nombre5],
+		datasets:[
+			{
+				data:[venta1,venta2,venta3,venta4,venta5],
+				color: (opacity = 1) => `rgba(242,50,50, ${opacity})`, // optional
+				strokeWidth: 2 // optional
+			}
+		],
+	};
+
+	useEffect(()=>{
+		const db = SQLite.openDatabase('soft-spot.db');
+		db.transaction(tx => {
+			tx.executeSql(
+				'SELECT total FROM ganancias WHERE idGanancia = 1', 
+				[],
+				(_, { rows: { _array } }) => {
+					setTotales(_array[0].total)
+				},
+				(_, error) => console.log(error)
+			);
+			tx.executeSql(
+				'COMMIT',
+				[],
+				(_, results) => {
+				  console.log('Changes are committed');
+				},
+				(_, error) => {
+				  console.log('Error:', error);
+				}
+			);
+		});
+	}, [totales]);
+
 	return (
 		<ScrollView style={[styles.container, {backgroundColor: theme.background}]} contentContainerStyle={[styles.contentContainer]}>
 			<View style={styles.ingresos}>
 				<Text style={styles.ing}>Ingresos actuales</Text>
-				<Text style={styles.dinero}>$500,000.00</Text>
-			</View>
-			<View style={[styles.line, {backgroundColor: theme.grafico, width:screenWidth, marginLeft:10}]}>
-				<LineChart 
-					data={data}
-					width={screenWidth}
-					height={220}
-					chartConfig={chartConfig}
-				/>
-			</View>
-			<View style={styles.botones}>
-				<View style={styles.boton}>
-					<Text style={styles.btn}>S</Text>
-				</View>
-				<View style={styles.boton}>
-					<Text style={styles.btn}>M</Text>
-				</View>
-				<View style={styles.botonAct}>
-					<Text style={styles.btnAct}>A</Text>
-				</View>
-			</View>
-			<View style={styles.sub}>
-				<Text style={styles.subTxt}>Categoría</Text>
-			</View>
-			<View style={[styles.pie,]}>
-				<PieChart
-					data={data2}
-					width={screenWidth}
-					height={250}
-					chartConfig={chartConfig}
-					accessor={"population"}
-					backgroundColor={"transparent"}
-					paddingLeft={"20"}
-					center={[10, 0]}
-					absolute
-				/>
-			</View>
-			<View style={styles.botones}>
-				<View style={styles.boton}>
-					<Text style={styles.btn}>Etiqueta</Text>
-				</View>
-				<View style={styles.botonAct}>
-					<Text style={styles.btnAct}>Grupo</Text>
-				</View>
+				<Text style={styles.dinero}>${totales}</Text>
 			</View>
 			<View style={styles.sub}>
 				<Text style={styles.subTxt}>Productos</Text>
 			</View>
-			<View style={[styles.bar, {backgroundColor: theme.grafico, width:screenWidth, marginLeft:9}]}>
+			<View style={[styles.bar, {backgroundColor: theme.grafico, width:screenWidth, marginLeft:5}]}>
 				<BarChart
 					style={graphStyle}
 					data={data3}
 					width={screenWidth2}
-					height={270}
+					height={350}
 					yAxisLabel="$"
 					chartConfig={chartConfig}
-					verticalLabelRotation={30}
+					verticalLabelRotation={40}
 				/>
 			</View>
 			<View style={styles.botones}>
-				<View style={styles.botonAct}>
-					<Text style={styles.btnAct}>Más</Text>
-				</View>
-				<View style={styles.boton}>
-					<Text style={styles.btn}>Menos</Text>
-				</View>
+				<TouchableOpacity style={selected==1?styles.botonAct:styles.boton} onPress={()=>setSelected(1)}>
+					<Text style={selected==1?styles.btnAct:styles.btn}>Más</Text>
+				</TouchableOpacity>
+				<TouchableOpacity style={selected==2?styles.botonAct:styles.boton} onPress={()=>setSelected(2)}>
+					<Text style={selected==2?styles.btnAct:styles.btn}>Menos</Text>
+				</TouchableOpacity>
 			</View>
 		</ScrollView>
 	);
@@ -247,7 +252,7 @@ const styles = StyleSheet.create({
 	bar:{
 		marginTop:20,
 		marginLeft:10,
-		marginBottom:10
+		marginBottom:15
 	},
 	contentContainer: {
 		paddingBottom: 30

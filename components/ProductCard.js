@@ -19,6 +19,7 @@ const ProductCard = (props) => {
 	const fav = props.productInfo.favorito
 	const etiquetas = props.productInfo.etiqueta
 	const min = props.productInfo.cantidadCrit
+	const ventas = props.productInfo.ventas
 	const [isModalVisible, setModalVisible] = useState(false);
 	const [name,setName] = useState('')
 	const [color,setColor] = useState('#E83845')
@@ -82,15 +83,17 @@ const ProductCard = (props) => {
 		const db = SQLite.openDatabase('soft-spot.db');
 		db.transaction(tx => {
 			tx.executeSql(
-				'SELECT cantidad FROM articulo WHERE idArticulo = ?',
+				'SELECT cantidad,ventas FROM articulo WHERE idArticulo = ?',
 				[id],
 				(_, { rows: { _array } }) => {
 					const currentQuantity = _array[0].cantidad;
+					const currentVentas = _array[0].ventas;
 					const updatedQuantity = currentQuantity - vender;
+					const updatedVentas = currentVentas + vender;
 			
 					tx.executeSql(
-					'UPDATE articulo SET cantidad = ? WHERE idArticulo = ?',
-					[updatedQuantity, id],
+					'UPDATE articulo SET cantidad = ?, ventas = ? WHERE idArticulo = ?',
+					[updatedQuantity, updatedVentas,id],
 					(_, results) => {
 						console.log('Product Quantity Updated:', updatedQuantity);
 					},
@@ -104,6 +107,30 @@ const ProductCard = (props) => {
 				}
 			);
 			tx.executeSql(
+				'SELECT total FROM ganancias WHERE idGanancia=1',
+				[],
+				(_, { rows: { _array } }) => {
+					const currentTotal = _array[0].total
+					let updatedTotal = currentTotal
+					if(vender>0){
+						updatedTotal = currentTotal + (costo*vender)
+					}
+					tx.executeSql(
+						'UPDATE ganancias SET total = ? WHERE idGanancia = 1',
+						[updatedTotal],
+						(_,results)=>{
+							console.log("Ganancias actualizadas")
+						},
+						(_,error)=>{
+							console.log(error)
+						}
+					)
+				},
+				(_,error)=>{
+					console.log(error)
+				}
+			)
+			tx.executeSql(
 				'COMMIT',
 				[],
 				(_, results) => {
@@ -114,6 +141,8 @@ const ProductCard = (props) => {
 				}
 			);
 		});
+		setModalVisible(false)
+		setVender(0)
 	}
 	
 	const modal = () => {

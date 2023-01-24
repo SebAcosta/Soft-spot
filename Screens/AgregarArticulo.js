@@ -130,7 +130,7 @@ export default function AgregarArticulo(props){
     try{
       const db = SQLite.openDatabase('soft-spot.db');
       db.transaction(tx=>{
-          tx.executeSql('INSERT INTO ARTICULO (nombreArticulo,descArt,cantidad,cantidadCrit,precio,etiqueta,grupo,favorito,img) VALUES (?,?,?,?,?,?,?,?,?)',[articulo.nombreArticulo,articulo.descArt,articulo.cantidad,articulo.cantidadCrit,articulo.precio,selected,selected2,0,imageUri],
+          tx.executeSql('INSERT INTO ARTICULO (nombreArticulo,descArt,cantidad,cantidadCrit,precio,etiqueta,grupo,favorito,img,ventas) VALUES (?,?,?,?,?,?,?,?,?,?)',[articulo.nombreArticulo,articulo.descArt,articulo.cantidad,articulo.cantidadCrit,articulo.precio,selected,selected2,0,imageUri,0],
           (_results)=>{
             console.log('articulo creada')
             Alert.alert(
