@@ -111,7 +111,6 @@ export const StackNavigator = (props) =>{
 					{ !isAuth ?
 						<>
 							<Stack.Screen name="Login" component={Login}/>
-							<Stack.Screen name="CrearCuenta" component={CrearCuenta}/>
 							<Stack.Screen name="IniciarSesion" component={IniciarSesion}/>
 						</>
 					:

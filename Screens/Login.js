@@ -1,13 +1,11 @@
 import React,{useState, useContext} from "react";
 import { ImageBackground ,StyleSheet, Text, View, TouchableOpacity,SafeAreaView,Image  } from 'react-native';
 import IniciarSesion from "./IniciarSesion";
-import CrearCuenta from "./CrearCuenta";
 import Svg, { Ellipse} from "react-native-svg";
 import themeContext from '../config/themeContext';
 
 export default function Login() {
 	const theme = useContext(themeContext);
-	const [modalVisible, setModalVisible] = useState(false)
 	const [modalVisible2, setModalVisible2] = useState(false)
 	
 	const crearCuenta = () =>{
@@ -47,14 +45,7 @@ export default function Login() {
 			<TouchableOpacity onPressIn={()=>setModalVisible2(true)} style={styles.btnInicio}>
 				<Text style={styles.btnTxt}>Iniciar sesión</Text>
 			</TouchableOpacity>
-				
-			<TouchableOpacity onPressIn={()=>{setModalVisible(true)}} style={styles.btnCuenta}>
-				<Text style={styles.btnTxt2}>Crear Cuenta</Text>
-			</TouchableOpacity>
-				
-				<CrearCuenta
-				modalVisible={modalVisible}
-				/>		
+		
 				<IniciarSesion
 				modalVisible={modalVisible2}
 				/>		

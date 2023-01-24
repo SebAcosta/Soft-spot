@@ -1,18 +1,32 @@
-import React,{useContext} from "react";
+import React,{useContext,useState,useEffect} from "react";
 import { View, Text, Img } from 'react-native';
 import { DrawerContentScrollView, DrawerItemList, DrawerItem } from "@react-navigation/drawer";
 import {Entypo} from 'react-native-vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import { LoginContext } from "../Context/LoginContext";
 import { BottomTabBarHeightCallbackContext } from "@react-navigation/bottom-tabs";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 export const CustomDrawer = (props) => {
-
     const {cerrarSesion} = useContext(LoginContext)
+    const [correo,setCorreo] = useState('')
 
     const logoutHandle= ()=>{
         cerrarSesion()
 	}
+
+    useEffect(()=>{
+		async function prepare(){
+			try{
+				let retrieveToken = await AsyncStorage.getItem('token')
+				setCorreo(retrieveToken)
+			}catch (e) {
+				console.warn(e);
+			}
+		} 
+		prepare()
+	},[])
 
     return (
         <View style={{flex: 1, backgroundColor:'#F23232'}}>
@@ -28,8 +42,7 @@ export const CustomDrawer = (props) => {
                         <FontAwesome name="user-circle" size={70} color="#f8f8f8" />
                     </View>
                     <View style={{justifyContent:"center", alignItems:"center", marginTop:10}}>
-                        <Text style={{fontSize:17, color:"#f4f4f4", fontWeight:"700"}}>Soft spot</Text>
-                        <Text style={{fontSize:16, color:"#f4f4f4"}}>softspot@gmail.com</Text>
+                        <Text style={{fontSize:16, color:"#f4f4f4"}}>{correo}</Text>
                     </View>
                 </View>
                 <DrawerItemList {...props}/>

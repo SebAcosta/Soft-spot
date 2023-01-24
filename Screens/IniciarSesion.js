@@ -9,9 +9,7 @@ import themeContext from '../config/themeContext';
 
 const oInitState = {
 	email:'',
-	password:'',
 	isValidUser:true,
-	isValidPassword:true
 };
 
 const IniciarSesion = (props) => {
@@ -27,37 +25,15 @@ const IniciarSesion = (props) => {
         isValidUser:email.trim().length >= 0 && !!email.trim().match(mailformat)
         });
   }
-	const handlePasswordChange = password =>{
-		setData({
-			...data,
-			password,
-			isValidPassword:password.trim().length > 0
-		  })
-	}
 
 	const handleLogin = async ()=>{
-		const { isValidUser, isValidPassword } = data;
+		const { isValidUser} = data;
 
-		if (isValidUser && isValidPassword) {
-			const { email, password } = data;
+		if (isValidUser) {
+			const { email } = data;
 
-			if (email !== '' && password !== '') {
-				const response = await login(email, password)
-					.catch(error => {
-						console.log(error.response);
-					});
-
-				if (response?.data?.ok) {
-					iniciarSesion(response.data.message); //aquí debería ser .message
-				}else{
-          Alert.alert(
-            'Datos incorrectos',
-            'Revise los campos e intente de nuevo',
-            [
-              {text:'Okay'}
-            ]
-          )
-        }
+			if (email !== '') {
+					iniciarSesion(email);
 			} else {
 				Alert.alert(
 				  'Datos Incorrectos', 
@@ -124,24 +100,10 @@ const IniciarSesion = (props) => {
             
             <View style={styles.input}>
               <EvilIcons name="envelope" size={40} style={[{color:theme.icono}]}/>
-              <TextInput placeholder="e-mail" placeholderTextColor={"#858585"} style={[styles.inputtxt, {color: theme.color}]} onChangeText={handleEmailChange}/>
-            </View>
-
-            <View style={styles.input}>
-              <EvilIcons name="lock" size={40} style={[{color:theme.icono}]}/>
-              <TextInput placeholder="Contraseña" placeholderTextColor={"#858585"} style={[styles.inputtxt, {color: theme.color}]} onChangeText={handlePasswordChange}/>
+              <TextInput placeholder="Ingrese su correo" placeholderTextColor={"#858585"} style={[styles.inputtxt, {color: theme.color}]} onChangeText={handleEmailChange}/>
             </View>
 
             <View style={styles.botones}>
-
-            <TouchableOpacity
-            
-                style={styles.btnRegresar}
-                >
-                <Text
-                style={[styles.btnRegresarTxt, {color: theme.icono}]}
-                >Regresar</Text>
-            </TouchableOpacity>
 
             <TouchableOpacity
               style={styles.btnInicio}
@@ -221,7 +183,7 @@ const styles = StyleSheet.create({
    
   },botones: {
       flexDirection: 'row',
-      justifyContent: 'space-between',
+      justifyContent: 'flex-end',
       alignItems: 'center',
 },
 })
