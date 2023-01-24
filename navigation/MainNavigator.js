@@ -11,6 +11,9 @@ import EditarArticulo from '../Screens/EditarArticulo';
 import AgregarArticulo from '../Screens/AgregarArticulo';
 import AgregarGrupo from '../Screens/AgregarGrupo';
 import AgregarEtiqueta from '../Screens/AgregarEtiqueta';
+import MostrarEtiquetas from '../Screens/MostrarEtiquetas';
+import MostrarGrupos from '../Screens/MostrarGrupos';
+import Filter from '../Screens/Filter';
 import Login from '../Screens/Login';
 import IniciarSesion from '../Screens/IniciarSesion';
 import CrearCuenta from '../Screens/CrearCuenta';
@@ -123,6 +126,18 @@ export const StackNavigator = (props) =>{
 							<Stack.Screen name={"EditarArticulo"}
 											component={EditarArticulo}
 											options={(props)=>({headerShown:true,title:"Editar " + props.route.params.productInfo.nombreArticulo,headerTintColor:'white',headerStyle:{backgroundColor:'#F23232'}})}
+							/>
+							<Stack.Screen name={"MostrarEtiquetas"}
+											component={MostrarEtiquetas}
+											options={(props)=>({headerShown:true,title:"Productos de " + props.route.params.productInfo.nombreEtiqueta,headerTintColor:'white',headerStyle:{backgroundColor:'#F23232'}})}
+							/>
+							<Stack.Screen name={"MostrarGrupos"}
+											component={MostrarGrupos}
+											options={(props)=>({headerShown:true,title:"Productos de " + props.route.params.productInfo.nombreGrupo,headerTintColor:'white',headerStyle:{backgroundColor:'#F23232'}})}
+							/>
+							<Stack.Screen name={"Filter"}
+											component={Filter}
+											options={(props)=>({headerShown:true,title:props.route.params,headerTintColor:'white',headerStyle:{backgroundColor:'#F23232'}})}
 							/>
 							<Stack.Screen name={"AgregarArticulo"}
 											component={AgregarArticulo}

@@ -146,17 +146,16 @@ export default function AgregarArticulo(props){
             console.log(error)
           }
           );
-          //POSIBLE SOLUCION
-          // tx.executeSql(
-          //   'COMMIT',
-          //   [],
-          //   (_, results) => {
-          //     console.log('Changes are committed');
-          //   },
-          //   (_, error) => {
-          //     console.log('Error:', error);
-          //   }
-          // );
+          tx.executeSql(
+            'COMMIT',
+            [],
+            (_, results) => {
+              console.log('Changes are committed');
+            },
+            (_, error) => {
+              console.log('Error:', error);
+            }
+          );
       },(error)=>{
           console.log(error);
       })

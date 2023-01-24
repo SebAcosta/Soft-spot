@@ -1,5 +1,5 @@
 import React, { useState, useContext,  useEffect} from 'react';
-import { StyleSheet, View, Text, Image, Dimensions, TouchableWithoutFeedback,FlatList,TouchableNativeFeedback } from "react-native";
+import { StyleSheet, View, Text, Image, Dimensions, TouchableWithoutFeedback,FlatList,TouchableNativeFeedback, TouchableOpacity } from "react-native";
 import TouchableCmp from "./UI/TouchableCmp";
 import { Entypo } from '@expo/vector-icons';
 import Modal from "react-native-modal";
@@ -22,6 +22,7 @@ const ProductCard = (props) => {
 	const [isModalVisible, setModalVisible] = useState(false);
 	const [name,setName] = useState('')
 	const [color,setColor] = useState('#E83845')
+	const [vender,setVender] = useState(0)
 	const db = SQLite.openDatabase('soft-spot.db');
 
 	useEffect(() => {
@@ -60,6 +61,57 @@ const ProductCard = (props) => {
 					console.log("Se quitó favorito")
 				},
 				(_, error) => console.log(error)
+			);
+		});
+	}
+
+	const plus = () =>{
+		let actual = vender
+		actual++
+		setVender(actual)
+	}
+	const minus = () =>{
+		let actual = vender
+		actual--
+		if(actual>=0){
+			setVender(actual)
+		}
+	}
+
+	const guardar = () =>{
+		const db = SQLite.openDatabase('soft-spot.db');
+		db.transaction(tx => {
+			tx.executeSql(
+				'SELECT cantidad FROM articulo WHERE idArticulo = ?',
+				[id],
+				(_, { rows: { _array } }) => {
+					const currentQuantity = _array[0].cantidad;
+					const updatedQuantity = currentQuantity - vender;
+			
+					tx.executeSql(
+					'UPDATE articulo SET cantidad = ? WHERE idArticulo = ?',
+					[updatedQuantity, id],
+					(_, results) => {
+						console.log('Product Quantity Updated:', updatedQuantity);
+					},
+					(_, error) => {
+						console.log('SQLite Error:', error);
+					}
+					);
+				},
+				(_, error) => {
+					console.log('SQLite Error:', error);
+				}
+			);
+			tx.executeSql(
+				'COMMIT',
+				[],
+				(_, results) => {
+				  console.log('Changes are committed');
+				},
+				(_, error) => {
+				  console.log('Error:', error);
+				}
 			);
 		});
 	}
@@ -105,8 +157,8 @@ const ProductCard = (props) => {
 					</View>
 				</View>
 			</TouchableNativeFeedback>
-			<Modal isVisible={isModalVisible} onRequestClose={() => setModalVisible(false)}>
-				<TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
+			<Modal isVisible={isModalVisible} onRequestClose={() => {setModalVisible(false), setVender(0)}}>
+				<TouchableWithoutFeedback onPress={() => {setModalVisible(false),setVender(0)}}>
 					<View style={styles.notModal}>
 					</View>
 				</TouchableWithoutFeedback>
@@ -116,27 +168,27 @@ const ProductCard = (props) => {
 							<View style={styles.mTitulo}>
 								<Text numberOfLines={2} style={styles.mTitle}>{nombre}</Text>
 							</View>
-							<Text style={styles.mTitle}>${costo}</Text>
+							<Text style={styles.mTitle}>${vender>1?costo*vender:costo}</Text>
 						</View>
 						<Text style={styles.mPres}>{presen}</Text>
 						<Text style={styles.mCant}>Cantidad: {cantidad}</Text>
 					</View>
 					<View style={styles.mBotones}>
 						<View style={styles.comp}>
-							<View style={styles.comp1}>
+							<TouchableOpacity style={styles.comp1} onPress={()=>minus()}>
 								<Text style={styles.Tcomp1}>-</Text>
-							</View>
+							</TouchableOpacity>
 							<View style={styles.comp2}>
-								<Text style={styles.Tcomp2}>0</Text>
+								<Text style={styles.Tcomp2}>{vender}</Text>
 							</View>
-							<View style={styles.comp1}>
+							<TouchableOpacity style={styles.comp1} onPress={()=>plus()}>
 								<Text style={styles.Tcomp1}>+</Text>
-							</View>
+							</TouchableOpacity>
 						</View>
 						<TouchableNativeFeedback>
-							<View style={styles.guardar}>
+							<TouchableOpacity style={styles.guardar} onPress={()=>guardar()}>
 								<Text style={styles.Tguardar}>Guardar</Text>
-							</View>
+							</TouchableOpacity>
 						</TouchableNativeFeedback>
 					</View>
 				</View>

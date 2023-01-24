@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { StyleSheet, View, Text, Image, Dimensions, TouchableWithoutFeedback,FlatList,TouchableNativeFeedback } from "react-native";
+import { StyleSheet, View, Text, Image, Dimensions, TouchableWithoutFeedback,FlatList,TouchableNativeFeedback, TouchableOpacity } from "react-native";
 import TouchableCmp from "./UI/TouchableCmp";
 import { Feather } from '@expo/vector-icons'; 
 import themeContext from '../config/themeContext';
@@ -16,14 +16,14 @@ const TagCard = (props) => {
     }
     const desc = props.productInfo.descEtiqueta
 	return (
-        <View style={styles.container}>
+        <TouchableOpacity style={styles.container} onPress={()=>props.navigation.navigate("MostrarEtiquetas",{productInfo:props.productInfo})}>
             <View style={[styles.cont,{borderColor: theme.linea}]}>
                 <View style={{backgroundColor:color, height:65, width:65, borderRadius:50, 
                 position:"absolute", marginTop:12}}></View>
                 <Text style={[styles.text, {color: theme.color}]}>{nombre}</Text>
                 <Text style={[styles.text2, {color: theme.color}]}>{desc}</Text>
             </View>
-        </View>
+        </TouchableOpacity>
   );
 }
 export default TagCard;

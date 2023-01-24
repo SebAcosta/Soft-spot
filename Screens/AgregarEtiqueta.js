@@ -52,7 +52,16 @@ export default function AgregarEtiqueta(props) {
       const db = SQLite.openDatabase('soft-spot.db');
       db.transaction(tx=>{
         tx.executeSql('INSERT INTO etiqueta (nombreEtiqueta,colorEtiqueta,descEtiqueta) VALUES (?,?,?)', [etiqueta.nombreEtiqueta,etiqueta.colorEtiqueta,etiqueta.descEtiqueta],);
-        console.log(`Etiqueta: ${etiqueta.nombreEtiqueta} agregada`);
+        tx.executeSql(
+          'COMMIT',
+          [],
+          (_, results) => {
+            console.log('Changes are committed');
+          },
+          (_, error) => {
+            console.log('Error:', error);
+          }
+        );
       },(error)=>{
         console.log(error);
       },(results)=>{

@@ -1,4 +1,4 @@
-import { Dimensions, StyleSheet, Text, View, StatusBar,TouchableNativeFeedback } from 'react-native';
+import { Dimensions, StyleSheet, Text, View, StatusBar,TouchableNativeFeedback,TextInput } from 'react-native';
 import React, { useState } from 'react';
 import Modal from "react-native-modal";
 import { NavigationContainer, CommonActions,useNavigation } from '@react-navigation/native';
@@ -6,20 +6,23 @@ import TouchableCmp from './UI/TouchableCmp';
 import { Entypo, Ionicons, FontAwesome5, EvilIcons } from '@expo/vector-icons';
 
 
-const Header2 = (props,{navigation}) => {
-	//const navigation = useNavigation();
+const Header2 = (props) => {
 	const [isModalVisible, setModalVisible] = useState(false);
+	const [text,setText] = useState('')
+
 	return (
 		<View>
 			<View style={styles.container}>
 				<StatusBar
 					backgroundColor="#F23232" />
 				<Entypo name="menu" size={35} color={"white"} onPress={() => props.navigation === undefined ? console.log(props.navigation) : props.navigation.openDrawer()}/>
-				<FontAwesome5 name="search" size={22} color={"white"} />
+				<FontAwesome5 name="search" size={22} color={"white"}/>
 				<View style={styles.bar}>
-					<View style={styles.search}>
-						<Text style={styles.text}>Busca por nombre o etiqueta</Text>
-					</View>
+					<TextInput style={styles.search}
+						onChangeText={text => setText(text)}
+						value={text}
+						placeholder={"Busque por nombre"}
+					/>
 				</View>
 				<Entypo name="plus" size={35} color={isModalVisible?"#F23232":"white"} onPress={()=>setModalVisible(true)}/>
 			</View>

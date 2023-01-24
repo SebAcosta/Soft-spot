@@ -52,6 +52,16 @@ export default function AgregarGrupo(props) {
       db.transaction(tx=>{
         tx.executeSql('INSERT INTO grupo (nombreGrupo,descGrupo,colorGrupo) VALUES (?,?,?)',[grupo.nombreGrupo,grupo.descGrupo,grupo.colorGrupo],);
         console.log(`Grupo: ${grupo.nombreGrupo} agregado`);
+        tx.executeSql(
+          'COMMIT',
+          [],
+          (_, results) => {
+            console.log('Changes are committed');
+          },
+          (_, error) => {
+            console.log('Error:', error);
+          }
+        );
     },(error)=>{
         console.log(error);
     })

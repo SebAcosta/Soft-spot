@@ -34,6 +34,16 @@ export default function EditarArticulo(props){
         },
         (_, error) => console.log(error),
       );
+      tx.executeSql(
+        'COMMIT',
+        [],
+        (_, results) => {
+          console.log('Changes are committed');
+        },
+        (_, error) => {
+          console.log('Error:', error);
+        }
+      );
     });
 
   }, []);

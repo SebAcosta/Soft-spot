@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, Image, Dimensions, TouchableWithoutFeedback,FlatList,TouchableNativeFeedback } from "react-native";
+import { StyleSheet, View, Text, Image, Dimensions, TouchableWithoutFeedback,FlatList,TouchableOpacity } from "react-native";
 import TouchableCmp from "./UI/TouchableCmp";
 import { Feather } from '@expo/vector-icons'; 
 
@@ -13,12 +13,12 @@ const GroupCard = (props) => {
         color = '#F23232';
     }
 	return (
-        <View style={styles.container}>
+        <TouchableOpacity style={styles.container} onPress={()=>props.navigation.navigate("MostrarGrupos",{productInfo:props.productInfo})}>
             <View style={{backgroundColor:color, height:100, width:170,alignItems:'center',
             borderRadius:13,}}>
                 <Text style={styles.text}>{nombre}</Text>
             </View>
-        </View>
+        </TouchableOpacity>
   );
 }
 export default GroupCard;

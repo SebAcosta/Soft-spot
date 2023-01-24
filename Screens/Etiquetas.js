@@ -50,8 +50,7 @@ const styles = StyleSheet.create({
 	listContainer:{
 		height:'100%',
 		width:'100%',
-		marginLeft:10,
-		marginTop:20
+		paddingBottom:0,
   	},
 });
 
