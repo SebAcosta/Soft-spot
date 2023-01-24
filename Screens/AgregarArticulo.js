@@ -22,6 +22,12 @@ export default function AgregarArticulo(props){
 
   const db = SQLite.openDatabase('soft-spot.db');
 
+  const ask = async() =>{
+    console.log("asking for permission")
+    const galleryStatus = await ImagePicker.requestCameraPermissionsAsync();
+    setHasPermission(galleryStatus.status=== 'granted');
+  }
+
   useEffect(() => {
     (async () => {
       const galleryStatus = await ImagePicker.requestCameraPermissionsAsync();
@@ -59,6 +65,7 @@ export default function AgregarArticulo(props){
   // ];
 
   const pickImage = async () => {
+    ask();
     let result = await ImagePicker.launchCameraAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
@@ -66,7 +73,7 @@ export default function AgregarArticulo(props){
       quality:1,
     });
 
-    if(!result.canceled){
+    if(!result.cancelled){
       setImageUri(result.uri);
       console.log("Imagen guardada");
     }

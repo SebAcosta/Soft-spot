@@ -1,20 +1,34 @@
-import { StyleSheet, Text, SafeAreaView, TextInput, View, Alert, TouchableOpacity, ScrollView} from 'react-native';
+import { StyleSheet, Text, SafeAreaView, TextInput, View, Alert, TouchableOpacity, ScrollView, Image} from 'react-native';
 import { SelectList } from 'react-native-dropdown-select-list'
 import React, { useState, useContext, useEffect } from 'react';
-import {Ionicons} from '@expo/vector-icons';
+import {Ionicons,MaterialIcons} from '@expo/vector-icons';
 import { getDbConnection, insertArticulo } from '../src/utils/db';
 import themeContext from '../config/themeContext';
 import * as SQLite from 'expo-sqlite';
+import * as ImagePicker from 'expo-image-picker';
 
 export default function EditarArticulo(props){
   const theme = useContext(themeContext);
   const [selected, setSelected] = React.useState("Ninguna");
   const [selected2, setSelected2] = React.useState("Ninguna");
+  const [hasPermission, setHasPermission] = useState(null);
+  const [imageUri, setImageUri] = useState(props.route.params.productInfo.img);
   const [etiquetas, setEtiquetas] = useState([]);
   const [grupos, setGrupos] = useState([]);
   const db = SQLite.openDatabase('soft-spot.db');
 
+  const ask = async() =>{
+    console.log("asking for permission")
+    const galleryStatus = await ImagePicker.requestCameraPermissionsAsync();
+    setHasPermission(galleryStatus.status=== 'granted');
+  }
+
   useEffect(() => {
+    (async () => {
+      const galleryStatus = await ImagePicker.requestCameraPermissionsAsync();
+      setHasPermission(galleryStatus.status=== 'granted');
+      console.log("Permisos listos");
+    });
     db.transaction(tx => {
       tx.executeSql(
         'SELECT * FROM etiqueta',
@@ -55,12 +69,32 @@ export default function EditarArticulo(props){
   //   {Key:'4', value:'4'},
   // ];
 
+  const pickImage = async () => {
+    ask();
+    let result = await ImagePicker.launchCameraAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1,1],
+      quality:1,
+    });
+
+    if(!result.cancelled){
+      setImageUri(result.uri);
+      console.log("Imagen guardada");
+    }
+  }
+
+  if(hasPermission === false){
+    console.log("No tienes permiso");
+  }
+
   const initArticulo = {
     nombreArticulo: props.route.params.productInfo.nombreArticulo,
     descArt: props.route.params.productInfo.descArt,
     cantidad:String(props.route.params.productInfo.cantidad),
     cantidadCrit:String(props.route.params.productInfo.cantidadCrit),
     precio:String(props.route.params.productInfo.precio),
+    img:props.route.params.productInfo.img
   }
 
   const [articulo, setArticulo] = useState(initArticulo);
@@ -109,7 +143,7 @@ export default function EditarArticulo(props){
     try{
       const db = SQLite.openDatabase('soft-spot.db');
       db.transaction(tx=>{
-          tx.executeSql('UPDATE articulo SET nombreArticulo = ?,descArt = ?,cantidad = ?,cantidadCrit = ?,precio = ?,etiqueta = ?,grupo = ?,favorito = ? WHERE idArticulo = ?',[articulo.nombreArticulo,articulo.descArt,articulo.cantidad,articulo.cantidadCrit,articulo.precio,selected,selected2,props.route.params.productInfo.favorito,props.route.params.productInfo.idArticulo],);
+          tx.executeSql('UPDATE articulo SET nombreArticulo = ?,descArt = ?,cantidad = ?,cantidadCrit = ?,precio = ?,etiqueta = ?,grupo = ?,favorito = ?, img= ? WHERE idArticulo = ?',[articulo.nombreArticulo,articulo.descArt,articulo.cantidad,articulo.cantidadCrit,articulo.precio,selected,selected2,props.route.params.productInfo.favorito,imageUri,props.route.params.productInfo.idArticulo],);
           console.log(`Articulo: ${articulo.nombreArticulo} agregado a la BDD`);
       },(error)=>{
           console.log(error);
@@ -135,9 +169,20 @@ export default function EditarArticulo(props){
     <ScrollView style={[styles.container, {backgroundColor: theme.background}]} contentContainerStyle={[styles.contentContainer]}>
       <Text style={[styles.nota, {color: theme.color}]}>NOTA: Los campos con “*” son obligatorios</Text>
 
-      <View style={styles.circulo}>
-        <Ionicons name="cube-outline" size={100} style={[{color: theme.icon}]}/>
-      </View>
+      {/* Touchable para agregar imagen */}
+      <TouchableOpacity style={styles.camara} onPress={() => pickImage()}>
+        <Text style={styles.botonCamara} ></Text>
+        <MaterialIcons name="add-a-photo" size={35} color="grey" />
+      </TouchableOpacity>
+
+      {/* Mostrar imagen una vez sea seleccionada */}
+      {imageUri!=null?
+        <Image source={{uri:imageUri}} style={styles.circuloImagen}/>
+        :
+        <View style={styles.circulo}>
+          <Ionicons name="cube-outline" size={100} style={[{color: theme.icon}]}/>
+        </View>
+      }
 
       <TextInput style={[styles.input, {color:theme.color, borderColor:theme.color}]} placeholderTextColor={"#858585"} placeholder={props.route.params.productInfo.nombreArticulo} onChangeText={handleNombre} value={articulo.nombreArticulo}/>
       <TextInput style={[styles.input, {color:theme.color, borderColor:theme.color}]} placeholderTextColor={"#858585"} placeholder={props.route.params.productInfo.descArt} onChangeText={handleDesc} value={articulo.descArt}/>
@@ -168,7 +213,7 @@ export default function EditarArticulo(props){
         placeholder={props.route.params.productInfo.grupo}
       />
 
-      <TouchableOpacity title='GUARDAR' onPress={updateArticulo} style={styles.guardar}>
+      <TouchableOpacity title='GUARDAR' onPress={()=>updateArticulo()} style={styles.guardar}>
         <Text style={styles.Tguardar}>Guardar</Text>
       </TouchableOpacity>
 
@@ -193,6 +238,24 @@ const styles = StyleSheet.create({
     marginRight:'8%',
     fontSize:11,
     marginBottom:20,
+  },
+  camara:{
+    position:'absolute',
+    zIndex:1,
+    justifyContent:'center',
+		alignItems:'center',
+    marginTop: "34.5%",
+    marginLeft: "45%",
+  },
+  botonCamara:{
+    position:'absolute',
+    zIndex:-1,
+    backgroundColor:"#dcdcdc",
+    borderColor:"#bebebe",
+    borderWidth:1,
+    width:50,
+    height:50,
+    borderRadius:100,
   },
   guardar:{
 		backgroundColor:'#77DD77',
@@ -225,6 +288,15 @@ const styles = StyleSheet.create({
   },
   circulo:{
     backgroundColor:'#d9d9d9',
+		width:150,
+    height:150,
+		justifyContent:'center',
+		alignItems:'center',
+		borderRadius:100,
+    margin:20,
+    marginLeft:'31%'
+  },
+  circuloImagen:{
 		width:150,
     height:150,
 		justifyContent:'center',
