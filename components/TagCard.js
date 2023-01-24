@@ -50,5 +50,6 @@ const styles = StyleSheet.create({
     text2:{
         fontSize: 15,
         marginLeft:80,
+        opacity:0.5
     }
 });

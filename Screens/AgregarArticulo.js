@@ -1,4 +1,4 @@
-import { StyleSheet, Text, SafeAreaView, TextInput, View, Alert, TouchableOpacity, ScrollView} from 'react-native';
+import { StyleSheet, Text, SafeAreaView, TextInput, View, Alert, TouchableOpacity, ScrollView, Image} from 'react-native';
 import { SelectList } from 'react-native-dropdown-select-list'
 import React, { useState, useContext, useEffect } from 'react';
 import {Ionicons} from '@expo/vector-icons';
@@ -6,16 +6,28 @@ import {EvilIcons,MaterialIcons} from '@expo/vector-icons';
 import { getDbConnection, insertArticulo } from '../src/utils/db';
 import themeContext from '../config/themeContext';
 import * as SQLite from 'expo-sqlite';
+import * as ImagePicker from 'expo-image-picker';
 
 export default function AgregarArticulo(props){
   const theme = useContext(themeContext);
+
   const [selected, setSelected] = React.useState("Ninguna");
   const [selected2, setSelected2] = React.useState("Ninguna");
+
+  const [hasPermission, setHasPermission] = useState(null);
+  const [imageUri, setImageUri] = useState(null);
+
   const [etiquetas, setEtiquetas] = useState([]);
   const [grupos, setGrupos] = useState([]);
+
   const db = SQLite.openDatabase('soft-spot.db');
 
   useEffect(() => {
+    (async () => {
+      const galleryStatus = await ImagePicker.requestCameraPermissionsAsync();
+      setHasPermission(galleryStatus.status=== 'granted');
+      console.log("Permisos listos");
+    });//Estos tengo duda si se quedan
     db.transaction(tx => {
       tx.executeSql(
         'SELECT * FROM etiqueta',
@@ -45,6 +57,24 @@ export default function AgregarArticulo(props){
   //   {Key:'3', value:'3'},
   //   {Key:'4', value:'4'},
   // ];
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchCameraAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1,1],
+      quality:1,
+    });
+
+    if(!result.canceled){
+      setImageUri(result.uri);
+      console.log("Imagen guardada");
+    }
+  }
+
+  if(hasPermission === false){
+    console.log("No tienes permiso");
+  }
 
   const initArticulo = {
     nombreArticulo: '',
@@ -100,7 +130,7 @@ export default function AgregarArticulo(props){
     try{
       const db = SQLite.openDatabase('soft-spot.db');
       db.transaction(tx=>{
-          tx.executeSql('INSERT INTO ARTICULO (nombreArticulo,descArt,cantidad,cantidadCrit,precio,etiqueta,grupo,favorito) VALUES (?,?,?,?,?,?,?,?)',[articulo.nombreArticulo,articulo.descArt,articulo.cantidad,articulo.cantidadCrit,articulo.precio,selected,selected2,0],
+          tx.executeSql('INSERT INTO ARTICULO (nombreArticulo,descArt,cantidad,cantidadCrit,precio,etiqueta,grupo,favorito,img) VALUES (?,?,?,?,?,?,?,?,?)',[articulo.nombreArticulo,articulo.descArt,articulo.cantidad,articulo.cantidadCrit,articulo.precio,selected,selected2,0,imageUri],
           (_results)=>{
             console.log('articulo creada')
             Alert.alert(
@@ -144,14 +174,21 @@ export default function AgregarArticulo(props){
       <Text style={[styles.nota, {color: theme.color}]}>NOTA: Los campos con “*” son obligatorios</Text>
 
       {/* Touchable para agregar imagen */}
-      <TouchableOpacity style={styles.camara} >
+      <TouchableOpacity style={styles.camara} onPress={() => pickImage()}>
         <Text style={styles.botonCamara} ></Text>
         <MaterialIcons name="add-a-photo" size={35} color="grey" />
       </TouchableOpacity>
 
-      <View style={styles.circulo}>
-        <Ionicons name="cube-outline" size={100} style={[{color: theme.icon}]}/>
-      </View>
+      {/* Mostrar imagen una vez sea seleccionada */}
+      {imageUri!=null?
+        <Image source={{uri:imageUri}} style={styles.circuloImagen}/>
+        :
+        <View style={styles.circulo}>
+          <Ionicons name="cube-outline" size={100} style={[{color: theme.icon}]}/>
+        </View>
+      }
+
+      
 
       <TextInput style={[styles.input, {color:theme.color, borderColor:theme.color}]} placeholderTextColor={"#858585"} placeholder="Nombre*" onChangeText={handleNombre} value={articulo.nombreArticulo}/>
       <TextInput style={[styles.input, {color:theme.color, borderColor:theme.color}]} placeholderTextColor={"#858585"} placeholder="Descripción" onChangeText={handleDesc} value={articulo.descArt}/>
@@ -257,6 +294,15 @@ const styles = StyleSheet.create({
   },
   circulo:{
     backgroundColor:'#d9d9d9',
+		width:150,
+    height:150,
+		justifyContent:'center',
+		alignItems:'center',
+		borderRadius:100,
+    margin:20,
+    marginLeft:'31%'
+  },
+  circuloImagen:{
 		width:150,
     height:150,
 		justifyContent:'center',

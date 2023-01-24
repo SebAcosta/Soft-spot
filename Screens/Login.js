@@ -43,24 +43,14 @@ export default function Login() {
 			<SvgTop/>
 			
 			<Image source={require('../assets/coiLogo.png')} style={styles.logo}/>
-		
-				<TouchableOpacity
-				onPressIn={()=>setModalVisible2(true)}
-				style={styles.btnInicio}
-				>
-				<Text
-				style={styles.btnTxt}
-				>Iniciar sesión</Text>
-				</TouchableOpacity>
+
+			<TouchableOpacity onPressIn={()=>setModalVisible2(true)} style={styles.btnInicio}>
+				<Text style={styles.btnTxt}>Iniciar sesión</Text>
+			</TouchableOpacity>
 				
-				<TouchableOpacity
-				onPressIn={()=>{setModalVisible(true)}}
-				style={styles.btnCuenta}
-				>
-				<Text
-				style={styles.btnTxt}
-				>Crear Cuenta</Text>
-				</TouchableOpacity>
+			<TouchableOpacity onPressIn={()=>{setModalVisible(true)}} style={styles.btnCuenta}>
+				<Text style={styles.btnTxt2}>Crear Cuenta</Text>
+			</TouchableOpacity>
 				
 				<CrearCuenta
 				modalVisible={modalVisible}
@@ -89,7 +79,6 @@ const styles = StyleSheet.create({
 		color:'#FFFFFF'   
 	  },
 	  btnInicio: {
-		backgroundColor:'#F23232',
 		padding:10,
 		marginTop:430,
 		marginHorizontal:100,
@@ -104,11 +93,16 @@ const styles = StyleSheet.create({
 		},
 	  btnTxt: {
 		  textAlign: "center",
-		  color:'#FFF',
+		  color:'#F23232',
 		  fontSize:20,
 		  fontWeight:'600',
-  
 	  },
+	  btnTxt2: {
+		textAlign: "center",
+		color:'#FFF',
+		fontSize:20,
+		fontWeight:'600',
+	},
 	  logo: {
 		  position:"absolute",
 		  width: 260,

@@ -5,6 +5,7 @@ import { Entypo } from '@expo/vector-icons';
 import Modal from "react-native-modal";
 import modal from "./modal"
 import themeContext from '../config/themeContext';
+import {MaterialIcons} from '@expo/vector-icons';
 import * as SQLite from 'expo-sqlite';
 
 const ProductCard = (props) => {
@@ -72,9 +73,15 @@ const ProductCard = (props) => {
 			<TouchableNativeFeedback onPress={()=>setModalVisible(true)} onLongPress={()=>props.navigation.navigate('EditarArticulo',{productInfo:props.productInfo})}>
 				<View style={[styles.card0, {borderColor: theme.linea}]}>
 					<View style={styles.productos}>
-						<View style={styles.imagen}>
-							<Image source={{ uri: img }} style={styles.image} />
-						</View>
+							{img!=null?
+								<View style={styles.imagen}>
+									<Image source={{ uri: img }} style={styles.image} />
+								</View>
+								:
+								<View style={styles.noImagen}>
+									<MaterialIcons name="image" size={40} color="white" />
+								</View>
+							}
 						<View style={styles.detalles}>
 							<Text style={[styles.nombre,{color: theme.color}]}>{nombre}</Text>
 							{presen&&<Text style={[styles.presen,{color: theme.color}]}>{presen}</Text>}
@@ -88,7 +95,7 @@ const ProductCard = (props) => {
 						:<Entypo name='star-outlined' size={30} style={[{color: theme.color}]} onPress={()=>makeFav()}/>}
 					</View>
 					<View>
-						{etiquetas!=='Ninguna'?
+						{etiquetas!='Ninguna'?
 						<View style={[styles.etiqueta,{backgroundColor:color}]}>
 							<Text style={styles.etText}>{etiquetas}</Text>
 						</View>
@@ -179,6 +186,16 @@ const styles = StyleSheet.create({
 		alignItems:'center',
 		marginTop:5
 	},
+	noImagen:{
+		backgroundColor:'#D9D9D9',
+		height:90,
+		width:90,
+		borderRadius:45,
+		overflow:'hidden',
+		justifyContent:'center',
+		alignItems:'center',
+		marginTop:5
+	},
 	etiqueta:{
 		backgroundColor:'#E83845',
 		borderRadius:10,
@@ -214,7 +231,8 @@ const styles = StyleSheet.create({
 		color:'red'
 	},
 	presen:{
-		fontWeight:'600'
+		fontWeight:'600',
+		opacity:0.5
 	},
 	mTitle:{
 		color:'white',
