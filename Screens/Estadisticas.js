@@ -7,6 +7,7 @@ import {BarChart} from "react-native-chart-kit";
 import * as SQLite from 'expo-sqlite';
 
 const chartConfig = {
+	decimalPlaces: 0,
 	backgroundGradientFrom: "#FFFFFF",
 	backgroundGradientFromOpacity: 0,
 	backgroundGradientTo: "#FFFFFF",
@@ -28,28 +29,18 @@ const graphStyle={
 	useShadowColorFromDataset: false // optional
 }
 
-
 const screenWidth = Dimensions.get("window").width*.95;
 const screenWidth2 = Dimensions.get("window").width*.90;
 
 export default function Estadisticas() {
-	let data3;
 	const theme = useContext(themeContext);
+	const [data3, setData3] = useState(null);
 	const [selected,setSelected] = useState(1);
 	const [totales,setTotales] = useState(0);
-	const [nombre1,setNombre1] = useState('');
-	const [nombre2,setNombre2] = useState('');
-	const [nombre3,setNombre3] = useState('');
-	const [nombre4,setNombre4] = useState('');
-	const [nombre5,setNombre5] = useState('');
-	const [venta1,setVenta1] = useState('');
-	const [venta2,setVenta2] = useState('');
-	const [venta3,setVenta3] = useState('');
-	const [venta4,setVenta4] = useState('');
-	const [venta5,setVenta5] = useState('');
 	var nombreArray = [], ventasArray = [];
-	const db = SQLite.openDatabase('soft-spot.db');
+
 	useEffect(()=>{
+		const db = SQLite.openDatabase('soft-spot.db');
 		db.transaction(tx => {
 			if(selected==1){
 				tx.executeSql(
@@ -57,23 +48,24 @@ export default function Estadisticas() {
 				  [],
 				  (_, { rows: { _array } }) => {
 					for (var i = 0; i < _array.length; i++) {
-					  	nombreArray.push(_array[i].nombreArticulo);
-					  	ventasArray.push(_array[i].ventas);
-						setNombre1(_array[0].nombreArticulo)
-						setNombre2(_array[1].nombreArticulo)
-						setNombre3(_array[2].nombreArticulo)
-						setNombre4(_array[3].nombreArticulo)
-						setNombre5(_array[4].nombreArticulo)
-						setVenta1(_array[0].ventas)
-						setVenta2(_array[1].ventas)
-						setVenta3(_array[2].ventas)
-						setVenta4(_array[3].ventas)
-						setVenta5(_array[4].ventas)
+						nombreArray.push(_array[i].nombreArticulo);
+						ventasArray.push(_array[i].ventas);
 					}
-				  },
-				  (_, error) => {
+					const neewData3={
+						labels:[nombreArray],
+						datasets:[
+							{
+								data:[ventasArray],
+								color: (opacity = 1) => `rgba(242,50,50, ${opacity})`, // optional
+								strokeWidth: 2 // optional
+							}
+						],
+					};
+					setData3(neewData3)
+				},
+				(_, error) => {
 					console.log('SQLite Error:', error);
-				  }
+				}
 				);
 			}else{
 				tx.executeSql(
@@ -83,50 +75,24 @@ export default function Estadisticas() {
 					for (var i = 0; i < _array.length; i++) {
 						nombreArray.push(_array[i].nombreArticulo);
 						ventasArray.push(_array[i].ventas);
-						setNombre1(_array[0].nombreArticulo)
-						setNombre2(_array[1].nombreArticulo)
-						setNombre3(_array[2].nombreArticulo)
-						setNombre4(_array[3].nombreArticulo)
-						setNombre5(_array[4].nombreArticulo)
-						setVenta1(_array[0].ventas)
-						setVenta2(_array[1].ventas)
-						setVenta3(_array[2].ventas)
-						setVenta4(_array[3].ventas)
-						setVenta5(_array[4].ventas)
 					}
+					const neewData3={
+						labels:[nombreArray],
+						datasets:[
+							{
+								data:[ventasArray],
+								color: (opacity = 1) => `rgba(242,50,50, ${opacity})`, // optional
+								strokeWidth: 2 // optional
+							}
+						],
+					};
+					setData3(neewData3)
 				  },
 				  (_, error) => {
 					console.log('SQLite Error:', error);
 				  }
 				);
 			}
-			tx.executeSql(
-				'COMMIT',
-				[],
-				(_, results) => {
-				  console.log('Changes are committed');
-				},
-				(_, error) => {
-				  console.log('Error:', error);
-				}
-			);
-		});
-	},[selected]);
-
-	data3={
-		labels:[nombre1, nombre2, nombre3, nombre4, nombre5],
-		datasets:[
-			{
-				data:[venta1,venta2,venta3,venta4,venta5],
-				color: (opacity = 1) => `rgba(242,50,50, ${opacity})`, // optional
-				strokeWidth: 2 // optional
-			}
-		],
-	};
-
-	useEffect(()=>{
-		const db = SQLite.openDatabase('soft-spot.db');
-		db.transaction(tx => {
 			tx.executeSql(
 				'SELECT total FROM ganancias WHERE idGanancia = 1', 
 				[],
@@ -146,7 +112,9 @@ export default function Estadisticas() {
 				}
 			);
 		});
-	}, [totales]);
+		
+	},[selected,totales]);
+
 
 	return (
 		<ScrollView style={[styles.container, {backgroundColor: theme.background}]} contentContainerStyle={[styles.contentContainer]}>
@@ -160,10 +128,14 @@ export default function Estadisticas() {
 			<View style={[styles.bar, {backgroundColor: theme.grafico, width:screenWidth, marginLeft:5}]}>
 				<BarChart
 					style={graphStyle}
-					data={data3}
+					data={data3 ? data3 : { 
+						labels: ["hola"], 
+						datasets: [{data:[2],color: (opacity = 1) => `rgba(242,50,50, ${opacity})`,strokeWidth: 2}] }
+					}
 					width={screenWidth2}
 					height={350}
-					yAxisLabel="$"
+					yAxisLabel=""
+					fromZero={true}
 					chartConfig={chartConfig}
 					verticalLabelRotation={40}
 				/>
