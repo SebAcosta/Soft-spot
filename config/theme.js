@@ -8,7 +8,10 @@ const theme = {
         text2:"#858585",
         grafico: "white",
         img:"white",
-        icono: "#262626"
+        icono: "#262626",
+        colorChart:"rgba(0,0,0,1)",
+        main: "#F23232",
+        text: "white"
         
     },
     dark:{
@@ -18,9 +21,12 @@ const theme = {
         linea: "#3F3D3D",
         icon: "black",
         text2:"white",
-        grafico:"#393838",
+        grafico:"#262626",
         img:"#949191",
-        icono: "white"
+        icono: "white",
+        colorChart:"rgba(255,255,255,1)",
+        main: "#F23232",
+        text: "#FFFFFF"
     }
 
 };
