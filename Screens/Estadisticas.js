@@ -42,10 +42,10 @@ export default function Estadisticas() {
 						ventasArray.push(_array[i].ventas);
 					}
 					const neewData3={
-						labels:[nombreArray],
+						labels:[...nombreArray],
 						datasets:[
 							{
-								data:[ventasArray],
+								data:[...ventasArray],
 								color: (opacity = 1) => `rgba(29, 32, 33, ${opacity})`, // optional
 							}
 						],
@@ -66,10 +66,10 @@ export default function Estadisticas() {
 						ventasArray.push(_array[i].ventas);
 					}
 					const neewData3={
-						labels:[nombreArray],
+						labels:[...nombreArray],
 						datasets:[
 							{
-								data:[ventasArray],
+								data:[...ventasArray],
 								color: (opacity = 1) => `rgba(29, 32, 33, ${opacity})`, // optional
 								strokeWidth: 2 // optional
 							}
